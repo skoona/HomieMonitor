@@ -30,19 +30,18 @@ Ruby's Standard Library offers YAML::Store as a key/value datasource, based on r
 If you do not have a MQTT Broker accessable, it is possible to use a mock mqtt stream.  Edit/create
 your `./config/settings/development.local.yml` file and add the following starting at line 0 or 1:
 
-```yaml
----
-Packaging:
-  short_name: esp
+    ---
+    Packaging:
+      short_name: esp
+    
+    content_service:
+      demo_mode: true
+    
+    # ##
+    # Override (restate) by development, stage, production, etc
+    mqtt:
+      debug_log_file: './log/paho.log'
 
-content_service:
-  demo_mode: true
-
-# ##
-# Override (restate) by development, stage, production, etc
-mqtt:
-  debug_log_file: './log/paho.log'
-```
 
 The `content_service` entry controls which mqtt stgream is used; live or mocked.  You can find the 
 source files for the mock in directory: `./spec/factories/homie_*.txt`.  The class which transform these 
@@ -55,7 +54,7 @@ However, if MQTT `host` has not been configured, `demo_mode` will default to tru
 <details><summary>Application File Tree</summary>
 <p>
 
-```bash
+```text
 [HomieMonitor]
     .
     ├── config.ru               - Rack Initializer
@@ -154,7 +153,7 @@ using V3.01 test data with four devices, mixed
 <details><summary>Discovery Outcome</summary>
 <p>
 
-```ruby
+```text
 Homie::Manager Homie Discovery Provider.
   Discovery Outcome
 Device: HomeOffice:Home Office 	Nodes ~> 3
