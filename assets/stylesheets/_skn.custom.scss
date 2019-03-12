@@ -228,9 +228,9 @@ h1.landing-page {
     }
   }
 
-  .halo-pano { // home
+  .wemos-nodemcu { // home
     @extend .jumbotron-images;
-    background: #000 url("/images/VL53LOX.png") center center; //  #"/images/halo_pano_beletsky.jpg"  "/images/WeMos_D1_Esp_Wroom-Mini_WiFi_Nodemcu.png"
+    background: #000 url("/images/WeMos_D1_Esp_Wroom-Mini_WiFi_Nodemcu.png") center center; //
     background-size: 50% 100%; // // cover | contain
   }
 }

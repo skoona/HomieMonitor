@@ -1,16 +1,16 @@
 # HomieMonitor
 An exploration into [Homie-esp8266](https://homieiot.github.io/homie-esp8266/docs/develop/quickstart/getting-started/), using modules from [Dry-RB](http://dry-rb.org), 
 [Paho.MQTT.Ruby](https://github.com/RubyDevInc/paho.mqtt.ruby), [JRuby](https://www.jruby.org) and 
-[Roda](https://github.com/jeremyevans/roda) tooling.  This is being designed to act as a `Homie Controller`, or `Monitor`, 
+[Roda](https://github.com/jeremyevans/roda) tooling.  This application is designed to act as a `Homie Controller`, or `Monitor`, 
 in support of IOT/Devices using [Homie-esp8266](https://github.com/homieiot/homie-esp8266); although any `Homie Device` implementation should be supported.
 
 
 #### References: 
 * [Homie: An MQTT Convention for IOT/M2M](https://homieiot.github.io/specification/)
-* [Homie-ESP8266 Example of RCWL Microwave Presence Sensor and DHT22 Temperature and Humidity](https://github.com/skoona/sknSensors-Rcwl_Dht22)
+* [Homie-ESP8266 Example of RCWL-0516 Microwave Presence Detector and DHT22 Temperature and Humidity sensors](https://github.com/skoona/sknSensors-Rcwl_Dht22)
 
-### WIP: Updates coming
-There is a lot here already as I chose to refactor one of my example/starter apps `SknWebApp`.  However, I've just started and likely need another month to get to a standalone app.  The plan is to use JRuby and build an executable, and self-contained, Java Jar that will run on any OS.
+### WIP: Comments
+The plan is to use JRuby and build an executable, and self-contained, Java Jar that will run on any OS.  Today it works with either MRI or JRuby.
 
 Ruby's Standard Library offers YAML::Store as a key/value datasource, based on readable yaml files, this appears to be a good fit as most data is dynamically discovered.  Also, with a few gemfile tweaks you could use MRI/Ruby vs JRuby; only the Javascript engine needs to be changed.
 
@@ -29,6 +29,7 @@ Ruby's Standard Library offers YAML::Store as a key/value datasource, based on r
 ## Demonstration Mode
 If you do not have a MQTT Broker accessable, it is possible to use a mock mqtt stream.  Edit/create
 your `./config/settings/development.local.yml` file and add the following starting at line 0 or 1:
+
 ```yaml
 ---
 Packaging:
@@ -42,9 +43,12 @@ content_service:
 mqtt:
   debug_log_file: './log/paho.log'
 ```
+
 The `content_service` entry controls which mqtt stgream is used; live or mocked.  You can find the 
 source files for the mock in directory: `./spec/factories/homie_*.txt`.  The class which transform these 
 text entries into mqtt messages is `./main/homie/handlers/mock_stream.rb`
+
+However, if MQTT `host` has not been configured, `demo_mode` will default to true!
 
 
 ## File Tree
@@ -134,6 +138,7 @@ text entries into mqtt messages is `./main/homie/handlers/mock_stream.rb`
             └── homepage.html.erb     - Homie Broadcasts Page
 
 ```
+
 </p>
 </details>
 
@@ -233,6 +238,7 @@ Device: TheaterIR:Theater IR Server 	Nodes ~> 1
 			(A) $datatype:string 
 			(A) $unit:%s 
 ```
+
 </p>
 </details>
 
@@ -530,6 +536,7 @@ Device: TheaterIR:Theater IR Server 	Nodes ~> 1
 ]
 
 ```
+
 </p>
 </details>
 
@@ -546,6 +553,17 @@ No trouble for Mac/Linux systems. Don't know about Windows (don't have one).
     <dt>Start Console with Pry:</dt>
         <dd><code>$ bin/console</code></dd>
 </dl>
+
+#### Helpful Environmental Vars
+The configuration module will prefers environment variables over config file values.
+
+    RACK_ENV            defaults to `'development'`
+    HM_MQTT_HOST        defaults are invalid
+    HM_MQTT_PORT        defaults to 1883
+    HM_MQTT_USER        defaults are invalid
+    HM_MQTT_PASS        defaults are invalid
+    HM_BASE_TOPICS      defaults to `'[["sknSensors/#",1],["homie/#",1]'`
+    HM_MQTT_LOG         defaults to `/tmp/homieMonitor/paho-debug.log`
 
 
 ## Following Along: Initialization

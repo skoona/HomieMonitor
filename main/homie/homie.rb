@@ -21,7 +21,7 @@ SknApp.registry
     .register("stream_send_queue", Queue.new, call: false)
     .register("device_stream_manager", ->() { Homie::Manager.instance }, call: true)
 
-  if SknSettings.content_service.demo_mode
+  if SknSettings.content_service.demo_mode or SknSettings.mqtt.host.eql?('some.fqdn.com')
     SknApp.registry.register("device_stream_listener", ->() { Homie::Handlers::MockStream.call() }, call: false)
   else
     SknApp.registry.register("device_stream_listener", ->() { Homie::Handlers::Stream.call }, call: false)

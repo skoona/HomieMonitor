@@ -23,21 +23,22 @@ content_service:
 # ##
 # Override (restate) by development, stage, production, etc
 mqtt:
-  host: some.fqdn.com
-  port: 1883
-  username: userid
-  password: password
+  host: ENV.fetch('HM_MQTT_HOST', "some.fqdn.com")
+  port: ENV.fetch('HM_MQTT_PORT', 1883)
+  username: ENV.fetch('HM_MQTT_USER', "userid")
+  password: ENV.fetch('HM_MQTT_PASS', "password")
+  env_base_topics: ENV['HM_BASE_TOPICS']
   # [["sknSensors/#", 1], ["homie/#", 1]]
   :base_topics:
     - - sknSensors/#
       - 1
     - - homie/#
       - 1
-  debug_log_file: ./log/paho-debug.log
+  debug_log_file: ENV.fetch('HM_MQTT_LOG', '/tmp/homieMonitor/paho-debug.log')
 
 
 ##
 # Persistence via YAML and YAML::Store
 # Ref: https://ruby-doc.org/stdlib-2.5.1/libdoc/yaml/rdoc/YAML/Store.html
 data_source:
-  store: ENV.fetch('HOMIE_STORE', "./db/HomieMonitor_store.yml")
+  store: ENV.fetch('HM_STORE', "./db/HomieMonitor_store.yml")
