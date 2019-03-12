@@ -1,0 +1,22 @@
+title: HomieMonitor
+email: skoona@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  Roda based application template.
+baseurl: ""
+url: https://skoona.github.io/HomieMonitor/
+
+twitter_username: JamesScottiii
+twitter:
+  username: jamesscottiii
+
+theme: jekyll-theme-cayman
+
+github_username:  skoona
+github:
+  username:  skoona
+
+# paginate:     1
+author:
+  name:       "James Scott, Jr. (a.k.a Skoona)"
+  url:        https://keybase.io/skoona
+

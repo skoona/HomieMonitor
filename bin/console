@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+#
+# File: ./bin/console
+
+if ARGV.count.eql?(1) and ARGV.first.eql?('app')
+  puts "Regular Console..."
+  require_relative("../config/boot")
+elsif ARGV.count.eql?(2) and ARGV.first.eql?('app')
+  puts "Regular Console with Autostarts off ..."
+  $SKIP_AUTOSTART = true
+  require_relative("../config/boot")
+else
+  puts "Web Console..."
+  require_relative("../config/boot_web")
+end
+
+Pry.start

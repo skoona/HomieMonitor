@@ -1,0 +1,15 @@
+<% content_for(:title, "Ooops") %>
+
+<div class="page-header"><h4>Skoona Explorations: <small><strong><em>Basic Application</em></strong> from scratch using Roda</small></h4></div>
+
+<h2><%= exception.class %></h2>
+
+<section>
+<p>Your Request could not be processed!</p>
+<p><%= exception.message %></p>
+<ul>
+  <% exception.backtrace[0..12].each do |bt| -%>
+    <li><%= bt %></li>
+  <% end %>
+</ul>
+</section>

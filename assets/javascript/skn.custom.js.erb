@@ -1,0 +1,234 @@
+/**
+ * Created by jscott on 1/1/16.
+ * Refs: https://github.com/rweng/jquery-datatables-rails
+ *       http://api.jquery.com/jQuery.getJSON/
+ *       http://getbootstrap.com/components/#panels
+ *       http://datatables.net
+ */
+
+
+var logEnabled = <%= SknApp.env.development? %>;
+var Skn;
+
+/**
+ * Prevents debuging messages from going to console none development mode
+ * @param message {string}  to log on console
+ */
+function consoleLog(message) {
+    if (logEnabled) {
+        console.log(message);
+    }
+}
+
+
+/**
+ * SknUtil
+ *
+ *  - desired usage pattern:
+ *
+ *    var Skn = new SknObject();
+ *    Skn.go('/controller/action');     => redirect to page
+ *    Skn.context('controller/action'); => true|false
+ *
+ */
+;function SknUtil() {
+    this.relativeUrlPath = $('body').data('relative-path');
+    this.controllerName = $('body').data('current-page').split('/')[1];
+    this.controllerAction = $('body').data('request-matched');
+    this.currentPage = $('body').data('current-page');
+    this.csrfToken = $('meta[name="_csrf"]').attr('content');
+
+    if (typeof this.relativeUrlPath === "undefined")  {
+        this.relativeUrlPath = '';
+    }
+
+};
+
+SknUtil.prototype = {
+    get csrf() {
+        return this.csrfToken;
+    },
+    get page() {
+        return this.currentPage;
+    },
+    get relativePath() {
+        return this.relativeUrlPath;
+    },
+    set relativePath(str) {
+        this.relativeUrlPath = str;
+    },
+    get controller() {
+        return this.controllerName;
+    },
+    get action() {
+        return this.controllerAction;
+    },
+    context: function(path){
+        return this.currentPage === path;
+    },
+    genURL: function(path) {
+        var x = window.location.href.split('/'),
+            urlPath = '',
+            urlBase = '';
+
+        if (this.relativeUrlPath.length > 1) { // is this a controller name or relative prefix
+            if ( path.startsWith(this.relativeUrlPath) ) {
+                urlPath = urlBase.concat(x[0], '//', x[2], path);
+            } else {
+                urlPath = urlBase.concat(x[0], '//', x[2], '/', x[3], path);
+            }
+        } else { // path include leading slash
+            urlPath = urlBase.concat(x[0], '//', x[2], path);
+        }
+        return urlPath;
+
+    },
+    go: function(path) {
+        window.location = this.genURL(path);
+    },
+    postDetails: function(url, dataPackage) {
+        $.ajax({
+            headers: {'X-CSRF-Token': Skn.csrf, 'X-XSRF-Token': Skn.csrfToken},
+            type: 'POST',
+            url: url,
+            contentType: 'application/json',
+            dataType: "json",
+            accepts: 'json',
+            data: JSON.stringify(dataPackage), // access in body
+        }).done(function (data, textStatus, jqXHR) {
+            var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
+            consoleLog(msg);
+            alert(msg);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            var msg = "Failure: " + textStatus + ', thrown=' + errorThrown + ', RequestPkg=' + JSON.stringify(dataPackage);
+            consoleLog(msg);
+            alert(msg);
+        });
+    }
+};
+
+/**
+ * Handle In Action page Initialization
+ */
+function handle_in_action() {
+    $('div.same-size[data-mh="devices-group"] div.same-size[data-mh="esp-uploads"]').matchHeight();
+    $.fn.matchHeight._update();
+
+    consoleLog("handle_in_action(completed) ");
+    return true;
+}
+
+
+/* ********************************************************
+ * JQuery Enabled Processing
+ * ********************************************************
+ */
+$(function() {
+
+    /*
+     * Create the general utility object
+    */
+    Skn = new SknUtil();
+
+    if (Skn.currentPage.includes('details')) {
+
+        consoleLog("Entered Init :details");
+
+        // Attributes and Proerties
+        $('td > button').click(function (ev) {
+            var keys = $(ev.target).closest('td').data('topic'),
+                value = $(ev.target).closest('td').prev().text();
+
+            ev.stopImmediatePropagation();
+
+            $("#mqtt-topic").val(keys);
+            $("#mqtt-value").val(value);
+            $("#mqttActionModal").modal({backdrop: "static"});
+        });
+
+    } else if (Skn.currentPage.includes('manage')) {
+
+        consoleLog("Entered Init :manage");
+
+        // To Button send any
+        $('#any-action').click(function (ev) {
+            ev.stopImmediatePropagation();
+
+            $("#mqtt-topic").val(Skn.action);
+            $("#mqtt-value").val("");
+
+            $("#mqttActionModal").modal({backdrop: "static"});
+        });
+
+        var manualUploader = new qq.FineUploader({
+            element: document.getElementById('fine-uploader-manual-trigger'),
+            template: 'qq-template-manual-trigger',
+            request: {
+                endpoint: '/homie/uploads',
+                method: 'POST',
+                customHeaders: {'X-CSRF-Token': Skn.csrf, 'X-XSRF-Token': Skn.csrfToken},
+                requireSuccessJson: true,
+                forceMultipart: false
+            },
+            thumbnails: {
+                placeholders: {
+                    waitingPath: '/images/placeholders/waiting-generic.png',
+                    notAvailablePath: '/images/placeholders/not_available-generic.png'
+                }
+            },
+            autoUpload: false,
+            debug: true
+        });
+
+        qq(document.getElementById("trigger-upload")).attach("click", function() {
+            manualUploader.uploadStoredFiles();
+        });
+
+        handle_in_action();
+
+
+    } else if (Skn.currentPage.includes('devices')) {
+
+        handle_in_action();
+        consoleLog("Entered Init :devices");
+
+
+    } else {
+        consoleLog("Current Page (" + Skn.currentPage + ") has no custom Javascripts enabled.");
+    }
+
+    $('#mqtt-btn').click(function (ev) {
+        var topic    = $("#mqtt-topic").val(),
+            value    = $("#mqtt-value").val(),
+            retained = $("#mqtt-retained").is(':checked');
+
+        ev.stopImmediatePropagation();
+
+        $("#mqttActionModal").modal("hide");
+
+        var dataPackage = {
+            formatted_topic_string: topic,
+            string_value: value,
+            retain: retained
+        }
+
+        Skn.postDetails( Skn.currentPage, dataPackage);
+    });
+
+    /* **
+     * Timeout non-Error Flash messages
+     *    { alert: :alert, notice: :success, info: :info, secondary: :secondary, success: :success, error: :alert, warning: :warning, primary: :primary }
+     */
+    setTimeout(function() { // all except alert
+        var elems = $('div.alert.alert-success,.alert.alert-notice,.alert.alert-info,.alert.alert-warning');
+        $.each( elems, function (index, item) {
+            $(item).slideUp(2000);
+        });
+    }, 20000); // <-- time in milliseconds
+
+
+    consoleLog("Initialization Complete for: " + Skn.page + ".");
+
+    return false;
+});
+

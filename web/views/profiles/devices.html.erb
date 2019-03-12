@@ -1,0 +1,108 @@
+<!--
+  Discovered Devices
+-->
+<% content_for(:title, "Discovered Devices") %>
+
+<article>
+  <h2 class="page-header"><a href="/"><i class="fa fa-chevron-circle-left fa-1x" aria-hidden="true"></i></a> Discovered Devices</h2>
+
+  <% if resources.success and resources.payload.package.size > 0 %>
+    <% package =  resources.payload.package %>
+
+    <div class="container">
+
+<!--      <div class="row">-->
+
+        <% package.each do |device| %>
+
+          <% ready         = get_online_value(device) %>
+          <% homie_version = get_attribute_value(device, '$homie') %>
+          <% homie_impl    = get_attribute_value(device, '$implementation') %>
+
+          <div class="col-xs-12 col-sm-6 col-lg-3">
+            <div class="box">
+              <div class="icon">
+                <div class="image">
+                  <i class="fa <%= ready ? 'fa-thumbs-o-up' : 'fa-thumbs-o-down' %> icon-x4" aria-hidden="true"></i>
+                </div>
+                <div class="info same-size" data-mh="devices-group">
+                  <h3 class="title"><%= device.value %><br /><small><%= device.name %> V<%= homie_version %></small><br/><small><%= homie_impl %></small></h3>
+                  <div> <i class="fa fa-wifi icon-x2" aria-hidden="true"></i><br/><%= get_attribute_property_value(device, '$stats', 'signal') %> </div>
+                  <% node_array_helper(device).each do |index| %>
+                    <%  node = get_node(device.nodes, index) %>
+
+                    <div class="media">
+
+                      <div class="media-body">
+                        <h6 class="media-heading"><%= index.titleize %>: <i><%= node&.value %></i></h6>
+                        <table class="table table-hover table-condensed col-md-8">
+                          <% unless node.nil? %>
+                            <tbody>
+                              <%# V2 Work Around %>
+                              <% prop = get_attribute_value(node, '$properties') %>
+
+                              <% if !prop.blank? && prop.include?(":") %>
+                                <% unit = "" %>
+                                <% name = prop.split(":").first %>
+                                <% value = "" %>
+                                <% settable = "settable".eql?(prop.split(":").last) %>
+                                <tr>
+                                  <td><i class="fa fa-gears" aria-hidden="true"></i> <%= name.titleize %></td>
+                                  <td><%= value %> <%= unit %></td>
+                                  <td><i class="fa fa-toggle-<%= settable ? 'on' : 'off' %>" aria-hidden="true"></i></td>
+                                </tr>
+                              <% else %>
+                                <% (get_attribute_value(node, '$properties')&.split(",") || []).each do |idx| %>
+                                  <% prop = get_property(node, idx) %>
+                                  <% name = prop.name %>
+                                  <% value = prop.value %>
+                                  <% unit = get_property_attribute_value(node, prop.name, '$unit') %>
+                                  <% settable = prop.settable %>
+                                  <tr>
+                                    <td><i class="fa fa-gears" aria-hidden="true"></i> <%= name.titleize %></td>
+                                    <td><%= value %> <%= unit %></td>
+                                    <td><i class="fa fa-toggle-<%= settable ? 'on' : 'off' %>" aria-hidden="true"></i></td>
+                                  </tr>
+                                <% end %>
+                            <% end %>
+
+
+                            </tbody>
+                          <% else %>
+                            <p>No Nodes: Parse Error!</p>
+                          <% end %>
+                        </table>
+
+                      </div>
+                    </div>
+
+                  <% end %>
+
+                  <div class="more">
+                    <a href="/profiles/details/<%= device.name %>" id="<%= device.name %>" title="Title Link" class="align-self-end">
+                      Details... <i class="fa fa-angle-double-right"></i>
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+              <div class="space"></div>
+            </div>
+          </div>
+        <% end %> <!-- end loop -->
+      <!-- Row -->
+<!--      </div> -->
+    </div> <!-- Container -->
+
+
+  <% else %>
+
+    <section>
+      <div class="well well-lg text-primary bg-success col-md-offset-2 col-md-8">
+        <h2 class="text-center">No devices were discovered.</h2>
+      </div>
+    </section>
+
+  <% end %>
+
+</article>

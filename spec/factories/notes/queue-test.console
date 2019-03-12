@@ -1,0 +1,167 @@
+Failed Network Startup
+
+❯ beps
+Puma starting in single mode...
+* Version 3.12.0 (jruby 9.2.6.0 - ruby 2.5.3), codename: Llamas in Pajamas
+* Min threads: 0, max threads: 8
+* Environment: development
+2019-03-04 20:20:56.088 ESP:INFO  SknApp Logger Setup Complete! loaded: development
+2019-03-04 20:20:57.326 ROM:INFO  (0.001515s) SELECT NULL AS "nil" FROM "users" LIMIT 1
+2019-03-04 20:20:57.355 ROM:INFO  (0.001210s) SELECT NULL AS "nil" FROM "profile_types" LIMIT 1
+2019-03-04 20:20:57.393 ROM:INFO  (0.001073s) SELECT NULL AS "nil" FROM "content_profiles" LIMIT 1
+2019-03-04 20:20:57.418 ROM:INFO  (0.001312s) SELECT NULL AS "nil" FROM "content_profile_entries" LIMIT 1
+2019-03-04 20:20:57.442 ROM:INFO  (0.001308s) SELECT NULL AS "nil" FROM "content_profiles_entries" LIMIT 1
+2019-03-04 20:20:57.463 ROM:INFO  (0.000986s) SELECT NULL AS "nil" FROM "user_roles" LIMIT 1
+2019-03-04 20:20:57.482 ROM:INFO  (0.000999s) SELECT NULL AS "nil" FROM "user_group_roles" LIMIT 1
+2019-03-04 20:20:57.507 ROM:INFO  (0.001313s) SELECT NULL AS "nil" FROM "user_group_roles_user_roles" LIMIT 1
+2019-03-04 20:20:57.598 ROM:INFO  (0.001051s) SELECT NULL AS "nil" FROM "content_types" LIMIT 1
+2019-03-04 20:20:57.619 ROM:INFO  (0.001011s) SELECT NULL AS "nil" FROM "content_type_opts" LIMIT 1
+2019-03-04 20:20:57.704 ROM:INFO  (0.000958s) SELECT NULL AS "nil" FROM "topic_types" LIMIT 1
+2019-03-04 20:20:58.142 ROM:INFO  (0.410852s) SELECT NULL AS "nil" FROM "topic_type_opts" LIMIT 1
+2019-03-04 20:20:58.529 HMIE:DEBUG Homie::Handlers::Stream#initialize: Init to openhabianpi.skoona.net
+* Listening on tcp://0.0.0.0:8585
+Use Ctrl-C to stop
+2019-03-04 20:21:05.088 HMIE:DEBUG Homie::Handlers::Stream#call Failure: klass=PahoMqtt::Exception, cause=Connection failed. Check log for more details., Backtrace=["/Users/jscott/masterWork/HomieMonitor/vendor/bundle/gems/paho-mqtt-1.0.12/lib/paho_mqtt/connection_helper.rb:47:in `do_connect'", "/Users/jscott/masterWork/HomieMonitor/vendor/bundle/gems/paho-mqtt-1.0.12/lib/paho_mqtt/client.rb:119:in `connect'", "/Users/jscott/masterWork/HomieMonitor/main/homie/handlers/listener.rb:97:in `call'", "/Users/jscott/masterWork/HomieMonitor/main/homie/handlers/listener.rb:41:in `block in call'", "/Users/jscott/masterWork/HomieMonitor/vendor/bundle/gems/logging-2.2.2/lib/logging/diagnostic_context.rb:474:in `block in create_with_logging_context'"]
+Homie::Handlers::Stream#call Shutdown Complete!
+
+^C- Gracefully stopping, waiting for requests to finish
+=== puma shutdown: 2019-03-04 20:29:46 -0500 ===
+- Goodbye!
+
+
+<tr id="HomeOffice" data-package="
+
+{
+    "klass":"device",
+    "name":"homeoffice",
+    "value":"home="" office",
+    "attributes":[
+        {"klass":"attribute","name":"$state","value":"ready","properties":[]},
+        {"klass":"attribute","name":"$homie","value":"3.0.1","properties":[]},
+        {"klass":"attribute","name":"$name","value":"home="" office","properties":[]},
+        {"klass":"attribute","name":"$mac","value":"84:f3:eb:b7:55:d5","properties":[]},
+        {"klass":"attribute","name":"$localip","value":"10.100.1.163","properties":[]},
+        {"klass":"attribute","name":"$nodes","value":"motion,temperature,humidity","properties":[]},
+        {"klass":"attribute","name":"$stats","value":"uptime","properties":[
+                    {"klass":"property","name":"interval","value":"0","settable":false,"attributes":[]},
+                    {"klass":"property","name":"signal","value":"40","settable":false,"attributes":[]},
+                    {"klass":"property","name":"uptime","value":"409816","settable":false,"attributes":[]}
+        ]},
+        {"klass":"attribute","name":"$fw","value":"sknsensors-rcwl_dht11","properties":[
+                    {"klass":"property","name":"name","value":"sknsensors-rcwl_dht11","settable":false,"attributes":[]},
+                    {"klass":"property","name":"version","value":"0.2.5","settable":false,"attributes":[]},
+                    {"klass":"property","name":"checksum","value":"aff42a25572516ac5abbca989ddaf2aa","settable":false,"attributes":[]}
+        ]},
+        {"klass":"attribute","name":"$implementation","value":"esp8266","properties":[
+                    {"klass":"property","name":"config","value":"{\"name\":\"home="" office\",\"device_id\":\"homeoffice\",\"device_stats_interval\":180,\"wifi\":{\"ssid\":\"sfnss1-24g\"},\"mqtt\":{\"host\":\"openhabianpi.skoona.net\",\"port\":1883,\"base_topic\":\"sknsensors="" \",\"auth\":true},\"ota\":{\"enabled\":true},\"settings\":{\"sensorsinterval\":300}}","settable":false,"attributes":[]},
+                    {"klass":"property","name":"version","value":"3.0.0","settable":false,"attributes":[]},
+                    {"klass":"property","name":"ota.enabled","value":"true","settable":false,"attributes":[]}
+        ]}
+    ],
+    "nodes":[
+        {
+            "klass":"node",
+            "name":"motion",
+            "value":"humans="" present",
+            "properties":[
+                    {"klass":"property","name":"motion","value":"true","settable":false,"attributes":[
+                            {"klass":"attribute","name":"$name","value":"motion","properties":[]},
+                            {"klass":"attribute","name":"$datatype","value":"boolean","properties":[]},
+                            {"klass":"attribute","name":"$unit","value":"s","properties":[]}
+                            ]}
+                    ],
+            "attributes":[
+                    {"klass":"attribute","name":"$name","value":"humans="" present","properties":[]},
+                    {"klass":"attribute","name":"$type","value":"motion","properties":[]},
+                    {"klass":"attribute","name":"$properties","value":"motion","properties":[]}]},
+                    {"klass":"node","name":"temperature","value":"room="" temperature","properties":[
+                            {"klass":"property","name":"degrees","value":"69.80","settable":false,"attributes":[
+                                    {"klass":"attribute","name":"$name","value":"degrees","properties":[]},
+                                    {"klass":"attribute","name":"$datatype","value":"float","properties":[]},
+                                    {"klass":"attribute","name":"$unit","value":"ºf","properties":[]}
+                                    ]
+                            }],
+                            "attributes":[
+                                    {"klass":"attribute","name":"$name","value":"room="" temperature","properties":[]},
+                                    {"klass":"attribute","name":"$type","value":"temperature","properties":[]},
+                                    {"klass":"attribute","name":"$properties","value":"degrees","properties":[]}
+                                    ]
+                            },
+        {
+            "klass":"node",
+            "name":"humidity",
+            "value":"room="" humidity",
+            "properties":[
+                    {"klass":"property","name":"percent","value":"25.00","settable":false,"attributes":[
+                            {"klass":"attribute","name":"$name","value":"percent","properties":[]},
+                            {"klass":"attribute","name":"$datatype","value":"float","properties":[]},
+                            {"klass":"attribute","name":"$unit","value":"%","properties":[]}
+                    ]}
+            ],
+            "attributes":[
+                    {"klass":"attribute","name":"$name","value":"room="" humidity","properties":[]},
+                    {"klass":"attribute","name":"$type","value":"humidity","properties":[]},
+                    {"klass":"attribute","name":"$properties","value":"percent","properties":[]}
+            ]
+        }
+    ]
+}
+
+# ##
+#
+# sknSensors/TheaterIR/$state ready
+  sknSensors/TheaterIR/$stats/signal 66
+  sknSensors/TheaterIR/$stats/uptime 4
+  sknSensors/LabTarget/$homie 2.0.0
+  sknSensors/LabTarget/$mac B4:E6:2D:53:A8:F0
+  sknSensors/LabTarget/$name Blinking light
+  sknSensors/LabTarget/$localip 10.100.1.233
+  sknSensors/LabTarget/$stats/interval 0
+  sknSensors/LabTarget/$fw/name Homie-light-onoff
+  sknSensors/LabTarget/$fw/version 2.0.1
+  sknSensors/LabTarget/$fw/checksum 13c7297b4f3d85ea16ee1e5578dda3eb
+  sknSensors/LabTarget/$implementation esp8266
+  sknSensors/LabTarget/$implementation/config {"name":"Blinking light","device_id":"LabTarget","device_stats_interval":180,"wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true}}
+  sknSensors/LabTarget/$implementation/version 2.0.0
+  sknSensors/LabTarget/$implementation/ota/enabled true
+  sknSensors/LabTarget/light/$type switch
+  sknSensors/LabTarget/light/$properties on:settable
+  sknSensors/LabTarget/$online true
+#
+
+# NODE -> {:klass=>"Node", :name=>"light", :value=>"switch", :properties=>[],
+                :attributes=>[
+                    {:klass=>"Attribute", :name=>"$type", :value=>"switch", :properties=>[]},
+                    {:klass=>"Attribute", :name=>"$properties", :value=>"on:settable", :properties=>[]}
+                ]
+          }
+
+
+#V2(B) Attributes:
+# [
+#   #<SknUtils::DottedHash:0x21927819 @container={:klass=>"Attribute", :name=>"$homie", :value=>"2.0.0", :properties=>[]}>,
+#   #<SknUtils::DottedHash:0x379c021f @container={:klass=>"Attribute", :name=>"$mac", :value=>"B4:E6:2D:53:A8:F0", :properties=>[]}>,
+#   #<SknUtils::DottedHash:0x3956fb31 @container={:klass=>"Attribute", :name=>"$name", :value=>"Blinking light", :properties=>[]}>,
+#   #<SknUtils::DottedHash:0x4973c1d4 @container={:klass=>"Attribute", :name=>"$localip", :value=>"10.100.1.233", :properties=>[]}>,
+#   #<SknUtils::DottedHash:0x7cb8b3f9 @container={:klass=>"Attribute", :name=>"$stats", :value=>"0",
+#       :properties=>[
+#             #<SknUtils::DottedHash:0x48c8b603 @container={:klass=>"Property", :name=>"interval", :value=>"0", :settable=>false, :attributes=>[]}>,
+#             #<SknUtils::DottedHash:0x37c4fe7b @container={:klass=>"Property", :name=>"signal", :value=>"76", :settable=>false, :attributes=>[]}>,
+#             #<SknUtils::DottedHash:0x7bcc0320 @container={:klass=>"Property", :name=>"uptime", :value=>"1", :settable=>false, :attributes=>[]}>
+#   }>,
+#   #<SknUtils::DottedHash:0x2d677307 @container={:klass=>"Attribute", :name=>"$fw", :value=>"light-onoff",
+#       :properties=>[
+#             #<SknUtils::DottedHash:0x30a34137 @container={:klass=>"Property", :name=>"name", :value=>"Homie-light-onoff", :settable=>false, :attributes=>[]}>,
+#             #<SknUtils::DottedHash:0x53f4f292 @container={:klass=>"Property", :name=>"version", :value=>"2.0.1", :settable=>false, :attributes=>[]}>,
+#             #<SknUtils::DottedHash:0x614db99f @container={:klass=>"Property", :name=>"checksum", :value=>"13c7297b4f3d85ea16ee1e5578dda3eb", :settable=>false, :attributes=>[]}>
+#       ]
+#   }>,
+#   #<SknUtils::DottedHash:0x64797fbf @container={:klass=>"Attribute", :name=>"$implementation", :value=>"esp8266",
+#       :properties=>[
+#             #<SknUtils::DottedHash:0x37e8ad49 @container={:klass=>"Property", :name=>"config", :value=>"{\"name\":\"Blinking light\",\"device_id\":\"LabTarget\",\"device_stats_interval\":180,\"wifi\":{\"ssid\":\"SFNSS1-24G\"},\"mqtt\":{\"host\":\"openhabianpi.skoona.net\",\"port\":1883,\"base_topic\":\"sknSensors/\",\"auth\":true},\"ota\":{\"enabled\":true}}", :settable=>false, :attributes=>[]}>,
+#             #<SknUtils::DottedHash:0x14e3dbf3 @container={:klass=>"Property", :name=>"version", :value=>"2.0.0", :settable=>false, :attributes=>[]}>,
+#             #<SknUtils::DottedHash:0x89a2a96 @container={:klass=>"Property", :name=>"ota.enabled", :value=>"true", :settable=>false, :attributes=>[]}>
+#       ]
+#   }>,
+#   #<SknUtils::DottedHash:0x72e1ad2 @container={:klass=>"Attribute", :name=>"$online", :value=>"true", :properties=>[]}>
+# ]

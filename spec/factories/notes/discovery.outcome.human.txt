@@ -1,0 +1,79 @@
+Discovery Outcome
+Homie::Manager Homie Discovery Provider.
+Two broadcast discovered.
+
+Device: HomeOffice:Home Office 	Nodes ~> 3
+	(A) $state:ready 	Properties: 0
+	(A) $homie:3.0.1 	Properties: 0
+	(A) $name:Home Office 	Properties: 0
+	(A) $mac:84:F3:EB:B7:55:D5 	Properties: 0
+	(A) $localip:10.100.1.163 	Properties: 0
+	(A) $nodes:motion,temperature,humidity 	Properties: 0
+	(A) $stats:uptime 	Properties: 3
+		(P) interval:0
+		(P) signal:40
+		(P) uptime:409816
+	(A) $fw:sknSensors-Rcwl_Dht11 	Properties: 3
+		(P) name:sknSensors-Rcwl_Dht11
+		(P) version:0.2.5
+		(P) checksum:aff42a25572516ac5abbca989ddaf2aa
+	(A) $implementation:esp8266 	Properties: 3
+		(P) config:{"name":"Home Office","device_id":"HomeOffice","device_stats_interval":180,"wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true},"settings":{"sensorsInterval":300}}
+		(P) version:3.0.0
+		(P) ota.enabled:true
+	Node: motion:Humans Present 	Properties: 1
+		(A) $name:Humans Present
+		(A) $type:motion
+		(A) $properties:motion
+		(P) motion:true 	Attributes: 3
+			(A) $name:Motion
+			(A) $datatype:boolean
+			(A) $unit:s
+	Node: temperature:Room Temperature 	Properties: 1
+		(A) $name:Room Temperature
+		(A) $type:temperature
+		(A) $properties:degrees
+		(P) degrees:69.80 	Attributes: 3
+			(A) $name:Degrees
+			(A) $datatype:float
+			(A) $unit:ºF
+	Node: humidity:Room Humidity 	Properties: 1
+		(A) $name:Room Humidity
+		(A) $type:humidity
+		(A) $properties:percent
+		(P) percent:25.00 	Attributes: 3
+			(A) $name:Percent
+			(A) $datatype:float
+			(A) $unit:%
+Device: TheaterIR:Theater IR Server 	Nodes ~> 1
+	(A) $state:ready 	Properties: 0
+	(A) $homie:3.0.1 	Properties: 0
+	(A) $name:Theater IR Server 	Properties: 0
+	(A) $mac:5C:CF:7F:63:30:AF 	Properties: 0
+	(A) $localip:10.100.1.215 	Properties: 0
+	(A) $nodes:irservice 	Properties: 0
+	(A) $stats:uptime 	Properties: 3
+		(P) interval:0
+		(P) signal:42
+		(P) uptime:246247
+	(A) $fw:sknSensors-IRService.d1_mini 	Properties: 3
+		(P) name:sknSensors-IRService.d1_mini
+		(P) version:0.2.0
+		(P) checksum:934a0239a5b8513b09e16765dfdba9b5
+	(A) $implementation:esp8266 	Properties: 3
+		(P) config:{"name":"Theater IR Server","device_id":"TheaterIR","device_stats_interval":180,"wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true},"settings":{"sensorsInterval":300,"onSequence":"3,2FD48B7,32 43,5006,16 3,4BB620DF,32 3,4BB6F00F,32","offSequence":"3,2FD48B7,32 43,5006,16 3,4B36E21D,32"}}
+		(P) version:3.0.0
+		(P) ota.enabled:true
+	Node: irservice:IR Provider 	Properties: 2
+		(A) $name:IR Provider
+		(A) $type:theater-remote
+		(A) $properties:command,received
+		(P) command:IR Broadcaster 	Attributes: 4
+			(A) $name:IR Broadcaster
+			(A) $settable:true
+			(A) $datatype:string
+			(A) $unit:%s
+		(P) received:IR Listener 	Attributes: 3
+			(A) $name:IR Listener
+			(A) $datatype:string
+			(A) $unit:%s

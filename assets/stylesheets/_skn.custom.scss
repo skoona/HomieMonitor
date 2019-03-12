@@ -1,0 +1,311 @@
+/*
+ * skn-custom.css.scss
+ * - style for HomieMonitor
+ *
+ */
+
+/*
+ * Base Styling
+*/
+html {
+  position: relative;
+  min-height: 100%;
+}
+body > .container { // top level wrapper in layout, applys to any container that an immediate child of body, i.e. main
+  padding: 2px 6px 72px 6px; // top right bottom left
+}
+main {      // main page container, without menu or footer
+  @extend .container;
+}
+article {                     // a whole page typically
+  @extend .container;
+  padding: 6px 6px 72px 6px; // top right bottom left
+}
+section {                     // a piece of a page
+  @extend .row;
+  overflow: auto;
+}
+
+/*
+ * Constrain the width of the Value column
+ * when config info is present on details page
+*/
+td.config {
+  //width: 400px;
+  overflow: auto;
+}
+
+
+/* Sticky footer styles
+ -------------------------- */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 66px;
+  background-color: #eee;
+}
+.footer > .container {
+  padding-top: 15px;
+}
+
+/**
+ * Side Menu
+*/
+#side-nav a {
+  position: absolute;
+  left: -98px;
+  transition: 0.25s;
+  padding: 15px 8px 15px 15px;
+  width: 132px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  border-radius: 0 5px 5px 0;
+  z-index: 2;
+}
+
+#side-nav a:hover {
+  left: 0;
+}
+
+#menu-home {
+  top: 20px;
+  background-color: #4CAF50;
+}
+
+#menu-discover {
+  top: 80px;
+  background-color: #2196F3;
+}
+
+#menu-manage {
+  top: 140px;
+  background-color: #f44336;
+}
+
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+  color: #fffe86;  /*Sets the text hover color on navbar*/
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active >
+a:hover, .navbar-default .navbar-nav > .active > a:focus {
+  color: white; /*BACKGROUND color for active*/
+  background-color: #030033;
+}
+.navbar-default {
+  background-color: #0f006f;
+  border-color: #030033;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #262626;
+  text-decoration: none;
+  background-color: #66CCFF;  /*change color of links in drop down here*/
+}
+.nav > li > a:hover,
+.nav > li > a:focus {
+  text-decoration: none;
+  background-color: silver; /*Change rollover cell color here*/
+}
+.navbar-default .navbar-nav > li > a {
+  color: white; /*Change active text color here*/
+}
+
+// Jquery.Fine-uploader.js
+#trigger-upload {
+  color: white;
+  background-color: #00ABC7;
+  font-size: 14px;
+  padding: 7px 20px;
+  background-image: none;
+}
+
+#fine-uploader-manual-trigger .qq-upload-button {
+  margin-right: 15px;
+}
+
+#fine-uploader-manual-trigger .buttons {
+  width: 36%;
+}
+
+#fine-uploader-manual-trigger .qq-uploader .qq-total-progress-bar-container {
+  width: 60%;
+}
+
+// Cards
+.box > .icon { text-align: center; position: relative; }
+.box > .icon > .image { position: relative; z-index: 2; margin: auto; width: 88px; height: 88px; border: 8px solid white; line-height: 88px; border-radius: 50%; background: #63B76C; vertical-align: middle; }
+.box > .icon:hover > .image { background: #333; }
+.box > .icon > .image > i { font-size: 36px !important; color: #fff !important; }
+.box > .icon:hover > .image > i { color: white !important; }
+.box > .icon > .info { margin-top: -24px; background: rgba(0, 0, 0, 0.04); border: 1px solid #e0e0e0; padding: 15px 0 10px 0; }
+.box > .icon:hover > .info { background: rgba(0, 0, 0, 0.2); border-color: #e0e0e0; color: black; }
+.box > .icon > .info > h3.title { font-family: "Roboto",sans-serif !important; font-size: 16px; color: #222; font-weight: 500; }
+.box > .icon > .info > p { font-family: "Roboto",sans-serif !important; font-size: 13px; color: #666; line-height: 1.5em; margin: 20px;}
+.box > .icon:hover > .info > h3.title, .box > .icon:hover > .info > p, .box > .icon:hover > .info > .more > a { color: #222; }
+.box > .icon > .info > .more a { font-family: "Roboto",sans-serif !important; font-size: 12px; color: #222; line-height: 12px; text-transform: uppercase; text-decoration: none; }
+.box > .icon:hover > .info > .more > a { color: #fff; padding: 6px 8px; background-color: #63B76C; }
+.box .space { height: 30px; }
+
+
+img {
+  @extend .img-responsive;
+  margin: 0 auto;
+}
+.huge-image {
+  width: 90%;
+}
+.large-image {
+  width: 74%;
+}
+.brand-image {
+  margin-top: -12px;
+  margin-left: 0px;
+  max-height: 48px;
+    max-width: 48px;
+  padding: 0 0 0 0;
+}
+
+h1.landing-page {
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, .3);
+  font-weight: bold;
+  color: rgba(10, 235, 250, 0.5);
+  font-size: 400%;
+}
+
+
+/*
+ * Turn off JQuery.maxHeight on small screen
+ * Ref: https://scotch.io/quick-tips/different-tricks-on-how-to-make-bootstrap-columns-all-the-same-height
+*/
+@media only screen and (max-width: 768px) {
+  .box {
+    height: auto !important;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .box {
+    height: auto !important;
+  }
+
+
+  /*
+   * Ref: https://www.smashingmagazine.com/2009/09/backgrounds-in-css-everything-you-need-to-know/
+   */
+  .jumbotron-images { // Common for Jumbotron Images
+    position: relative;
+    background: #000;
+    width: 100%;
+    height: 32%;
+    background-size: contain; // // cover | contain
+    overflow: hidden;
+
+    h1.big-chalk {
+      padding-top: 110px;
+      text-shadow: 2px 2px 2px rgba(0, 0, 0, .3);
+      font-weight: bold;
+      color: rgba(10, 235, 250, 0.3);
+      font-size: 300%;
+    }
+    p > strong {
+      //padding-top: 20px;
+      color: grey;
+      font-weight: bold;
+    }
+    p {
+      color: grey;
+      font-weight: bold;
+    }
+    ul > li {
+      color: #fff;
+      font-weight: bold;
+    }
+    ol > li {
+      color: #fff;
+      font-weight: bold;
+    }
+  }
+
+  .halo-pano { // home
+    @extend .jumbotron-images;
+    background: #000 url("/images/VL53LOX.png") center center; //  #"/images/halo_pano_beletsky.jpg"  "/images/WeMos_D1_Esp_Wroom-Mini_WiFi_Nodemcu.png"
+    background-size: 50% 100%; // // cover | contain
+  }
+}
+
+.bottom-note {
+    background:#00aeef;
+    padding:40px;
+    margin-top:25px;
+    margin-bottom:25px;
+    text-align:center;
+}
+.bottom-note h1 {
+    text-shadow: none;
+    font-weight: normal;
+    color: #fff;
+}
+
+// scroll boxes
+div.check_boxes > div.permissions {
+    @extend .col-sm-9;
+    height: 200px;
+    overflow: auto;
+    width: 75%;
+    border: 1px solid #000;
+    list-style-type: none;
+    overflow-x: hidden;
+    label:hover {
+        background-color: Highlight;
+        color: HighlightText;
+        width: 100%;
+    }
+}
+
+/**
+ * Dropdown submenu support */
+.dropdown-submenu {
+    position:relative;
+}
+.dropdown-submenu>.dropdown-menu {
+    top:0;
+    left:100%;
+    margin-top:-6px;
+    margin-left:-1px;
+    -webkit-border-radius:0 6px 6px 6px;
+    -moz-border-radius:0 6px 6px 6px;
+    border-radius:0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+    display:block;
+}
+.dropdown-submenu>a:after {
+    display:block;
+    content:" ";
+    float:right;
+    width:0;
+    height:0;
+    border-color:transparent;
+    border-style:solid;
+    border-width:5px 0 5px 5px;
+    border-left-color:#cccccc;
+    margin-top:5px;
+    margin-right:-10px;
+}
+.dropdown-submenu:hover>a:after {
+    border-left-color:#ffffff;
+}
+.dropdown-submenu.pull-left {
+    float:none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left:-100%;
+    margin-left:10px;
+    -webkit-border-radius:6px 0 6px 6px;
+    -moz-border-radius:6px 0 6px 6px;
+    border-radius:6px 0 6px 6px;
+}
+
+

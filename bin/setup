@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+require 'pathname'
+require 'fileutils'
+include FileUtils
+
+# path to your application root.
+APP_ROOT = Pathname.new File.expand_path('..',  __dir__)
+
+def system!(*args)
+   system(*args) || fail("\n== Command #{args} failed ==")
+end
+
+def do_not_care_command!(*args)
+  system(*args)
+end
+
+chdir APP_ROOT do
+  # This script is a starting point to setup your application.
+  # Add necessary setup steps to this file:
+
+  puts "== Installing dependencies =="
+  system!('gem install bundler rake rspec racksh rubocop --conservative')
+ 
+  ENV['BUNDLE_PATH'] = 'vendor/bundle'
+  system!('bundle check ') rescue (
+      system!('bundle install') &&
+      system!('bundle clean')
+  )
+
+  puts "\n== Creating Content Paths  =="
+  FileUtils.mkpath( [
+    "./tmp",
+    "./tmp/pids",
+    "./content/firmwares",
+    "./content/spiffs",
+    "./log",
+    "./coverage"
+  ], verbose: true)
+
+  puts "\n== Running RSpec Tests =="
+  system!('bundle exec rspec')
+  
+  puts "Setup Complete\n\n"
+end

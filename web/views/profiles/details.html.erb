@@ -1,0 +1,123 @@
+<!--
+ Details Page
+ -->
+<% content_for(:title, "#{resources.payload.package.first.value unless resources.payload.package.empty?} Details") %>
+
+<article>
+  <h2 class="page-header"><a href="/profiles/devices"><i class="fa fa-chevron-circle-left fa-1x" aria-hidden="true"></i></a> Homie Details</h2>
+
+  <% if resources.success and !resources.payload.package.empty? %>
+    <% package =  resources.payload.package %>
+    <% device = package.first %>
+    <% ready = get_online_value(device) %>
+    <% homie_version = get_attribute_value(device, '$homie') %>
+    <% homie_impl = get_attribute_value(device, '$implementation') %>
+    <div class="panel panel-info">
+
+      <div class="panel-heading">
+        <h4 class="text-center"><%= device.value %> Device</h4>
+      </div>
+      <div class="table-responsive">
+        <table id="device-table" class="table table-condensed table-hover table-striped  no-wrap" cellspacing="0" width="100%">
+          <thead>
+            <th class="col-md-2">Attribute</th>
+            <th class="col-md-2">Property</th>
+            <th class="col-md-6">Value</th>
+            <th class="col-md-2">Settable</th>
+          </thead>
+
+          <tbody  data-device="<%= device.to_json %>">
+
+            <% device.attributes.each do |attr| %>
+              <tr>
+                <td class="text-left" colspan="2"><strong><%= attr.name %></strong></td>
+                <td><%= attr.value %></td>
+                <td></td>
+              </tr>
+              <% attr.properties.each do |props| %>
+                <tr>
+                  <td class="text-right" colspan="2"><%= props.name %></td>
+                  <td class="config" ><%= props.value %></td>
+                  <% if 'config'.eql?(props.name) %>
+                    <% topic = "#{device.base}/#{device.name}/#{attr.name}/#{props.name}/set" %>
+                    <td class="action" data-topic="<%= topic %>">
+                      <button type="button" class="btn btn-info">true</button>
+                    </td>
+                  <% else %>
+                    <td><%= props.settable %></td>
+                  <% end %>
+                </tr>
+              <% end %>
+            <% end %>
+
+            <% device.nodes.each do |ndx| %>
+              <tr class="info lead" id="<%= ndx.name %>">
+                <td>Property</td>
+                <td>Attribute</td>
+                <td class="text-center" colspan="2"><%= ndx.value.titleize %> node</td>
+              </tr>
+
+              <tr>
+                <td class="text-right" colspan="2"><%= ndx.name %></td>
+                <td><%= ndx.value %></td>
+                <td></td>
+              </tr>
+              <!--
+                V2 Fixup
+              -->
+              <% ndx.attributes.each do |attr| %>
+                <% parts = attr.value&.split(":") %>
+                <tr>
+                  <td class="text-right" colspan="2"><%= attr.name %></td>
+                  <td><%= attr.value %></td>
+                  <% if parts.size == 2 and "settable".eql?(parts[1]) %>
+                    <% topic = "#{device.base}/#{device.name}/#{ndx.name}/#{parts[0]}/set" %>
+                    <td class="action" data-topic="<%= topic %>">
+                      <button type="button" class="btn btn-info">true</button>
+                    </td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                </tr>
+              <% end %>
+
+              <% ndx.properties.each do |props| %>
+                <tr>
+                  <td class="text-left" colspan="2"><strong><%= props.name %></strong></td>
+                  <td><%= props.value %></td>
+                  <% if props.settable %>
+                    <% topic = "#{device.base}/#{device.name}/#{ndx.name}/#{props.name}/set" %>
+                    <td class="action" data-topic="<%= topic %>">
+                      <button type="button" class="btn btn-info">true</button>
+                    </td>
+                  <% else %>
+                    <td><span class="label label-default"><%= props.settable.to_s %></span></td>
+                   <% end %>
+                </tr>
+                <% props.attributes.each do |attr| %>
+                  <tr>
+                    <td class="text-right" colspan="2"><%= attr.name %></td>
+                    <td><%= attr.value %></td>
+                    <td></td>
+                  </tr>
+                <% end %>
+             <% end %>
+            <% end %>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  <% else %>
+
+    <section>
+      <div class="well well-lg text-primary bg-success col-md-offset-2 col-md-8">
+        <h2 class="text-center">No details available for your selection.</h2>
+      </div>
+    </section>
+
+  <% end %>
+
+</article>
+

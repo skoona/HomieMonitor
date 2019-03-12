@@ -1,0 +1,24 @@
+<%# Roda flash messages styled for Bootstrap 3.0, using Roda-tags %>
+<section>
+  <% flash.each_pair do |name, msg| %>
+    <%# puts "HELP FLASH=#{name}:#{msg.class.name}:#{msg}" %>
+    <% if msg.is_a?(String) %>
+      <% tag(:div, class: 'col-md-12') do %>
+        <% tag(:div, class: "alert alert-#{name}") do %>
+          <%= tag(:button, 'x' , type: "button", class: "close", data: { dismiss: "alert"}, 'aria-hidden': true) %>
+          <%= tag(:div, msg, id: "flash_#{name}") %>
+        <% end %>
+      <% end %>
+    <% elsif msg.is_a?(Array) %>
+      <% rflag = msg.size > 1 %>
+      <% msg.flatten.each_with_index do |m,i| %>
+        <% tag(:div, class: (rflag ? 'col-md-6' : 'col-md-12') ) do %>
+          <% tag(:div, class: "alert alert-#{name}") do %>
+            <%= tag(:button, 'x' , type: "button", class: "close", data: { dismiss: "alert"}, 'aria-hidden': true) %>
+            <%= tag(:div, m, id: "flash_#{name}#{i}") %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</section>

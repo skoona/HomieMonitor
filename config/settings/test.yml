@@ -1,0 +1,7 @@
+---
+Packaging:
+  isTest: true
+  configName: test
+
+skn_base:
+  secret: 1ada39a43500e3e2b42cabb5461d706e4f4f34f6123b9bef537beade8f364c301bd9f887c7e1f55e2b7be5089fc2d1f4f89b5909d1a74e72500ee76ce52901d3

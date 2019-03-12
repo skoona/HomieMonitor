@@ -1,0 +1,984 @@
+---
+- !ruby/object:Homie::Commands::QueueEvent
+  value: ready
+  _qos: 1
+  _original: sknSensors/HomeOffice/$state
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$state"
+  elements: 3
+  id: 1
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 3.0.1
+  _qos: 1
+  _original: sknSensors/HomeOffice/$homie
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$homie"
+  elements: 3
+  id: 2
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: Home Office
+  _qos: 1
+  _original: sknSensors/HomeOffice/$name
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$name"
+  elements: 3
+  id: 3
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 84:F3:EB:B7:55:D5
+  _qos: 1
+  _original: sknSensors/HomeOffice/$mac
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$mac"
+  elements: 3
+  id: 4
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 10.100.1.163
+  _qos: 1
+  _original: sknSensors/HomeOffice/$localip
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$localip"
+  elements: 3
+  id: 5
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: motion,temperature,humidity
+  _qos: 1
+  _original: sknSensors/HomeOffice/$nodes
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$nodes"
+  elements: 3
+  id: 6
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: uptime
+  _qos: 1
+  _original: sknSensors/HomeOffice/$stats
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$stats"
+  elements: 3
+  id: 7
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '0'
+  _qos: 1
+  _original: sknSensors/HomeOffice/$stats/interval
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$stats"
+  - interval
+  elements: 4
+  id: 8
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '46'
+  _qos: 1
+  _original: sknSensors/HomeOffice/$stats/signal
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$stats"
+  - signal
+  elements: 4
+  id: 9
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '408196'
+  _qos: 1
+  _original: sknSensors/HomeOffice/$stats/uptime
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$stats"
+  - uptime
+  elements: 4
+  id: 10
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: sknSensors-Rcwl_Dht11
+  _qos: 1
+  _original: sknSensors/HomeOffice/$fw/name
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$fw"
+  - name
+  elements: 4
+  id: 11
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 0.2.5
+  _qos: 1
+  _original: sknSensors/HomeOffice/$fw/version
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$fw"
+  - version
+  elements: 4
+  id: 12
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: aff42a25572516ac5abbca989ddaf2aa
+  _qos: 1
+  _original: sknSensors/HomeOffice/$fw/checksum
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$fw"
+  - checksum
+  elements: 4
+  id: 13
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: esp8266
+  _qos: 1
+  _original: sknSensors/HomeOffice/$implementation
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$implementation"
+  elements: 3
+  id: 14
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '{"name":"Home Office","device_id":"HomeOffice","device_stats_interval":180,"wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true},"settings":{"sensorsInterval":300}}'
+  _qos: 1
+  _original: sknSensors/HomeOffice/$implementation/config
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$implementation"
+  - config
+  elements: 4
+  id: 15
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 3.0.0
+  _qos: 1
+  _original: sknSensors/HomeOffice/$implementation/version
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$implementation"
+  - version
+  elements: 4
+  id: 16
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 'true'
+  _qos: 1
+  _original: sknSensors/HomeOffice/$implementation/ota/enabled
+  _package:
+  - sknSensors
+  - HomeOffice
+  - "$implementation"
+  - ota
+  - enabled
+  elements: 5
+  id: 17
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: Humans Present
+  _qos: 1
+  _original: sknSensors/HomeOffice/motion/$name
+  _package:
+  - sknSensors
+  - HomeOffice
+  - motion
+  - "$name"
+  elements: 4
+  id: 18
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: motion
+  _qos: 1
+  _original: sknSensors/HomeOffice/motion/$type
+  _package:
+  - sknSensors
+  - HomeOffice
+  - motion
+  - "$type"
+  elements: 4
+  id: 19
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: motion
+  _qos: 1
+  _original: sknSensors/HomeOffice/motion/$properties
+  _package:
+  - sknSensors
+  - HomeOffice
+  - motion
+  - "$properties"
+  elements: 4
+  id: 20
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 'true'
+  _qos: 1
+  _original: sknSensors/HomeOffice/motion/motion
+  _package:
+  - sknSensors
+  - HomeOffice
+  - motion
+  - motion
+  elements: 4
+  id: 21
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: Motion
+  _qos: 1
+  _original: sknSensors/HomeOffice/motion/motion/$name
+  _package:
+  - sknSensors
+  - HomeOffice
+  - motion
+  - motion
+  - "$name"
+  elements: 5
+  id: 22
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: boolean
+  _qos: 1
+  _original: sknSensors/HomeOffice/motion/motion/$datatype
+  _package:
+  - sknSensors
+  - HomeOffice
+  - motion
+  - motion
+  - "$datatype"
+  elements: 5
+  id: 23
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: s
+  _qos: 1
+  _original: sknSensors/HomeOffice/motion/motion/$unit
+  _package:
+  - sknSensors
+  - HomeOffice
+  - motion
+  - motion
+  - "$unit"
+  elements: 5
+  id: 24
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: Room Temperature
+  _qos: 1
+  _original: sknSensors/HomeOffice/temperature/$name
+  _package:
+  - sknSensors
+  - HomeOffice
+  - temperature
+  - "$name"
+  elements: 4
+  id: 25
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: temperature
+  _qos: 1
+  _original: sknSensors/HomeOffice/temperature/$type
+  _package:
+  - sknSensors
+  - HomeOffice
+  - temperature
+  - "$type"
+  elements: 4
+  id: 26
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: degrees
+  _qos: 1
+  _original: sknSensors/HomeOffice/temperature/$properties
+  _package:
+  - sknSensors
+  - HomeOffice
+  - temperature
+  - "$properties"
+  elements: 4
+  id: 27
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '69.80'
+  _qos: 1
+  _original: sknSensors/HomeOffice/temperature/degrees
+  _package:
+  - sknSensors
+  - HomeOffice
+  - temperature
+  - degrees
+  elements: 4
+  id: 28
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: Degrees
+  _qos: 1
+  _original: sknSensors/HomeOffice/temperature/degrees/$name
+  _package:
+  - sknSensors
+  - HomeOffice
+  - temperature
+  - degrees
+  - "$name"
+  elements: 5
+  id: 29
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: float
+  _qos: 1
+  _original: sknSensors/HomeOffice/temperature/degrees/$datatype
+  _package:
+  - sknSensors
+  - HomeOffice
+  - temperature
+  - degrees
+  - "$datatype"
+  elements: 5
+  id: 30
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: ºF
+  _qos: 1
+  _original: sknSensors/HomeOffice/temperature/degrees/$unit
+  _package:
+  - sknSensors
+  - HomeOffice
+  - temperature
+  - degrees
+  - "$unit"
+  elements: 5
+  id: 31
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: Room Humidity
+  _qos: 1
+  _original: sknSensors/HomeOffice/humidity/$name
+  _package:
+  - sknSensors
+  - HomeOffice
+  - humidity
+  - "$name"
+  elements: 4
+  id: 32
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: humidity
+  _qos: 1
+  _original: sknSensors/HomeOffice/humidity/$type
+  _package:
+  - sknSensors
+  - HomeOffice
+  - humidity
+  - "$type"
+  elements: 4
+  id: 33
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: percent
+  _qos: 1
+  _original: sknSensors/HomeOffice/humidity/$properties
+  _package:
+  - sknSensors
+  - HomeOffice
+  - humidity
+  - "$properties"
+  elements: 4
+  id: 34
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '24.00'
+  _qos: 1
+  _original: sknSensors/HomeOffice/humidity/percent
+  _package:
+  - sknSensors
+  - HomeOffice
+  - humidity
+  - percent
+  elements: 4
+  id: 35
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: Percent
+  _qos: 1
+  _original: sknSensors/HomeOffice/humidity/percent/$name
+  _package:
+  - sknSensors
+  - HomeOffice
+  - humidity
+  - percent
+  - "$name"
+  elements: 5
+  id: 36
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: float
+  _qos: 1
+  _original: sknSensors/HomeOffice/humidity/percent/$datatype
+  _package:
+  - sknSensors
+  - HomeOffice
+  - humidity
+  - percent
+  - "$datatype"
+  elements: 5
+  id: 37
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: "%"
+  _qos: 1
+  _original: sknSensors/HomeOffice/humidity/percent/$unit
+  _package:
+  - sknSensors
+  - HomeOffice
+  - humidity
+  - percent
+  - "$unit"
+  elements: 5
+  id: 38
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: ready
+  _qos: 1
+  _original: sknSensors/TheaterIR/$state
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$state"
+  elements: 3
+  id: 39
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 3.0.1
+  _qos: 1
+  _original: sknSensors/TheaterIR/$homie
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$homie"
+  elements: 3
+  id: 40
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: Theater IR Server
+  _qos: 1
+  _original: sknSensors/TheaterIR/$name
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$name"
+  elements: 3
+  id: 41
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 5C:CF:7F:63:30:AF
+  _qos: 1
+  _original: sknSensors/TheaterIR/$mac
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$mac"
+  elements: 3
+  id: 42
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 10.100.1.215
+  _qos: 1
+  _original: sknSensors/TheaterIR/$localip
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$localip"
+  elements: 3
+  id: 43
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: irservice
+  _qos: 1
+  _original: sknSensors/TheaterIR/$nodes
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$nodes"
+  elements: 3
+  id: 44
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: uptime
+  _qos: 1
+  _original: sknSensors/TheaterIR/$stats
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$stats"
+  elements: 3
+  id: 45
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '0'
+  _qos: 1
+  _original: sknSensors/TheaterIR/$stats/interval
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$stats"
+  - interval
+  elements: 4
+  id: 46
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '42'
+  _qos: 1
+  _original: sknSensors/TheaterIR/$stats/signal
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$stats"
+  - signal
+  elements: 4
+  id: 47
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '244807'
+  _qos: 1
+  _original: sknSensors/TheaterIR/$stats/uptime
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$stats"
+  - uptime
+  elements: 4
+  id: 48
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: sknSensors-IRService.d1_mini
+  _qos: 1
+  _original: sknSensors/TheaterIR/$fw/name
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$fw"
+  - name
+  elements: 4
+  id: 49
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 0.2.0
+  _qos: 1
+  _original: sknSensors/TheaterIR/$fw/version
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$fw"
+  - version
+  elements: 4
+  id: 50
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 934a0239a5b8513b09e16765dfdba9b5
+  _qos: 1
+  _original: sknSensors/TheaterIR/$fw/checksum
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$fw"
+  - checksum
+  elements: 4
+  id: 51
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: esp8266
+  _qos: 1
+  _original: sknSensors/TheaterIR/$implementation
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$implementation"
+  elements: 3
+  id: 52
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '{"name":"Theater IR Server","device_id":"TheaterIR","device_stats_interval":180,"wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true},"settings":{"sensorsInterval":300,"onSequence":"3,2FD48B7,32
+    43,5006,16 3,4BB620DF,32 3,4BB6F00F,32","offSequence":"3,2FD48B7,32 43,5006,16
+    3,4B36E21D,32"}}'
+  _qos: 1
+  _original: sknSensors/TheaterIR/$implementation/config
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$implementation"
+  - config
+  elements: 4
+  id: 53
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 3.0.0
+  _qos: 1
+  _original: sknSensors/TheaterIR/$implementation/version
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$implementation"
+  - version
+  elements: 4
+  id: 54
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 'true'
+  _qos: 1
+  _original: sknSensors/TheaterIR/$implementation/ota/enabled
+  _package:
+  - sknSensors
+  - TheaterIR
+  - "$implementation"
+  - ota
+  - enabled
+  elements: 5
+  id: 55
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: IR Provider
+  _qos: 1
+  _original: sknSensors/TheaterIR/irservice/$name
+  _package:
+  - sknSensors
+  - TheaterIR
+  - irservice
+  - "$name"
+  elements: 4
+  id: 56
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: theater-remote
+  _qos: 1
+  _original: sknSensors/TheaterIR/irservice/$type
+  _package:
+  - sknSensors
+  - TheaterIR
+  - irservice
+  - "$type"
+  elements: 4
+  id: 57
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: command,received
+  _qos: 1
+  _original: sknSensors/TheaterIR/irservice/$properties
+  _package:
+  - sknSensors
+  - TheaterIR
+  - irservice
+  - "$properties"
+  elements: 4
+  id: 58
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: IR Broadcaster
+  _qos: 1
+  _original: sknSensors/TheaterIR/irservice/command/$name
+  _package:
+  - sknSensors
+  - TheaterIR
+  - irservice
+  - command
+  - "$name"
+  elements: 5
+  id: 59
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 'true'
+  _qos: 1
+  _original: sknSensors/TheaterIR/irservice/command/$settable
+  _package:
+  - sknSensors
+  - TheaterIR
+  - irservice
+  - command
+  - "$settable"
+  elements: 5
+  id: 60
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: string
+  _qos: 1
+  _original: sknSensors/TheaterIR/irservice/command/$datatype
+  _package:
+  - sknSensors
+  - TheaterIR
+  - irservice
+  - command
+  - "$datatype"
+  elements: 5
+  id: 61
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: "%s"
+  _qos: 1
+  _original: sknSensors/TheaterIR/irservice/command/$unit
+  _package:
+  - sknSensors
+  - TheaterIR
+  - irservice
+  - command
+  - "$unit"
+  elements: 5
+  id: 62
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: IR Listener
+  _qos: 1
+  _original: sknSensors/TheaterIR/irservice/received/$name
+  _package:
+  - sknSensors
+  - TheaterIR
+  - irservice
+  - received
+  - "$name"
+  elements: 5
+  id: 63
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: string
+  _qos: 1
+  _original: sknSensors/TheaterIR/irservice/received/$datatype
+  _package:
+  - sknSensors
+  - TheaterIR
+  - irservice
+  - received
+  - "$datatype"
+  elements: 5
+  id: 64
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: "%s"
+  _qos: 1
+  _original: sknSensors/TheaterIR/irservice/received/$unit
+  _package:
+  - sknSensors
+  - TheaterIR
+  - irservice
+  - received
+  - "$unit"
+  elements: 5
+  id: 65
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 2.0.0
+  _qos: 1
+  _original: sknSensors/LabTarget/$homie
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$homie"
+  elements: 3
+  id: 66
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: B4:E6:2D:53:A8:F0
+  _qos: 1
+  _original: sknSensors/LabTarget/$mac
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$mac"
+  elements: 3
+  id: 67
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: Blinking light
+  _qos: 1
+  _original: sknSensors/LabTarget/$name
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$name"
+  elements: 3
+  id: 68
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 10.100.1.233
+  _qos: 1
+  _original: sknSensors/LabTarget/$localip
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$localip"
+  elements: 3
+  id: 69
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '0'
+  _qos: 1
+  _original: sknSensors/LabTarget/$stats/interval
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$stats"
+  - interval
+  elements: 4
+  id: 70
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: Homie-light-onoff
+  _qos: 1
+  _original: sknSensors/LabTarget/$fw/name
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$fw"
+  - name
+  elements: 4
+  id: 71
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 2.0.1
+  _qos: 1
+  _original: sknSensors/LabTarget/$fw/version
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$fw"
+  - version
+  elements: 4
+  id: 72
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 13c7297b4f3d85ea16ee1e5578dda3eb
+  _qos: 1
+  _original: sknSensors/LabTarget/$fw/checksum
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$fw"
+  - checksum
+  elements: 4
+  id: 73
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: esp8266
+  _qos: 1
+  _original: sknSensors/LabTarget/$implementation
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$implementation"
+  elements: 3
+  id: 74
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '{"name":"Blinking light","device_id":"LabTarget","device_stats_interval":180,"wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true}}'
+  _qos: 1
+  _original: sknSensors/LabTarget/$implementation/config
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$implementation"
+  - config
+  elements: 4
+  id: 75
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 2.0.0
+  _qos: 1
+  _original: sknSensors/LabTarget/$implementation/version
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$implementation"
+  - version
+  elements: 4
+  id: 76
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 'true'
+  _qos: 1
+  _original: sknSensors/LabTarget/$implementation/ota/enabled
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$implementation"
+  - ota
+  - enabled
+  elements: 5
+  id: 77
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: switch
+  _qos: 1
+  _original: sknSensors/LabTarget/light/$type
+  _package:
+  - sknSensors
+  - LabTarget
+  - light
+  - "$type"
+  elements: 4
+  id: 78
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: on:settable
+  _qos: 1
+  _original: sknSensors/LabTarget/light/$properties
+  _package:
+  - sknSensors
+  - LabTarget
+  - light
+  - "$properties"
+  elements: 4
+  id: 79
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: 'true'
+  _qos: 1
+  _original: sknSensors/LabTarget/$online
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$online"
+  elements: 3
+  id: 80
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '72'
+  _qos: 1
+  _original: sknSensors/LabTarget/$stats/signal
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$stats"
+  - signal
+  elements: 4
+  id: 81
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '8'
+  _qos: 1
+  _original: sknSensors/LabTarget/$stats/uptime
+  _package:
+  - sknSensors
+  - LabTarget
+  - "$stats"
+  - uptime
+  elements: 4
+  id: 82
+  _retain: false

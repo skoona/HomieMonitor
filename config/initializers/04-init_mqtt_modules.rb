@@ -1,0 +1,23 @@
+# ##
+# 00-init_mqtt_modules
+#
+# Configure the MQTT Stream
+#
+require "./main/homie/handlers/stream"
+
+module Homie
+  module Handlers
+
+    class Stream
+      extend Dry::Configurable
+
+      setting(:host, SknSetting.mqtt.host, reader: true)
+      setting(:port, SknSetting.mqtt.port, reader: true)
+      setting(:client_id, SecureRandom.hex(4), reader: true)
+      setting(:username, SknSetting.mqtt.username, reader: true)
+      setting(:password, SknSetting.mqtt.password,  reader: true)
+      setting(:base_topics, SknSetting.mqtt.base_topics, reader: true )
+      setting(:debug_log_file, SknSetting.mqtt.debug_log_file, reader: true)
+    end
+  end
+end

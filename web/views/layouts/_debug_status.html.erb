@@ -1,0 +1,80 @@
+
+<section>
+  <% unless request.params.empty? %>
+    <div class="well col-md-6">
+      <h4 class="col-md-12 text-left">Request Params</h4>
+      <% request.params.to_h.each_pair do |k,v| -%>
+        <% if v.is_a?(Hash) %>
+          <div class="col-md-12"><i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;<%= k %></div>
+          <% v.each_pair do |ik,iv| %>
+            <div class="col-md-offset-1 col-md-5 text-right"><%= ik %>:</div>
+            <div class="col-md-6"><%= iv %>&nbsp;</div>
+          <% end %>
+        <% else %>
+          <div class="col-md-4"><i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;<%= k %>:</div>
+          <div class="col-md-8"><%= "#{v}:#{v.object_id}" %>&nbsp;</div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% unless env['warden.options'].nil? %>
+    <div class="well col-md-6">
+      <h4 class="col-md-12 text-left">Warden Options</h4>
+      <% env['warden.options'].each_pair do |k,v| -%>
+        <% if v.is_a?(Hash) %>
+          <div class="col-md-12"><i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;<%= k %></div>
+          <% v.each_pair do |ik,iv| %>
+            <div class="col-md-offset-1 col-md-5 text-right"><%= ik %>:</div>
+            <div class="col-md-6"><%= iv %>&nbsp;</div>
+          <% end %>
+        <% else %>
+          <div class="col-md-4"><i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;<%= k %>:</div>
+          <div class="col-md-8"><%= "#{v}:#{v.object_id}" %>&nbsp;</div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% unless request.cookies.nil? %>
+    <div class="well col-md-6">
+      <h4 class="col-md-12 text-left">Cookies</h4>
+      <% request.cookies.each do |k,v| -%>
+        <div class="col-md-5"><i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;<%= k %>:</div>
+        <div class="col-md-7"><%= v[0..15] %>&nbsp;</div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="well col-md-6">
+    <h4 class="col-md-12 text-left">Rutime Status</h4>
+    <div class="col-md-4"><i class="fa fa-check-square-o" aria-hidden="true"></i>&nbsp;Production?:</div>
+    <div class="col-md-8"><%= current_environment_production? %></div>
+    <div class="col-md-4"><i class="fa fa-check-square-o" aria-hidden="true"></i>&nbsp;Development?:</div>
+    <div class="col-md-8"><%= !current_environment_production? %></div>
+    <div class="col-md-4"><i class="fa fa-check-square-o" aria-hidden="true"></i>&nbsp;Environment:</div>
+    <div class="col-md-8"><%= current_environment_name %></div>
+    <div class="col-md-4">
+      <% if attempted_page.empty? %>
+        <i class="fa fa-square" aria-hidden="true"></i>
+      <% else %>
+        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+      <% end %>
+      Attempted Page:
+    </div>
+    <div class="col-md-8"><%= attempted_page %>&nbsp;</div>
+    <div class="col-md-4"><i class="fa fa-check-square-o" aria-hidden="true"></i>&nbsp;Current Page:</div>
+    <div class="col-md-8"><%= current_page %>&nbsp;</div>
+    <div class="col-md-4"><i class="fa fa-check-square-o" aria-hidden="true"></i>&nbsp;Request Path:</div>
+    <div class="col-md-8"><%= request.path %>&nbsp;</div>
+    <div class="col-md-4"><i class="fa fa-check-square-o" aria-hidden="true"></i>&nbsp;Matched Path:</div>
+    <div class="col-md-8"><%= request.matched_path %>&nbsp;</div>
+    <div class="col-md-4"><i class="fa fa-check-square-o" aria-hidden="true"></i>&nbsp;Request Method:</div>
+    <div class="col-md-8"><%= request.request_method %>&nbsp;</div>
+    <div class="col-md-4"><i class="fa fa-check-square-o" aria-hidden="true"></i>&nbsp;Response Status:</div>
+    <div class="col-md-8"><%= response.status %></div>
+    <div class="col-md-4"><i class="fa fa-check-square-o" aria-hidden="true"></i>&nbsp;Resources Key:</div>
+    <div class="col-md-8"><%= 'standBy' %></div>
+  </div>
+
+</section>

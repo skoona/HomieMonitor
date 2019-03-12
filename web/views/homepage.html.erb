@@ -1,0 +1,72 @@
+<% content_for(:title, "Home") %>
+
+<article>
+
+<!--  <div class="jumbotron halo-pano">-->
+    <h1 class="landing-page">Homie Controller</h1>
+    <p>
+      <span><strong><em>Homie</em></strong> Version 3.0.1 Specification</span>
+      <a class="btn " href="/profiles/devices" role="button">Discover Existing Homie Devices</a>
+      <a class="btn " href="/profiles/manage" role="button"> Manage Firmware</a>
+    </p>
+<!--  </div>-->
+
+  <blockquote class="blockquote-reverse">
+    <p class="lead">
+      <h4 class="text-center">The Homie convention differentiates between Devices and Controllers.</h4>
+      A <a href="https://homieiot.github.io/implementations/" target="_blank">Homie</a> <em>Controller</em> implementation does not announce anything to the MQTT broker, but discovers
+      and interacts with <em>Devices</em>. There can be more that one Controller interacting with the different
+      devices on the same broker.
+    </p>
+    <footer><a href="https://homieiot.github.io/implementations/" target="_blank">Homie Specification</a></footer>
+  </blockquote>
+
+  <h2 class="text-center">Homie Broadcasts</h2>
+
+  <% if resources.success and !resources.payload.package.empty? %>
+    <% package =  resources.payload.package %>
+
+    <div class="container">
+
+      <div class="row">
+
+        <% package.each do |broadcast| %>
+          <!-- Boxes de Acoes -->
+          <div class="col-xs-12 col-sm-6 col-lg-3">
+            <div class="box">
+              <div class="icon">
+                <div class="image"><img src="/images/homie-banner.png" alt="homie-banner"></img></div>
+                <div class="info">
+                  <h3 class="title"><%= broadcast[:name].titleize %></h3>
+
+                  <p><%= broadcast[:value] %></p>
+
+                  <div class="more">
+                    <a href="/profiles/devices" id="" title="Title Link">
+                      More... <i class="fa fa-angle-double-right"></i>
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+              <div class="space"></div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- /Boxes de Acoes -->
+      </div>
+    </div>
+  <% else %>
+
+    <section>
+      <div class="well well-lg text-primary bg-success col-md-offset-2 col-md-8">
+        <h2 class="text-center">No Homie Broadcasts Available!</h2>
+        <p class="lead text-center">Please standby, or make something alert.</p>
+      </div>
+    </section>
+
+  <% end %>
+
+
+</article>

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<Context
+    override="true"
+    crossContext="true"
+    reloadable="true"
+    privileged="true"
+    cookies="false"
+    unloadDelay="10000"
+    fireRequestListenersOnForwards="true"
+    cachingAllowed="true">
+
+    <!-- Platform Role Configuration jndi reference: single words choices are => [production, stage, development, test] -->
+    <ResourceLink name="bmi.bmi_archival_events.configName"
+                  global="homie.administrator.configName"
+                  type="java.lang.String" />
+
+    <!-- Database jndi reference -->
+    <!--<ResourceLink name="jdbc/bmi_ac2"         global="jdbc/EventDB_ac2"         type="javax.sql.DataSource" />-->
+</Context>

@@ -1,0 +1,43 @@
+---
+Packaging:
+  pgmName: HomieMonitor
+  releaseVersion: <%= Skn::Version %>
+  isTest: false
+  isDevelopment: false
+  isStaging: false
+  isProduction: false
+  configName: base
+  short_name: esp
+
+skn_base:
+  secret: 37ae095d4e6ad226c79a03393f743d6c4d51b19fd8f6850e9ce5041312e631f6f9f7b10192ccd29c9ca4e75bff4207929304132849d0defc803a926406bbb676
+  session_key: _skn_web_homie_session
+  session_domain: .skoona.net
+
+content_service:
+  demo_mode: false
+  description: Homie Monitor
+  firmware_path: ./content/firmwares/
+  spiffs_path: ./content/spiffs/
+
+# ##
+# Override (restate) by development, stage, production, etc
+mqtt:
+  host: some.fqdn.com
+  port: 1883
+  username: userid
+  password: password
+  # [["sknSensors/#", 1], ["homie/#", 1]]
+  :base_topics:
+    - - sknSensors/#
+      - 1
+    - - homie/#
+      - 1
+  debug_log_file: ./log/paho-debug.log
+
+
+##
+# Persistence via YAML and YAML::Store
+# Ref: https://ruby-doc.org/stdlib-2.5.1/libdoc/yaml/rdoc/YAML/Store.html
+data_source:
+  store: ENV.fetch('HOMIE_STORE', "./db/HomieMonitor_store.yml")

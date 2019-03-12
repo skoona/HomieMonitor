@@ -1,0 +1,73 @@
+# ##
+# File: ./i18n/en.yml
+#
+# Ref: https://github.com/kematzy/roda-i18n
+# ##
+#
+#  Both :locale and :translations can be configured (overridden) during plugin configuration:
+#
+#     plugin :i18n, :locale => ['de'], :translations => ['absolute/path/2/i18n']
+# ##
+#    USAGE
+#
+#    The i18n plugin depends upon simple YAML based translations files:
+#
+#     # app/i18n/en.yml
+#
+#    user:
+#      edit: Edit user
+#      name: User name is %1
+#      count: !!pl
+#        1: There is 1 user
+#        n: There are %1 users
+#    ...and the :t instance method to output the translations:
+#
+#    t.user.edit         #=> "Edit user"
+#    t.user.name('John') #=> "User name is John"
+#    t.user.count(5)     #=> "There are 5 users"
+#
+#    t.does.not.exist | 'default' #=> "default"
+#    ...and the :l (lowercase L) instance method provides built-in localisations support:
+#
+#    l Time.now           #=> "03/01/2010 18:54"
+#    l Time.now, :human   #=> "now"
+#    l Time.now, :full    #=> "3rd of January, 2010 18:54"
+#    Both the :t and :l methods are available within the route and template (erb) scopes. ie:
+#
+#    route do |r|
+#      r.root do
+#        t.welcome.message
+#      end
+#    end
+#
+#     # app/views/layout.erb
+#     <snip...>
+#       <h1><%= t.welcome.message %></h1>
+#     <snip...>
+#    Please visit R18n for more information about the R18n gem used to create the above.
+#
+# ##
+
+en:
+  errors:
+    unexpected_exception:
+        title: Unexpected exception occurred
+        detail: Your request generated an unexpected exception to be thrown in the service provider, and was cancelled.
+    unprocessable_entity:
+        title: Entity ID invalid
+        detail: Your requests ID param is improperly formatted.
+    routing_error:
+        title: API method not found
+        detail: Your request did not contain a known api method name.
+    bad_request:
+        title: Request failed
+        detail: Something unexpected occured while servicing this request
+    not_implemented:
+      title: This feature has not been implemented
+      detail: The development team has not coded this feature
+    not_found:
+      title: Not Found
+      detail: The item you requested is not available at this time
+    not_acceptable:
+      title: Not Acceptable
+      detail: Your request was not accepted.  Please contact an administrator to verify your permission,

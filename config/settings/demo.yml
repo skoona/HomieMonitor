@@ -1,0 +1,7 @@
+---
+Packaging:
+  isDevelopment: false
+  configName: demo
+
+content_service:
+  demo_mode: true

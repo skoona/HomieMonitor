@@ -1,0 +1,7 @@
+---
+Packaging:
+  isProduction: true
+  configName: production
+
+skn_base:
+  secret_key_base: 37ae095d4e6ad226c79a03393f743d6c4f4f34f6123b9bef537beade8f364c36f9f7b10192ccd29c9ca4e75bff4207929304132849d0defc803a926406bb8876

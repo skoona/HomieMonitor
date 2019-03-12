@@ -1,0 +1,4 @@
+---
+Packaging:
+  isDevelopment: true
+  configName: development

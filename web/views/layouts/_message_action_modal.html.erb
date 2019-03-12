@@ -1,0 +1,38 @@
+<!-- Modal -->
+<div id="mqttActionModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-center">MQTT Action</h4>
+      </div>
+
+      <div class="modal-body">
+        <div>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-bullseye fa-2x"></i></span>
+            <input type="text" class="form-control input-lg" id="mqtt-topic" placeholder="mqtt topic" required>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-envelope-o fa-2x"></i></span>
+            <textarea class="form-control" rows="5" id="mqtt-value" placeholder="value to be sent" required></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <div class="checkbox pull-left">
+          <label><input type="checkbox" id="mqtt-retained"> Retain?</label>
+        </div>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default btn-primary" id="mqtt-btn" data-dismiss="modal">Send MQTT Message</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
