@@ -105,12 +105,12 @@ module Homie
     end
 
     # add more conditions of interest
-    def actions_router(event)
-      if event.broadcast?
-        record_broadcasts(event)
+    def actions_router(queue_event)
+      if queue_event.broadcast?
+        record_broadcasts(queue_event)
         false # skip broadcasts -- or cause a loop error
-      elsif event.schedule_related?
-        handle_subscription_queue_event(event)
+      elsif queue_event.schedule_related?
+        handle_subscription_queue_event(queue_event)
         true   # Allow dispatch
       else
         true   # Allow dispatch
