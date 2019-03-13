@@ -566,6 +566,7 @@ The configuration module will prefers environment variables over config file val
     HM_MQTT_LOG         defaults to `/tmp/homieMonitor/paho-debug.log`
     HM_FIRMWARE_PATH    defaults to './content/firmwares/'
     HM_SPIFFS_PATH      defaults to './content/spiffs/'
+    HM_DATA_STORE       defaults to './db/HomieMonitor_store.yml'
 
 
 ## Following Along: Initialization

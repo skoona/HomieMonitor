@@ -64,6 +64,11 @@ module Homie
       def broadcast?
         @_package[1].eql?("$broadcast")
       end
+      def schedule_related?
+        ["$fw", "ota"].any? do |q|
+          @_original.include?(q)
+        end
+      end
 
       def broadcast_key
         broadcast? && @_package[2..-1].join('.')

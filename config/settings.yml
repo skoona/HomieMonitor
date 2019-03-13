@@ -17,8 +17,10 @@ skn_base:
 content_service:
   demo_mode: false
   description: Homie Monitor
-  firmware_path: ENV.fetch('HM_FIRMWARE_PATH', "./content/firmwares/") %>
-  spiffs_path: ENV.fetch('HM_SPIFFS_PATH', "./content/spiffs/") %>
+  firmware_path: <%= ENV.fetch('HM_FIRMWARE_PATH', "./content/firmwares/") %>
+  spiffs_path: <%= ENV.fetch('HM_SPIFFS_PATH', "./content/spiffs/") %>
+  data_source:
+    store: <%= ENV.fetch('HM_DATA_STORE', "./db/HomieMonitor_store.yml") %>
 
 # ##
 # Override (restate) by development, stage, production, etc
@@ -35,10 +37,3 @@ mqtt:
     - - homie/#
       - 1
   debug_log_file: <%= ENV.fetch('HM_MQTT_LOG', '/tmp/homieMonitor/paho-debug.log') %>
-
-
-##
-# Persistence via YAML and YAML::Store
-# Ref: https://ruby-doc.org/stdlib-2.5.1/libdoc/yaml/rdoc/YAML/Store.html
-data_source:
-  store: ENV.fetch('HM_STORE', "./db/HomieMonitor_store.yml")

@@ -160,6 +160,16 @@ module Homie
         end
       end
 
+      def device_hash
+        Psych.load( Psych.dump({
+           klass: "Device",
+           name: name,
+           value: value,
+           base: base,
+           attributes: @attributes.map(&:to_hash)
+        }))
+      end
+
       def to_hash
         Psych.load( Psych.dump({
           klass: "Device",

@@ -13,4 +13,4 @@ end
 require_relative 'value_changed'
 require_relative 'subscription'
 require_relative 'notify'
-require_relative 'manager'
+require_relative 'provider'

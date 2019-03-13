@@ -114,7 +114,7 @@ module Homie
         # @receive_queue.clear
         # @receive_queue.close
         @client.disconnect if @client && @client.connection_state
-        $stdout.puts "#{self.class.name}##{__method__} Shutdown Complete!"
+        $stdout.puts "#{self.class.name} MQTT Listener Shutdown Complete!"
       end
 
       def handle_queue_receive
@@ -148,7 +148,7 @@ module Homie
       def queue_message_push(packet)
         if packet.topic.include?('$implementation/ota/firmware/') # can't use firmware loads messages
           bytes = packet.payload.size
-          packet.payload = "bytes=#{bytes}"
+          packet.payload = "MessageBytes=#{bytes}"
         end
         receive_queue.push( Homie::Commands::QueueEvent.(packet) )
       end

@@ -25,8 +25,10 @@ module Homie
       @_stream_tid           = @_stream.tid
       @_stream_receive_queue = SknApp.registry.resolve("stream_receive_queue")
       @_stream_send_queue    = SknApp.registry.resolve("stream_send_queue")
+      @_subscriptions_provider = SknApp.registry.resolve("subscriptions_provider")
       @_devices              = []
       @_broadcasts           = []
+      @_subscriptions        = []
       @debug_logger          = SknApp.debug_logger
       true
     end
@@ -36,6 +38,9 @@ module Homie
     end
     def content_broadcasts
       SknSuccess.( package: @_broadcasts.map {|bc| bc.success ? {name: bc.message, value: bc.value} : nil }.compact )
+    end
+    def content_subscriptions
+      SknSuccess.( package: @_subscriptions.map(&:to_hash) )
     end
 
     def send_queue_event(queue_event)
@@ -51,14 +56,15 @@ module Homie
       tid = Thread.new do
         loop do
           msg = new_message
-          if msg and receive_filter(msg)
+          if msg && actions_router(msg)
             create_device(msg) unless !!read_queue_dispatcher(msg)
-            debug_logger.info "Device Count: #{@_devices.size}"
+            debug_logger.info "Device Count: #{@_devices.size}, PacketID: #{msg.id}"
           end
           sleep 0.06
         end
       end
       at_exit do
+        $stdout.puts "#{self.class.name} MQTT Manager Shutdown Complete!"
         tid.terminate
       end
       tid
@@ -94,13 +100,20 @@ module Homie
       @_broadcasts
     end
 
+    def subscriptions
+      @_subscriptions
+    end
+
     # add more conditions of interest
-    def receive_filter(event)
+    def actions_router(event)
       if event.broadcast?
         record_broadcasts(event)
-        false  # call stop on false
+        false # skip broadcasts -- or cause a loop error
+      elsif event.schedule_related?
+        handle_subscription_queue_event(event)
+        true   # Allow dispatch
       else
-        true  # caller continue on true
+        true   # Allow dispatch
       end
     end
 
@@ -112,12 +125,15 @@ module Homie
 
     # make SknSuccess.(value,message|topic)
     def record_broadcasts(event)  # reconnects cause dups
-      if broadcast_exist?(event)
-        false
-      else
-        @_broadcasts.push(event.homie_broadcast)
-        false                                     # stops continuation
-      end
+      @_broadcasts.push(event.homie_broadcast) unless !!broadcast_exist?(event)
+    end
+
+    def handle_subscription_queue_event(queue_event)
+      @_subscriptions_provider.handle_queue_event?(queue_event)
+    end
+
+    def load_subscriptions
+      @_subscriptions = @_subscriptions_provider.subscriptions_restore
     end
 
   end
