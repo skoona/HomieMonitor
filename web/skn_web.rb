@@ -96,6 +96,8 @@ class SknWeb < Roda
   # ##
   route do |r|
 
+    SknApp.logger.debug("Params: #{request.params}")
+
     r.assets unless opts[:env].production?
 
     r.public

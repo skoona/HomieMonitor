@@ -10,7 +10,7 @@ begin
   end
 
   # Load Main Business App
-  require_relative '../main/main'
+  require_relative '../mains/mains'
 
   # initialize MQTT Discover Facilities / keep a reference to thread
   unless SknApp.env.test? or defined?($SKIP_AUTOSTART)

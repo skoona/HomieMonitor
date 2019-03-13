@@ -19,7 +19,7 @@
         <div class="table-responsive">
           <table id="scheduled-table" class="table table-condensed table-hover table-striped no-wrap" cellspacing="0" width="100%">
             <thead>
-              <th>Cancel</th>
+              <th>Actions</th>
               <th>Scheduled</th>
               <th>Device</th>
               <th>Mac Addr</th>
@@ -31,7 +31,7 @@
 
             <% scheduled.each do |entry| %>
               <tr data-package="<%= entry.to_json %>">
-                <td><input type="checkbox" value="0"/></td>
+                <td class="text-center" data-toggle="tooltip" data-placement="top" title="Cancel Item Scheduled"><a href="#" id="schedule-delete"><i class="fa fa-trash  fa-1x"></i></a></td>
                 <td><%= Date.today.iso8601 %></td>
                 <td><%= get_attribute_value(entry, '$name') %></td>
                 <td><%= get_attribute_value(entry, '$mac') %></td>
@@ -42,9 +42,6 @@
             <% end %>
             </tbody>
           </table>
-        </div>
-        <div class="well col-md-12">
-           <a href="#" class="btn btn-danger" id="schedule-delete"><i class="fa fa-trash"></i> Cancel Checked from Schedule</a>
         </div>
       </div>
     </section>
@@ -57,7 +54,7 @@
         <div class="table-responsive">
           <table id="firmware-table" class="table table-condensed table-hover table-striped no-wrap" cellspacing="0" width="100%">
             <thead>
-              <th>select</th>
+              <th>Actions</th>
               <th>Filename</th>
               <th>Firmware</th>
               <th>Version</th>
@@ -69,7 +66,7 @@
 
             <% catalog.each do |item| %>
               <tr data-package="<%= item.to_json %>">
-                <td><input type="checkbox" value="0"/></td>
+                <td class="text-center" data-toggle="tooltip" data-placement="top" title="Remove from Filesystem!"><a href="#" id="firmware-delete"><i class="fa fa-trash fa-1x"></i></a></td>
                 <td><%= item.filename %></td>
                 <td><%= item.name %></td>
                 <td><%= item.version %></td>
@@ -80,15 +77,6 @@
             <% end %>
             </tbody>
           </table>
-        </div>
-        <div class="well col-md-12">
-          <div class="col-md-4">
-              <a href="#" class="btn btn-danger" id="firmware-delete"><i class="fa fa-trash"></i> Delete checked Firmware!</a>
-          </div>
-
-          <div class="col-md-8">
-            <div id="fine-uploader-manual-trigger"></div>
-          </div>
         </div>
       </div>
     </section>
@@ -127,11 +115,18 @@
             </tbody>
           </table>
         </div>
-        <div class="well col-md-12">
 
+      </div>
+    </section>
+
+    <section>
+      <div class="well col-md-12">
+
+        <div class="well col-md-4 ">
+          <h4>Schedule OTA Updates</h4>
           <form class="form-horizontal" role="form">
             <div class="form-group">
-              <div class="col-sm-4">
+              <div class="col-sm-12">
                 <select class="form-control" id="device-select">
                   <option class="active" value="">Select Device</option>
                   <% devices.each do |device| %>
@@ -143,7 +138,7 @@
               </div>
             </div>
             <div class="form-group">
-              <div class="col-sm-4">
+              <div class="col-sm-12">
                 <select class="form-control" id="firmware-select">
                   <option class="active" value="">Select Firmware</option>
                   <% catalog.each do |item| %>
@@ -155,15 +150,20 @@
               </div>
             </div>
             <div class="form-group">
-              <div class="col-sm-4">
+              <div class="col-sm-12">
                 <button type="submit" class="btn btn-block btn-info" id="firmware-schedule-add">
                   <i class="fa fa-calendar-check-o"></i> Schedule Firmware Update
                 </button>
               </div>
             </div>
           </form>
-
         </div>
+
+        <div class="well col-md-8">
+          <h4>Upload Additional Firmware</h4>
+          <div id="fine-uploader-manual-trigger"></div>
+        </div>
+
       </div>
     </section>
 

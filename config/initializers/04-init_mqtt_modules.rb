@@ -3,7 +3,7 @@
 #
 # Configure the MQTT Stream
 #
-require "./main/homie/handlers/stream"
+require "./mains/homie/handlers/stream"
 
 module Homie
   module Handlers
