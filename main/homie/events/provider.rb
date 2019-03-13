@@ -39,8 +39,8 @@ module Homie
         @_subscriptions
       end
 
-      def create_subscription(device:, firmware:)
-        subscript = Subscription.new(firmware: firmware, device: device)
+      def create_subscription(device_obj:, firmware_obj:)
+        subscript = Subscription.new(firmware: firmware_obj, device: device_obj)
         subscription_add(subscript)
       rescue
         false

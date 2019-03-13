@@ -4,167 +4,164 @@
 <% content_for(:title, "Device Management") %>
 
 <article>
-  <h2 class="page-header"><a href="/profiles/devices"><i class="fa fa-chevron-circle-left fa-1x" aria-hidden="true"></i></a> Device Management</h2>
+  <h1 class="page-header"><a href="/profiles/devices"><i class="fa fa-chevron-circle-left fa-1x" aria-hidden="true"></i></a> Device Management</h1>
 
   <% if resources.success %>
     <% devices   =  resources.payload.devices %>
     <% scheduled =  resources.payload.scheduled %>
     <% catalog   =  resources.payload.catalog %>
 
-    <div class="panel panel-info">
-      <div class="panel-heading ">
-        <h3 class="panel-title">Scheduled Firmware Deployments</h3>
-      </div>
-      <div class="table-responsive">
-        <table id="scheduled-table" class="table table-condensed table-hover table-striped no-wrap" cellspacing="0" width="100%">
-          <thead>
-            <th>Cancel</th>
-            <th>Scheduled</th>
-            <th>Device</th>
-            <th>Mac Addr</th>
-            <th>Firmware</th>
-            <th>Version</th>
-            <th>Status</th>
-          </thead>
-          <tbody>
-
-          <% scheduled.each do |entry| %>
-            <tr data-package="<%= entry.to_json %>">
-              <td><input type="checkbox" value="0"/></td>
-              <td><%= Date.today.iso8601 %></td>
-              <td><%= get_attribute_value(entry, '$name') %></td>
-              <td><%= get_attribute_value(entry, '$mac') %></td>
-              <td><%= get_attribute_property_value(entry, '$fw', 'name') %></td>
-              <td><%= get_attribute_property_value(entry, '$fw', 'version') %></td>
-              <td>Incomplete</td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="panel panel-info">
-      <div class="panel-heading ">
-        <h3 class="panel-title">Firmware Inventory</h3>
-      </div>
-      <div class="table-responsive">
-        <table id="firmware-table" class="table table-condensed table-hover table-striped no-wrap" cellspacing="0" width="100%">
-          <thead>
-            <th>select</th>
-            <th>Filename</th>
-            <th>Firmware</th>
-            <th>Version</th>
-            <th>CheckSum</th>
-            <th>Size</th>
-            <th>Updated</th>
-          </thead>
-          <tbody>
-
-          <% catalog.each do |item| %>
-            <tr data-package="<%= item.to_json %>">
-              <td><input type="checkbox" value="0"/></td>
-              <td><%= item.filename %></td>
-              <td><%= item.name %></td>
-              <td><%= item.version %></td>
-              <td><%= item.checksum %></td>
-              <td><%= human_filesize(item.fsize) %></td>
-              <td><%= item.updated.strftime("%Y-%b-%d %H:%M") %></td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="panel panel-info">
-      <div class="panel-heading ">
-        <h3 class="panel-title">Homie Devices</h3>
-      </div>
-      <div class="table-responsive">
-        <table id="devices-table" class="table table-condensed table-hover table-striped no-wrap" cellspacing="0" width="100%">
-          <thead>
-            <th>select</th>
-            <th>MAC Addr</th>
-            <th>Online</th>
-            <th>IP Addr</th>
-            <th>Name</th>
-            <th>CheckSum</th>
-            <th>Firmware</th>
-            <th>Version</th>
-            <th>OTA.enabled</th>
-          </thead>
-          <tbody>
-
-          <% devices.each do |device| %>
-            <tr id="<%= device[:name] %>" data-package="<%= device.to_json %>">
-              <td><input type="checkbox" value="0"/></td>
-              <td><%= get_attribute_value(device, '$mac') %></td>
-              <td><%= get_online_value(device).to_s %></td>
-              <td><%= get_attribute_value(device, '$localip') %></td>
-              <td><%= get_attribute_value(device, '$name') %></td>
-              <td><%= get_attribute_property_value(device, '$fw', 'checksum') %></td>
-              <td><%= get_attribute_property_value(device, '$fw', 'name') %></td>
-              <td><%= get_attribute_property_value(device, '$fw', 'version') %></td>
-              <td><%= get_attribute_property_value(device, '$implementation', 'ota.enabled') %></td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-
-    <div class="panel panel-info">
-      <div class="panel-heading ">
-        <h3 class="panel-title">Available Actions</h3>
-      </div>
-      <div class="panel-body">
-        <div class="col-md-12 alert alert-success" role="alert">
-          <p>
-            Only <em>Send Message</em> is enabled.<br/><em>Add Schedule</em> would want a device and firmware
-            selection/checked.<br/><em>Remove Checked</em> will unschedule device, or remove firmware and ignore any device selection.
-          </p>
+    <section>
+      <div class="panel panel-info">
+        <div class="panel-heading ">
+          <h2 class="panel-title">Scheduled Firmware Deployments</h2>
         </div>
+        <div class="table-responsive">
+          <table id="scheduled-table" class="table table-condensed table-hover table-striped no-wrap" cellspacing="0" width="100%">
+            <thead>
+              <th>Cancel</th>
+              <th>Scheduled</th>
+              <th>Device</th>
+              <th>Mac Addr</th>
+              <th>Firmware</th>
+              <th>Version</th>
+              <th>Status</th>
+            </thead>
+            <tbody>
 
-        <div class="col-md-4">
-            <ul class="nav nav-pills nav-stacked">
-              <li><a href="#" class="active primary" id="any-action"><i class="fa fa-send-o"></i> Send Message</a></li>
-              <li><a href="#" class="info" id="firmware-schedule-add"><i class="fa fa-calendar-check-o"></i> Add Schedule</a></li>
-              <li><a href="#" class="danger" id="manage-delete"><i class="fa fa-trash"></i> Delete Checked</a></li>
-            </ul>
+            <% scheduled.each do |entry| %>
+              <tr data-package="<%= entry.to_json %>">
+                <td><input type="checkbox" value="0"/></td>
+                <td><%= Date.today.iso8601 %></td>
+                <td><%= get_attribute_value(entry, '$name') %></td>
+                <td><%= get_attribute_value(entry, '$mac') %></td>
+                <td><%= get_attribute_property_value(entry, '$fw', 'name') %></td>
+                <td><%= get_attribute_property_value(entry, '$fw', 'version') %></td>
+                <td>Incomplete</td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
         </div>
+        <div class="well col-md-12">
+           <a href="#" class="btn btn-info" id="firmware-schedule-add"><i class="fa fa-calendar-check-o"></i> Add Checked to Schedule</a>
+           <a href="#" class="btn btn-danger" id="manage-delete"><i class="fa fa-trash"></i> Delete Checked from Schedule</a>
+        </div>
+      </div>
+    </section>
 
-        <div class="col-md-8">
+    <section>
+      <div class="panel panel-info">
+        <div class="panel-heading ">
+          <h2 class="panel-title">Firmware Inventory</h2>
+        </div>
+        <div class="table-responsive">
+          <table id="firmware-table" class="table table-condensed table-hover table-striped no-wrap" cellspacing="0" width="100%">
+            <thead>
+              <th>select</th>
+              <th>Filename</th>
+              <th>Firmware</th>
+              <th>Version</th>
+              <th>CheckSum</th>
+              <th>Size</th>
+              <th>Updated</th>
+            </thead>
+            <tbody>
+
+            <% catalog.each do |item| %>
+              <tr data-package="<%= item.to_json %>">
+                <td><input type="checkbox" value="0"/></td>
+                <td><%= item.filename %></td>
+                <td><%= item.name %></td>
+                <td><%= item.version %></td>
+                <td><%= item.checksum %></td>
+                <td><%= human_filesize(item.fsize) %></td>
+                <td><%= item.updated.strftime("%Y-%b-%d %H:%M") %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+        <div class="well col-md-12">
+          <div class="col-md-4">
+              <a href="#" class="btn btn-danger" id="manage-delete"><i class="fa fa-trash"></i> Delete checked Firmware!</a>
+          </div>
+
+          <div class="col-md-8">
             <div id="fine-uploader-manual-trigger"></div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="panel panel-default">
-      <div class="panel-heading ">
-        <h3 class="panel-title">Random Notes</h3>
+    <section>
+      <div class="panel panel-info">
+        <div class="panel-heading ">
+          <h2 class="panel-title">Homie Devices</h2>
+        </div>
+        <div class="table-responsive">
+          <table id="devices-table" class="table table-condensed table-hover table-striped no-wrap" cellspacing="0" width="100%">
+            <thead>
+              <th>select</th>
+              <th>MAC Addr</th>
+              <th>Online</th>
+              <th>IP Addr</th>
+              <th>Name</th>
+              <th>CheckSum</th>
+              <th>Firmware</th>
+              <th>Version</th>
+              <th>OTA.enabled</th>
+            </thead>
+            <tbody>
+
+            <% devices.each do |device| %>
+              <tr id="<%= device[:name] %>" data-package="<%= device.to_json %>">
+                <td><input type="checkbox" value="0"/></td>
+                <td><%= get_attribute_value(device, '$mac') %></td>
+                <td><%= get_online_value(device).to_s %></td>
+                <td><%= get_attribute_value(device, '$localip') %></td>
+                <td><%= get_attribute_value(device, '$name') %></td>
+                <td><%= get_attribute_property_value(device, '$fw', 'checksum') %></td>
+                <td><%= get_attribute_property_value(device, '$fw', 'name') %></td>
+                <td><%= get_attribute_property_value(device, '$fw', 'version') %></td>
+                <td><%= get_attribute_property_value(device, '$implementation', 'ota.enabled') %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+        <div class="well col-md-12">
+           <a href="#" class="btn btn-info" id="any-action"><i class="fa fa-send-o"></i> Send Message</a>
+        </div>
       </div>
-      <ul>
-        <li>/device/node/property/set</li>
-        <li>/device/attr/property/set</li>
-        <li>$implementation/reset: You can publish a true to this topic to reset the device.  Erases its config file and goes offline!</li>
-        <li>$implementation/config/set: You can update the configuration.json by sending incremental JSON on this topic.</li>
-        <li>$implementation/ota/firmware/&lt;md5 checksum&gt;: If the update request is accepted, you must send the firmware payload to this topic.</li>
-        <li>$implementation/ota/status: HTTP-like status code indicating the status of the OTA. Might be:</li>
-        <li>
-          <ul>
-            <li>200	OTA successfully flashed</li>
-            <li>202	OTA request / checksum accepted</li>
-            <li>206 465/349680	OTA in progress. The data after the status code corresponds to &lt;bytes written&gt;/&lt;bytes total&gt;</li>
-            <li>304	The current firmware is already up-to-date</li>
-            <li>400 BAD_FIRMWARE	OTA error from your side. The identifier might be BAD_FIRMWARE, BAD_CHECKSUM, NOT_ENOUGH_SPACE, NOT_REQUESTED</li>
-            <li>403	OTA not enabled</li>
-            <li>500 FLASH_ERROR	OTA error on the ESP8266. The identifier might be FLASH_ERROR</li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+    </section>
+
+    <section>
+      <div class="panel panel-default">
+        <div class="panel-heading ">
+          <h2 class="panel-title">Random Notes</h2>
+        </div>
+        <ul>
+          <li>/device/node/property/set</li>
+          <li>/device/attr/property/set</li>
+          <li>$implementation/reset: You can publish a true to this topic to reset the device.  Erases its config file and goes offline!</li>
+          <li>$implementation/config/set: You can update the configuration.json by sending incremental JSON on this topic.</li>
+          <li>$implementation/ota/firmware/&lt;md5 checksum&gt;: If the update request is accepted, you must send the firmware payload to this topic.</li>
+          <li>$implementation/ota/status: HTTP-like status code indicating the status of the OTA. Might be:</li>
+          <li>
+            <ul>
+              <li>200	OTA successfully flashed</li>
+              <li>202	OTA request / checksum accepted</li>
+              <li>206 465/349680	OTA in progress. The data after the status code corresponds to &lt;bytes written&gt;/&lt;bytes total&gt;</li>
+              <li>304	The current firmware is already up-to-date</li>
+              <li>400 BAD_FIRMWARE	OTA error from your side. The identifier might be BAD_FIRMWARE, BAD_CHECKSUM, NOT_ENOUGH_SPACE, NOT_REQUESTED</li>
+              <li>403	OTA not enabled</li>
+              <li>500 FLASH_ERROR	OTA error on the ESP8266. The identifier might be FLASH_ERROR</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
 
   <% else %>
 

@@ -4,7 +4,7 @@
 <% content_for(:title, "#{resources.payload.package.first.value unless resources.payload.package.empty?} Details") %>
 
 <article>
-  <h2 class="page-header"><a href="/profiles/devices"><i class="fa fa-chevron-circle-left fa-1x" aria-hidden="true"></i></a> Homie Details</h2>
+  <h1 class="page-header"><a href="/profiles/devices"><i class="fa fa-chevron-circle-left fa-1x" aria-hidden="true"></i></a> Homie Details</h1>
 
   <% if resources.success and !resources.payload.package.empty? %>
     <% package =  resources.payload.package %>
