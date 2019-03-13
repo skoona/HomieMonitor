@@ -14,6 +14,15 @@ The plan is to use JRuby and build an executable, and self-contained, Java Jar t
 
 Ruby's Standard Library offers YAML::Store as a key/value datasource, based on readable yaml files, this appears to be a good fit as most data is dynamically discovered.  Also, with a few gemfile tweaks you could use MRI/Ruby vs JRuby; only the Javascript engine needs to be changed.
 
+
+<img src="public/images/homepage.png" width="23%" />
+<img src="public/images/devices.png" width="23%"></img> 
+<img src="public/images/details.png" width="23%"></img> 
+<img src="public/images/details-blink.png" width="23%"></img> 
+<img src="public/images/manage.png" width="23%"></img> 
+<img src="public/images/iphone-broadcasts.png" width="23%"></img> 
+<img src="public/images/iphone-discovered.png" width="23%"></img>
+ 
 ## Planned Features
 #### Primary
 * Monitor Homie V2, and V3 Devices (Initial Focus on `ESP8266`)
@@ -54,89 +63,87 @@ However, if MQTT `host` has not been configured, `demo_mode` will default to tru
 <details><summary>Application File Tree</summary>
 <p>
 
-```text
-[HomieMonitor]
-    .
-    ├── config.ru               - Rack Initializer
-    ├── Gemfile                 - Gem Requirements
-    ├── assets
-    │   ├── stylesheets/        - Sass based CSS
-    │   └── javascript/         - JQuery, BootStrap, and general Javascript
-    ├── bin
-    │   ├── console             - Command line console [app|web] defaults web
-    │   └── setup               - One-time installer script
-    ├── config
-    │   ├── initializers/       - SknApp, SknSettings, and Logging are initialized here
-    │   │   ├── 00-init_skn_configurable.rb
-    │   │   ├── 01-init_skn_configuraiton.rb
-    │   │   ├── 02-init_logging.rb
-    │   │   └── 04-init_mqtt_modules.rb
-    │   ├── settings/           - SknSettings Environment-biased Application Settings
-    │   │   ├── development.local.yml  -- you need to create this non-git file and set local passwords, etc.
-    │   │   ├── development.yml
-    │   │   ├── production.yml
-    │   │   └── test.yml    
-    │   ├── puma.rb             - Puma local webserver
-    │   ├── settings.yml        - Default Application Settings
-    │   ├── version.rb          - Application Version Object
-    │   ├── environment.rb      - Loads Gems and Initializers Only
-    │   ├── boot_web.rb         - Load Main and Web Application components
-    │   └── boot.rb             - Load Main Application Only
-    ├── content/                 
-    │   ├── firmwares/          - Firmware Storage
-    │   └── spiffs/             - SPIFFS Storage
-    ├── db                      - Default storage location for YAML::Store
-    ├── i18n/                   - Message Translation files
-    ├── main                    - Business UseCases and Integrations
-    │   ├── homie/              - Homie V3 modules
-    │   │   ├── commands
-    │   │   │   ├── queue_event.rb
-    │   │   │   └── commands.rb
-    │   │   ├── component
-    │   │   │   ├── attribute.rb
-    │   │   │   ├── component.rb
-    │   │   │   ├── device.rb
-    │   │   │   ├── events.rb
-    │   │   │   ├── firmware.rb
-    │   │   │   ├── node.rb
-    │   │   │   └── property.rb
-    │   │   ├── handlers
-    │   │   │   ├── action.rb
-    │   │   │   ├── handlers.rb
-    │   │   │   ├── stream.rb      - MQTT Handlers using Paho-Ruby
-    │   │   │   └── mock_stream.rb - Populates Queues from test data
-    │   │   ├── homie.rb
-    │   │   └── manager.rb
-    │   ├── services/           - API services and ServicesRegistry
-    │   │   ├── commands/       - Handler commands for API content requests
-    │   │   ├── handlers/       - IO Handler
-    │   │   │   ├── ...
-    │   │   │   └── stream.rb   - Homie Device View Data handler
-    │   │   ├── providers/      - Business Requests
-    │   │   ├── services_registry.rb  - Web Interface to Primary Application
-    │   │   └── services.rb     - Require management and Service registrations
-    │   ├── utils/              - Application Utilities
-    │   └── main.rb             - LoadPath Management
-    ├── public
-    │   ├── images/             - View Images
-    │   └── fonts/              - View Fonts
-    ├── rakelib/                - Rake Tasks
-    ├── spec/                   - RSpec Tests
-    └── web                     - Primary Web Integration
-        ├── helpers/            - View HTML Helpers/Wrappers
-        ├── routes
-        │   ├── profiles.rb     - Profile Routes
-        │   └── homie.rb        - Firmware Routes
-        └── views
-            ├── layouts/        - Site Layout
-            ├── profiles/       - Profile Pages
-            │   ├── devices.html.erb  - Discovered Devices Page
-            │   ├── details.html.erb  - Device In-Depth Homie Details
-            │   └── manage.html.erb   - Homie Device Management Page
-            ├── ...                   - Root Pages
-            └── homepage.html.erb     - Homie Broadcasts Page
+    [HomieMonitor]
+        .
+        ├── config.ru               - Rack Initializer
+        ├── Gemfile                 - Gem Requirements
+        ├── assets
+        │   ├── stylesheets/        - Sass based CSS
+        │   └── javascript/         - JQuery, BootStrap, and general Javascript
+        ├── bin
+        │   ├── console             - Command line console [app|web] defaults web
+        │   └── setup               - One-time installer script
+        ├── config
+        │   ├── initializers/       - SknApp, SknSettings, and Logging are initialized here
+        │   │   ├── 00-init_skn_configurable.rb
+        │   │   ├── 01-init_skn_configuraiton.rb
+        │   │   ├── 02-init_logging.rb
+        │   │   └── 04-init_mqtt_modules.rb
+        │   ├── settings/           - SknSettings Environment-biased Application Settings
+        │   │   ├── development.local.yml  -- you need to create this non-git file and set local passwords, etc.
+        │   │   ├── development.yml
+        │   │   ├── production.yml
+        │   │   └── test.yml    
+        │   ├── puma.rb             - Puma local webserver
+        │   ├── settings.yml        - Default Application Settings
+        │   ├── version.rb          - Application Version Object
+        │   ├── environment.rb      - Loads Gems and Initializers Only
+        │   ├── boot_web.rb         - Load Main and Web Application components
+        │   └── boot.rb             - Load Main Application Only
+        ├── content/                 
+        │   ├── firmwares/          - Firmware Storage
+        │   └── spiffs/             - SPIFFS Storage
+        ├── db                      - Default storage location for YAML::Store
+        ├── i18n/                   - Message Translation files
+        ├── main                    - Business UseCases and Integrations
+        │   ├── homie/              - Homie V3 modules
+        │   │   ├── commands
+        │   │   │   ├── queue_event.rb
+        │   │   │   └── commands.rb
+        │   │   ├── component
+        │   │   │   ├── attribute.rb
+        │   │   │   ├── component.rb
+        │   │   │   ├── device.rb
+        │   │   │   ├── events.rb
+        │   │   │   ├── firmware.rb
+        │   │   │   ├── node.rb
+        │   │   │   └── property.rb
+        │   │   ├── handlers
+        │   │   │   ├── action.rb
+        │   │   │   ├── handlers.rb
+        │   │   │   ├── stream.rb      - MQTT Handlers using Paho-Ruby
+        │   │   │   └── mock_stream.rb - Populates Queues from test data
+        │   │   ├── homie.rb
+        │   │   └── manager.rb
+        │   ├── services/           - API services and ServicesRegistry
+        │   │   ├── commands/       - Handler commands for API content requests
+        │   │   ├── handlers/       - IO Handler
+        │   │   │   ├── ...
+        │   │   │   └── stream.rb   - Homie Device View Data handler
+        │   │   ├── providers/      - Business Requests
+        │   │   ├── services_registry.rb  - Web Interface to Primary Application
+        │   │   └── services.rb     - Require management and Service registrations
+        │   ├── utils/              - Application Utilities
+        │   └── main.rb             - LoadPath Management
+        ├── public
+        │   ├── images/             - View Images
+        │   └── fonts/              - View Fonts
+        ├── rakelib/                - Rake Tasks
+        ├── spec/                   - RSpec Tests
+        └── web                     - Primary Web Integration
+            ├── helpers/            - View HTML Helpers/Wrappers
+            ├── routes
+            │   ├── profiles.rb     - Profile Routes
+            │   └── homie.rb        - Firmware Routes
+            └── views
+                ├── layouts/        - Site Layout
+                ├── profiles/       - Profile Pages
+                │   ├── devices.html.erb  - Discovered Devices Page
+                │   ├── details.html.erb  - Device In-Depth Homie Details
+                │   └── manage.html.erb   - Homie Device Management Page
+                ├── ...                   - Root Pages
+                └── homepage.html.erb     - Homie Broadcasts Page
 
-```
 
 </p>
 </details>
