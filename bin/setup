@@ -34,7 +34,8 @@ chdir APP_ROOT do
     "./content/firmwares",
     "./content/spiffs",
     "./log",
-    "./coverage"
+    "./coverage",
+    "./target"
   ], verbose: true)
 
   puts "\n== Running RSpec Tests =="
