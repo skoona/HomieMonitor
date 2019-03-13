@@ -101,7 +101,6 @@
         <div class="table-responsive">
           <table id="devices-table" class="table table-condensed table-hover table-striped no-wrap" cellspacing="0" width="100%">
             <thead>
-              <th>select</th>
               <th>MAC Addr</th>
               <th>Online</th>
               <th>IP Addr</th>
@@ -115,7 +114,6 @@
 
             <% devices.each do |device| %>
               <tr id="<%= device[:name] %>" data-package="<%= device.to_json %>">
-                <td><input type="checkbox" value="0"/></td>
                 <td><%= get_attribute_value(device, '$mac') %></td>
                 <td><%= get_online_value(device).to_s %></td>
                 <td><%= get_attribute_value(device, '$localip') %></td>
@@ -130,7 +128,41 @@
           </table>
         </div>
         <div class="well col-md-12">
-          <a href="#" class="btn btn-info" id="firmware-schedule-add"><i class="fa fa-calendar-check-o"></i> Schedule Firmware Update</a>
+
+          <form class="form-horizontal" role="form">
+            <div class="form-group">
+              <div class="col-sm-4">
+                <select class="form-control" id="device-select">
+                  <option class="active" value="">Select Device</option>
+                  <% devices.each do |device| %>
+                    <option value="<%= get_attribute_value(device, '$mac') %>">
+                      [<%= get_attribute_value(device, '$mac') %>] ~> <%= get_attribute_value(device, '$name') %>
+                    </option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-4">
+                <select class="form-control" id="firmware-select">
+                  <option class="active" value="">Select Firmware</option>
+                  <% catalog.each do |item| %>
+                    <option value="<%= item.checksum %>">
+                      [<%= item.version %>] ~> <%= item.filename %>
+                    </option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-4">
+                <button type="submit" class="btn btn-block btn-info" id="firmware-schedule-add">
+                  <i class="fa fa-calendar-check-o"></i> Schedule Firmware Update
+                </button>
+              </div>
+            </div>
+          </form>
+
         </div>
       </div>
     </section>
