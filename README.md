@@ -15,13 +15,7 @@ The plan is to use JRuby and build an executable, and self-contained, Java Jar t
 Ruby's Standard Library offers YAML::Store as a key/value datasource, based on readable yaml files, this appears to be a good fit as most data is dynamically discovered.  Also, with a few gemfile tweaks you could use MRI/Ruby vs JRuby; only the Javascript engine needs to be changed.
 
 
-<img src="public/images/homepage.png" width="23%" />
-<img src="public/images/devices.png" width="23%"></img> 
-<img src="public/images/details.png" width="23%"></img> 
-<img src="public/images/details-blink.png" width="23%"></img> 
-<img src="public/images/manage.png" width="23%"></img> 
-<img src="public/images/iphone-broadcasts.png" width="23%"></img> 
-<img src="public/images/iphone-discovered.png" width="23%"></img>
+<img src="public/images/homepage.png" width="23%"></img> <img src="public/images/devices.png" width="23%"></img> <img src="public/images/details.png" width="23%"></img> <img src="public/images/details-blink.png" width="23%"></img> <img src="public/images/manage.png" width="23%"></img> <img src="public/images/iphone-broadcasts.png" width="23%"></img> <img src="public/images/iphone-discovered.png" width="23%"></img>
  
 ## Planned Features
 #### Primary
