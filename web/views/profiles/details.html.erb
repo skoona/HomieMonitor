@@ -20,10 +20,10 @@
       <div class="table-responsive">
         <table id="device-table" class="table table-condensed table-hover table-striped  no-wrap" cellspacing="0" width="100%">
           <thead>
-            <th class="col-md-2">Attribute</th>
-            <th class="col-md-2">Property</th>
+            <th class="col-md-1">Attribute</th>
+            <th class="col-md-1">Property</th>
+            <th class="col-md-1">Settable</th>
             <th class="col-md-6">Value</th>
-            <th class="col-md-2">Settable</th>
           </thead>
 
           <tbody  data-device="<%= device.to_json %>">
@@ -31,13 +31,12 @@
             <% device.attributes.each do |attr| %>
               <tr>
                 <td class="text-left" colspan="2"><strong><%= attr.name %></strong></td>
-                <td><%= attr.value %></td>
                 <td></td>
+                <td><%= attr.value %></td>
               </tr>
               <% attr.properties.each do |props| %>
                 <tr>
                   <td class="text-right" colspan="2"><%= props.name %></td>
-                  <td class="config" ><%= props.value %></td>
                   <% if 'config'.eql?(props.name) %>
                     <% topic = "#{device.base}/#{device.name}/#{attr.name}/#{props.name}/set" %>
                     <td class="action" data-topic="<%= topic %>">
@@ -46,6 +45,7 @@
                   <% else %>
                     <td><%= props.settable %></td>
                   <% end %>
+                  <td class="config" ><%= props.value %></td>
                 </tr>
               <% end %>
             <% end %>
@@ -59,8 +59,8 @@
 
               <tr>
                 <td class="text-right" colspan="2"><%= ndx.name %></td>
-                <td><%= ndx.value %></td>
                 <td></td>
+                <td><%= ndx.value %></td>
               </tr>
               <!--
                 V2 Fixup
@@ -69,7 +69,6 @@
                 <% parts = attr.value&.split(":") %>
                 <tr>
                   <td class="text-right" colspan="2"><%= attr.name %></td>
-                  <td><%= attr.value %></td>
                   <% if parts.size == 2 and "settable".eql?(parts[1]) %>
                     <% topic = "#{device.base}/#{device.name}/#{ndx.name}/#{parts[0]}/set" %>
                     <td class="action" data-topic="<%= topic %>">
@@ -78,13 +77,13 @@
                   <% else %>
                     <td></td>
                   <% end %>
+                  <td><%= attr.value %></td>
                 </tr>
               <% end %>
 
               <% ndx.properties.each do |props| %>
                 <tr>
                   <td class="text-left" colspan="2"><strong><%= props.name %></strong></td>
-                  <td><%= props.value %></td>
                   <% if props.settable %>
                     <% topic = "#{device.base}/#{device.name}/#{ndx.name}/#{props.name}/set" %>
                     <td class="action" data-topic="<%= topic %>">
@@ -93,12 +92,13 @@
                   <% else %>
                     <td><span class="label label-default"><%= props.settable.to_s %></span></td>
                    <% end %>
+                  <td><%= props.value %></td>
                 </tr>
                 <% props.attributes.each do |attr| %>
                   <tr>
                     <td class="text-right" colspan="2"><%= attr.name %></td>
-                    <td><%= attr.value %></td>
                     <td></td>
+                    <td><%= attr.value %></td>
                   </tr>
                 <% end %>
              <% end %>

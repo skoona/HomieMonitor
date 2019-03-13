@@ -17,24 +17,24 @@ skn_base:
 content_service:
   demo_mode: false
   description: Homie Monitor
-  firmware_path: ./content/firmwares/
-  spiffs_path: ./content/spiffs/
+  firmware_path: ENV.fetch('HM_FIRMWARE_PATH', "./content/firmwares/") %>
+  spiffs_path: ENV.fetch('HM_SPIFFS_PATH', "./content/spiffs/") %>
 
 # ##
 # Override (restate) by development, stage, production, etc
 mqtt:
-  host: ENV.fetch('HM_MQTT_HOST', "some.fqdn.com")
-  port: ENV.fetch('HM_MQTT_PORT', 1883)
-  username: ENV.fetch('HM_MQTT_USER', "userid")
-  password: ENV.fetch('HM_MQTT_PASS', "password")
-  env_base_topics: ENV['HM_BASE_TOPICS']
+  host: <%= ENV.fetch('HM_MQTT_HOST', "some.fqdn.com") %>
+  port: <%= ENV.fetch('HM_MQTT_PORT', 1883) %>
+  username: <%= ENV.fetch('HM_MQTT_USER', "userid") %>
+  password: <%= ENV.fetch('HM_MQTT_PASS', "password") %>
+  env_base_topics: <%= ENV['HM_BASE_TOPICS'] %>
   # [["sknSensors/#", 1], ["homie/#", 1]]
   :base_topics:
     - - sknSensors/#
       - 1
     - - homie/#
       - 1
-  debug_log_file: ENV.fetch('HM_MQTT_LOG', '/tmp/homieMonitor/paho-debug.log')
+  debug_log_file: <%= ENV.fetch('HM_MQTT_LOG', '/tmp/homieMonitor/paho-debug.log') %>
 
 
 ##

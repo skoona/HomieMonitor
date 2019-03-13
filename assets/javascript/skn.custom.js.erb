@@ -137,7 +137,7 @@ $(function() {
         // Attributes and Proerties
         $('td > button').click(function (ev) {
             var keys = $(ev.target).closest('td').data('topic'),
-                value = $(ev.target).closest('td').prev().text();
+                value = $(ev.target).closest('td').next().text();
 
             ev.stopImmediatePropagation();
 

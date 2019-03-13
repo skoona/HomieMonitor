@@ -16,7 +16,7 @@ module Homie
       setting(:client_id, SecureRandom.hex(4), reader: true)
       setting(:username, SknSetting.mqtt.username, reader: true)
       setting(:password, SknSetting.mqtt.password,  reader: true)
-      setting(:base_topics, SknSetting.mqtt.base_topics, reader: true )
+      setting(:base_topics, (SknSettings.mqtt.env_base_topics.is_a?(Array) ? SknSettings.mqtt.env_base_topics : SknSetting.mqtt.base_topics), reader: true )
       setting(:debug_log_file, SknSetting.mqtt.debug_log_file, reader: true)
     end
   end
