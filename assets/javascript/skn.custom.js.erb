@@ -227,6 +227,8 @@ $(function() {
             var dataPkg = $(ev.target).closest('tr').data('package');
             var row = $(ev.target).closest('tr');
 
+            ev.stopImmediatePropagation();
+
             // https://sweetalert.js.org/docs/#button
             swal({
                 title: "Are you sure?",
@@ -246,6 +248,8 @@ $(function() {
             var firmware = $(ev.target).closest('tr').data('package');
             var row = $(ev.target).closest('tr');
 
+            ev.stopImmediatePropagation();
+
             // https://sweetalert.js.org/docs/#button
             swal({
                 title: "Are you sure?",
@@ -261,14 +265,19 @@ $(function() {
             });
         });
 
+
         $('#firmware-schedule-add').click(function(ev) {
             var dataPkg  = {},
                 device   = $('#device-select').find(":selected").attr('value'),
                 firmware = $('#firmware-select').find(":selected").attr('value');
 
+            ev.stopImmediatePropagation();
+
+            Skn.postHomie("/homie/subscribe", {device: device, checksum: firmware});
             console.log("Device: %s, File: %s", device, firmware);
 
         });
+
 
         var manualUploader = new qq.FineUploader({
             element: document.getElementById('fine-uploader-manual-trigger'),

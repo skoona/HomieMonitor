@@ -51,7 +51,7 @@ module Services
     end
 
     def schedule_entry_delete(payload)
-      SknApp.registry.resolve("firmware_provider").call(
+      SknApp.registry.resolve("content_action_provider").call(
           Commands::ScheduleDelete.new( payload ))
     end
 

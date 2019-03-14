@@ -28,6 +28,7 @@ SknApp.registry
     .register("send_file_handler",    ->(command)    { Services::Handlers::SendFile.call(command) }, call: false)
     .register("receive_file_handler", ->(fname, fsize, tfile) { Services::Handlers::ReceiveFile.call(fname, fsize, tfile) }, call: false)
     .register("delete_file_handler",  ->(fname) { Services::Handlers::DeleteFile.call(fname) }, call: false)
+    .register("add_schedule_handler",  ->(device_name, checksum) { Services::Handlers::AddSchedule.call(device_name, checksum) }, call: false)
     .register("delete_schedule_handler",  ->(device_name) { Services::Handlers::DeleteSchedule.call(device_name) }, call: false)
     .register("stream_handler",       ->(type, device_name)   { Services::Handlers::Stream.call(type,device_name) }, call: false)
 

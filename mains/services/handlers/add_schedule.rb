@@ -1,29 +1,28 @@
 # ##
 #
-# Handle Delete Firmware
-# Services::Handlers::DeleteFile
+# Handle Adding a subscription
+# Services::Handlers::AddSchedule
 #
 #
-
 
 module Services
   module Handlers
 
-    class DeleteSchedule
-      def self.call(fname)
-        self.new.call(fname)
+    class AddSchedule
+      def self.call(device_name, checksum)
+        self.new.call(device_name, checksum)
       end
 
       def initialize()
       end
 
-      def call(device_name)
+      def call(device_name, checksum)
 
         msg = "#{self.class.name}##{__method__} Processed(#{device_name})"
         SknApp.logger.debug msg
         SknSuccess.call({success: true,
                          error: "",
-                         payload: {name: device_name}
+                         payload: {name: device_name, checksum: checksum}
                         })
         
       rescue => ex
@@ -35,10 +34,6 @@ module Services
                         },
                         msg
         )
-      end
-
-      def delete_schedule(device_name)
-          device_name.nil? ? false : true
       end
 
     end # end class

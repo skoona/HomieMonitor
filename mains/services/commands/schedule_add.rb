@@ -14,8 +14,8 @@ module Services
       attr_reader :device_name, :checksum
 
       def initialize(request_params={})
-        @device_name  = request_params["name"]
-        @checksum  = request_params["name"]
+        @device_name  = request_params["device"]
+        @checksum  = request_params["checksum"]
 
         SknApp.logger.debug "#{self.class.name}.#{__method__} For device: #{@device_name}"
       end

@@ -18,14 +18,28 @@ module Services
       end
 
       def initialize
-        @_do_request   = SknApp.registry.resolve("stream_handler")
+        @_message_handler  = SknApp.registry.resolve("stream_handler")
+        @_schedule_add_handler = SknApp.registry.resolve("add_schedule_handler")
+        @_schedule_delete_handler = SknApp.registry.resolve("delete_schedule_handler")
         @_start_time   = SknUtils.duration
         @description   = SknSettings.content_service.description
       end
 
       # Services::Commands::MessageTransport
       def call(cmd)
-        resp = cmd.valid? ? process(cmd) : SknSuccess.call( {success: false, status: 404, message: "Add to send_queue failed!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Unknown Request type" )
+        resp = if cmd.valid?
+                 case cmd.class.name.split('::').last
+                 when  "MessageTransport"
+                   @_message_handler.call(cmd.action, Homie::Commands::QueueEvent.new(cmd))
+                 when "ScheduleDelete"
+                   @_schedule_delete_handler.call(cmd.device_name)
+                 when "ScheduleAdd"
+                   @_schedule_add_handler.call(cmd.device_name, cmd.checksum)
+                 else
+                   SknSuccess.call( {success: false, status: 404, message: "Cannot Process Now!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Unknown Request type" )
+                 end
+               end
+
         duration = SknUtils.duration(@_start_time)
         SknApp.logger.info "#{self.class.name}##{__method__} Command: #{cmd.class.name.split('::').last}, Returned: #{resp.class.name.split('::').last}, Duration: #{duration}"
         resp

@@ -124,10 +124,10 @@
 
         <div class="well col-md-4 ">
           <h4>Schedule OTA Updates</h4>
-          <form id="schedule-ota" class="form-horizontal"  role="form" action="/homie/subscribe" method="POST">
+          <div id="schedule-ota" class="form-horizontal"  role="form" action="/homie/subscribe" method="POST">
             <div class="form-group">
               <div class="col-sm-12">
-                <select class="form-control" id="device-select">
+                <select class="form-control" id="device-select" name="device">
                   <option class="active" value="">Select Device</option>
                   <% devices.each do |device| %>
                     <option value="<%= get_attribute_value(device, '$mac') %>">
@@ -139,7 +139,7 @@
             </div>
             <div class="form-group">
               <div class="col-sm-12">
-                <select class="form-control" id="firmware-select">
+                <select class="form-control" id="firmware-select" name="checksum">
                   <option class="active" value="">Select Firmware</option>
                   <% catalog.each do |item| %>
                     <option value="<%= item.checksum %>">
@@ -156,7 +156,7 @@
                 </button>
               </div>
             </div>
-          </form>
+          </div>
         </div>
 
         <div class="well col-md-8">

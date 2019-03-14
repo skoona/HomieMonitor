@@ -13,5 +13,6 @@ require_relative 'receive_file'
 require_relative 'send_file'
 require_relative 'delete_file'
 require_relative 'delete_schedule'
+require_relative 'add_schedule'
 
 
