@@ -39,7 +39,13 @@ module Services
 
         msg = "#{self.class.name}##{__method__} Processed(#{fpath}): bytesWritten=#{written} vs bytesDownloaded=#{fsize}"
         SknApp.logger.debug msg
-        SknSuccess.call({success: true, error: "", payload: fname, reset: false}, msg )
+        SknSuccess.call({success: true,
+                         error: "",
+                         payload: Homie::Component::Firmware.new(fpath).to_hash,
+                         reset: false
+                        },
+                        msg
+        )
         
       rescue => ex
         msg = "#{self.class.name}##{__method__} Failure: klass=#{ex.class.name}, cause=#{ex.message}, Backtrace=#{ex.backtrace[0..8]}"

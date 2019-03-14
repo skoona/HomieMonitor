@@ -13,5 +13,13 @@ class SknWeb
       wrap_json_response(registry_service.firmware_receive(request.params))
     end
 
+    r.post "delete_firmware" do
+      wrap_json_response(registry_service.firmware_delete(request.params))
+    end
+
+    r.post "delete_schedule_entry" do
+      wrap_json_response(registry_service.schedule_entry_delete(request.params))
+    end
+
   end
 end

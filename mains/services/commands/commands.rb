@@ -14,4 +14,6 @@ require_relative 'homie_management'
 require_relative 'message_transport'
 require_relative 'receive_file'
 require_relative 'send_file'
+require_relative 'firmware_delete'
+require_relative 'schedule_delete'
 

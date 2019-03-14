@@ -42,7 +42,7 @@ function consoleLog(message) {
         this.relativeUrlPath = '';
     }
 
-};
+}
 
 SknUtil.prototype = {
     get csrf() {
@@ -86,7 +86,7 @@ SknUtil.prototype = {
     go: function(path) {
         window.location = this.genURL(path);
     },
-    postDetails: function(url, dataPackage) {
+    postHomie: function(url, dataPackage) {
         $.ajax({
             headers: {'X-CSRF-Token': Skn.csrf, 'X-XSRF-Token': Skn.csrfToken},
             type: 'POST',
@@ -94,15 +94,53 @@ SknUtil.prototype = {
             contentType: 'application/json',
             dataType: "json",
             accepts: 'json',
-            data: JSON.stringify(dataPackage), // access in body
+            data: JSON.stringify(dataPackage) // access in body
         }).done(function (data, textStatus, jqXHR) {
             var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
             consoleLog(msg);
-            alert(msg);
+            swal({title: "Did something good!", text: msg, icon: "warning"});
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var msg = "Failure: " + textStatus + ', thrown=' + errorThrown + ', RequestPkg=' + JSON.stringify(dataPackage);
             consoleLog(msg);
-            alert(msg);
+            swal({title: "Something failed!", text: msg, icon: "error"});
+        });
+    },
+    putHomie: function(url, dataPackage) {
+        $.ajax({
+            headers: {'X-CSRF-Token': Skn.csrf, 'X-XSRF-Token': Skn.csrfToken},
+            type: 'PUT',
+            url: url,
+            contentType: 'application/json',
+            dataType: "json",
+            accepts: 'json',
+            data: JSON.stringify(dataPackage) // access in body
+        }).done(function (data, textStatus, jqXHR) {
+            var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
+            consoleLog(msg);
+            swal({title: "Did something good!", text: msg, icon: "warning"});
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            var msg = "Failure: " + textStatus + ', thrown=' + errorThrown + ', RequestPkg=' + JSON.stringify(dataPackage);
+            consoleLog(msg);
+            swal({title: "Something failed!", text: msg, icon: "error"});
+        });
+    },
+    deleteHomie: function(url, dataPackage) {
+        $.ajax({
+            headers: {'X-CSRF-Token': Skn.csrf, 'X-XSRF-Token': Skn.csrfToken},
+            type: 'DELETE',
+            url: url,
+            contentType: 'application/json',
+            dataType: "json",
+            accepts: 'json',
+            data: JSON.stringify(dataPackage) // access in body
+        }).done(function (data, textStatus, jqXHR) {
+            var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
+            consoleLog(msg);
+            swal({title: "Did something good!", text: msg, icon: "warning"});
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            var msg = "Failure: " + textStatus + ', thrown=' + errorThrown + ', RequestPkg=' + JSON.stringify(dataPackage);
+            consoleLog(msg);
+            swal({title: "Something failed!", text: msg, icon: "error"});
         });
     }
 };
@@ -160,6 +198,42 @@ $(function() {
             $("#mqttActionModal").modal({backdrop: "static"});
         });
 
+//        <tr data-package="{&quot;filename&quot;:&quot;sknSensors-IRService.ino.nodemcu.bin&quot;,&quot;name&quot;:&quot;sknSensors-IRService&quot;,&quot;checksum&quot;:&quot;e3c7afff47e09b74c0f1b23b044804de&quot;,&quot;version&quot;:&quot;0.1.1&quot;,&quot;brand&quot;:&quot;sknSensors&quot;,&quot;path&quot;:&quot;sknSensors-IRService.ino.nodemcu.bin&quot;,&quot;homie&quot;:true,&quot;fsize&quot;:472320,&quot;created&quot;:&quot;2019-Mar-13 19:21&quot;,&quot;updated&quot;:&quot;2019-03-13 19:21:20 -0400&quot;}">
+        $('#scheduled-table > tbody > tr > td > a').click(function (ev) {
+            var dataPkg = $(ev.target).closest('tr').data('package');
+            consoleLog(JSON.stringify(dataPkg));
+            // https://sweetalert.js.org/docs/#button
+            swal({
+                title: "Are you sure?",
+                text: "Your Scheduled Entry for: " + dataPkg.name + " will be deleted permanently!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((willDelete) => {
+                if (willDelete) {
+                    Skn.postHomie("/homie/delete_schedule_entry", {name: dataPkg.name});
+                }
+            });
+        });
+
+        $('#firmware-table > tbody > tr > td > a').click(function (ev) {
+            var firmware = $(ev.target).closest('tr').data('package');
+            consoleLog(firmware);
+            consoleLog(JSON.stringify(firmware));
+            // https://sweetalert.js.org/docs/#button
+            swal({
+                title: "Are you sure?",
+                text: "Your firmware file: " + firmware.name + " will be deleted permanently!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((willDelete) => {
+                if (willDelete) {
+                    Skn.postHomie("/homie/delete_firmware", {name: firmware.filename});
+                }
+            });
+        });
+
         var manualUploader = new qq.FineUploader({
             element: document.getElementById('fine-uploader-manual-trigger'),
             template: 'qq-template-manual-trigger',
@@ -177,7 +251,30 @@ $(function() {
                 }
             },
             autoUpload: false,
-            debug: true
+            debug: true,
+            callbacks: {
+                onComplete: function(id, name, responseJSON, xhr) {
+                    var tbl = $("#firmware-table > tbody:last-child");
+                    var row = '<tr>';
+                    var firmware = responseJSON.payload;
+
+                    if (responseJSON.success) {
+                        row = '<tr data-package="' + firmware + '">' +
+                            '<td class="text-center" data-toggle="tooltip" ' +
+                              'data-placement="top" title="Remove from Filesystem!">' +
+                              '<a href="#"><i class="fa fa-trash fa-1x"></i></a></td>' +
+                            '<td>' + firmware.filename + '</td>' +
+                            '<td>' + firmware.name + '</td>' +
+                            '<td>' + firmware.version + '</td>' +
+                            '<td>' + firmware.checksum + '</td>' +
+                            '<td>' + firmware.fsize + '</td>' +
+                            '<td>' + firmware.created + '</td></tr>';
+
+                        tbl.append($(row));
+                    }
+                    return;
+                }
+            }
         });
 
         qq(document.getElementById("trigger-upload")).attach("click", function() {
@@ -212,7 +309,7 @@ $(function() {
             retain: retained
         }
 
-        Skn.postDetails( Skn.currentPage, dataPackage);
+        Skn.postHomie( Skn.currentPage, dataPackage);
     });
 
     /* **
