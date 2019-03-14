@@ -20,6 +20,8 @@ module Services
       def initialize
         @_send_handler = SknApp.registry.resolve("send_file_handler")
         @_recv_handler = SknApp.registry.resolve("receive_file_handler")
+        @_delete_handler = SknApp.registry.resolve("delete_file_handler")
+        @_schedule_handler = SknApp.registry.resolve("delete_schedule_handler")
         @_start_time   = SknUtils.duration
         @description   = SknSettings.content_service.description
       end
@@ -32,6 +34,10 @@ module Services
                   @_recv_handler.call(cmd.filename, cmd.filesize, cmd.tempfile)
                 when "SendFile"
                   @_send_handler.call(cmd)
+                when "FirmwareDelete"
+                  @_delete_handler.call(cmd.filename)
+                when "ScheduledDelete"
+                  @_schedule_handler.call(cmd.filename)
                 else
                   SknSuccess.call( {success: false, status: 404, message: "Cannot Process Now!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Unknown Request type" )
                 end
@@ -46,7 +52,6 @@ module Services
         SknApp.logger.warn(msg)
         SknFailure.call({success: false, status: 404, message: "#{self.class.name} rescued -> #{e.class.name}"},"#{self.class.name} -> [#{e.class.name}] #{e.message}, Duration: #{duration}")
       end
-
 
     end # end class
   end

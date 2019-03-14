@@ -50,17 +50,16 @@ module Homie
 
       def to_hash
         {
-            name: name,
             filename: filename,
+            name: name,
             checksum: checksum,
             version: version,
             brand: brand,
             path: path.basename.to_s,
             homie: homie?,
             fsize: path.size,
-            created: path.ctime,
+            created: path.ctime.strftime("%Y-%b-%d %H:%M"),
             updated: path.mtime
-
         }
       end
 

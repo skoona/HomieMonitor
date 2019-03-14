@@ -7,6 +7,12 @@ require 'roda/session_middleware'
 
 class SknWeb < Roda
 
+  plugin :json_parser
+  plugin :all_verbs
+  plugin :halt
+  plugin :json
+  plugin :head
+
   opts[:root] = SknApp.root
   opts[:env]  = SknApp.env
 
@@ -32,7 +38,6 @@ class SknWeb < Roda
   use Rack::ShowExceptions
   use Rack::NestedParams
 
-  plugin :all_verbs
   unless opts[:env].test?
     plugin :route_csrf, { raise: true,
                     csrf_failure: :clear_session,
@@ -74,19 +79,15 @@ class SknWeb < Roda
 
   compile_assets if opts[:env].production?
 
-
   plugin :view_options
   plugin :symbol_views
   plugin :symbol_status
   plugin :content_for
   plugin :forme
   plugin :tag_helpers        # includes :tag plugin, for HTML generation: https://github.com/kematzy/roda-tags/
-  plugin :json
   plugin :i18n, :locale => ['en']   # i18n.fallbacks = [I18n.default_locale]
   plugin :flash
   plugin :public             #replaces plugin :static, %w[/images /fonts]
-  plugin :head
-  plugin :halt
   plugin :drop_body
 
   plugin :multi_route

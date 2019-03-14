@@ -30,8 +30,8 @@
             <tbody>
 
             <% scheduled.each do |entry| %>
-              <tr data-package="<%= entry.to_json %>">
-                <td class="text-center" data-toggle="tooltip" data-placement="top" title="Cancel Item Scheduled"><a href="#" id="schedule-delete"><i class="fa fa-trash  fa-1x"></i></a></td>
+              <tr data-package="<%== entry.to_json %>">
+                <td class="text-center" data-toggle="tooltip" data-placement="top" title="Cancel Item Scheduled"><a href="#"><i class="fa fa-trash  fa-1x"></i></a></td>
                 <td><%= Date.today.iso8601 %></td>
                 <td><%= get_attribute_value(entry, '$name') %></td>
                 <td><%= get_attribute_value(entry, '$mac') %></td>
@@ -65,8 +65,8 @@
             <tbody>
 
             <% catalog.each do |item| %>
-              <tr data-package="<%= item.to_json %>">
-                <td class="text-center" data-toggle="tooltip" data-placement="top" title="Remove from Filesystem!"><a href="#" id="firmware-delete"><i class="fa fa-trash fa-1x"></i></a></td>
+              <tr data-package="<%== item.to_json -%>">
+                <td class="text-center" data-toggle="tooltip" data-placement="top" title="Remove from Filesystem!"><a href="#"><i class="fa fa-trash fa-1x"></i></a></td>
                 <td><%= item.filename %></td>
                 <td><%= item.name %></td>
                 <td><%= item.version %></td>
@@ -101,7 +101,7 @@
             <tbody>
 
             <% devices.each do |device| %>
-              <tr id="<%= device[:name] %>" data-package="<%= device.to_json %>">
+              <tr id="<%= device[:name] %>" data-package="<%== device.to_json %>">
                 <td><%= get_attribute_value(device, '$mac') %></td>
                 <td><%= get_online_value(device).to_s %></td>
                 <td><%= get_attribute_value(device, '$localip') %></td>

@@ -45,6 +45,16 @@ module Services
           Commands::ReceiveFile.new(payload) )
     end
 
+    def firmware_delete(payload)
+      SknApp.registry.resolve("firmware_provider").call(
+          Commands::FirmwareDelete.new( payload ))
+    end
+
+    def schedule_entry_delete(payload)
+      SknApp.registry.resolve("firmware_provider").call(
+          Commands::ScheduleDelete.new( payload ))
+    end
+
     # def firmware_send(payload)
     #   SknApp.registry.resolve("firmware_provider").call(
     #       Commands::SendFile.new(payload) )
