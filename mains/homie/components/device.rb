@@ -72,7 +72,7 @@
 
 
 module Homie
-  module Component
+  module Components
 
     class Device
       include Homie::Events::Notify

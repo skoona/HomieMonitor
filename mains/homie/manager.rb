@@ -77,7 +77,7 @@ module Homie
     end
 
     def create_device(queue_event)
-      @_devices.push( Homie::Component::Device.new(queue_event) )
+      @_devices.push( Homie::Components::Device.new(queue_event) )
     end
 
     def stream_active?

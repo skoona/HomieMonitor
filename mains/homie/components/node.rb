@@ -1,12 +1,9 @@
 # ##
 #
-# Property (properties) Model
+# Node (core) Model
 #
 # Targets: (many)
-# ~> $device-$stats-properties
-#    $device-$fw-properties
-#    $device-$implementation-properties
-#    $node-$properties
+# ~> [Node]
 #
 # ##
 #  -> [Device]
@@ -55,72 +52,46 @@
 # sknSensors/TheaterIR/$stats/uptime ~> 4
 # ----------------------------------------------------------------------
 
-
 module Homie
-  module Component
+  module Components
 
-    # Properties update themself if name matches, then if attr flag update/create attributes
-    # Subscribe-able via :subscribe, :unsubscribe methods
-    class Property
-      include Homie::Events::Notify
-
-      attr_reader :name, :settable, :attributes, :debug_logger
-
-      watch_attributes :value
+    class Node
+      attr_reader :name, :value, :attributes, :properties, :debug_logger
 
       def self.call(event)
         new(event)
       end
 
       def initialize(queue_event)
-        @_subscribers = []
-        @_notify_topic_parts = []
-        @attributes   = []
-        @settable     = false
+        @value   = queue_event.value.to_s
+        @properties  = []
+        @attributes  = []
         @debug_logger = SknApp.debug_logger
         init_name(queue_event)
         true
       end
 
       def init_name(queue_event)
-        rec = queue_event.device_attribute_property_all
-        rec = queue_event.node_property unless rec.success
+        @name = queue_event.node_name_abs.value.to_s if queue_event.node_name_abs.success
+        raise ArgumentError, "Invalid Node Property: #{queue_event.topic_parts.last}" if @name.nil?
 
-        raise ArgumentError, "Invalid Property: #{queue_event.topic_parts.last}" unless rec.success
-
-        @name = rec.value
-        @value = queue_event.value
         debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) With: #{queue_event.topic.value}"
         handle_queue_event?(queue_event)
       end
 
       def handle_queue_event?(queue_event)
-        @_notify_topic_parts = queue_event.topic_parts
-        rec = queue_event.node_property
-        rec = queue_event.device_attribute_property unless rec.success
-
-        rc = if (queue_event.node_property_attribute.success && name.include?(queue_event.node_property.value))
-
-               if queue_event.node_property_settable_attribute.success
-                 @settable = queue_event.value.eql?("true") ? true : false
+        ref = queue_event.node_name_abs
+        rc = if ref.success and name.eql?(ref.value.to_s)
+               if queue_event.node_property_attribute.success
+                 handle_property(queue_event)
+               elsif queue_event.node_attribute.success
+                 handle_attribute(queue_event)
+               elsif queue_event.node_property.success
+                 handle_property(queue_event)
+               else
+                 debug_logger.warn "#{self.class.name}##{__method__}(#{name}) Unknown|Ignored: #{queue_event.topic.value}"
                end
-
-               if @attributes.detect {|prp| prp.handle_queue_event?(queue_event) }
-                  true
-                else
-                  begin
-                    obj = Attribute.new(queue_event)
-                    @attributes.push( obj )
-                    true
-                  rescue => e
-                    debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Property-Attribute Failure: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
-                    true
-                  end
-                end
-
-        elsif rec.success and name.include?(rec.value)  # tracking dupplicates
-          self.value = queue_event.value
-          true
+               true # Required to respond true, cause it was our message - no matter the outcome
         else
           false
         end
@@ -128,12 +99,50 @@ module Homie
         rc
       end
 
+      def handle_attribute(queue_event)
+        attr = queue_event.node_property_attribute
+        attr = queue_event.node_attribute unless attr.success
+        if attr.success
+          if attr.value.eql?("$name")
+            @value = queue_event.value
+          end
+        end
+        if @attributes.detect {|prp| prp.handle_queue_event?(queue_event) }
+          true
+        else
+          begin
+            obj = Attribute.new(queue_event)
+            @attributes.push( obj )
+            true
+          rescue => e
+            debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Attribute Failue: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
+            true
+          end
+        end
+      end
+
+      def handle_property(queue_event)
+        if @properties.detect {|prp| prp.handle_queue_event?(queue_event) }
+          true
+        else
+          begin
+            obj = Property.new(queue_event)
+            @properties.push( obj )
+            true
+          rescue => e
+            debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Property Failue: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
+            true
+          end
+        end
+      end
+
+
       def to_hash
         Psych.load( Psych.dump({
-            klass: "Property",
-            name: name,
+            klass: "Node",
+            name:  name,
             value: value,
-            settable: settable,
+            properties: @properties.map(&:to_hash),
             attributes: @attributes.map(&:to_hash)
         }))
       end

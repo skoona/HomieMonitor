@@ -41,7 +41,7 @@ module Services
         SknApp.logger.debug msg
         SknSuccess.call({success: true,
                          error: "",
-                         payload: Homie::Component::Firmware.new(fpath).to_hash,
+                         payload: Homie::Components::Firmware.new(fpath).to_hash,
                          reset: false
                         },
                         msg

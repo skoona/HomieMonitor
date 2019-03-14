@@ -56,7 +56,7 @@
 
 
 module Homie
-  module Component
+  module Components
 
     # Attribues update themself if name matches, then if prop flag update/create properties
     class Attribute

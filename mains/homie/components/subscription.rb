@@ -1,9 +1,9 @@
-# File: ./main/homie/events/subscription.rb
+# File: ./main/homie/component/subscription.rb
 #
 
 
 module Homie
-  module Events
+  module Components
 
     class Subscription
       attr_reader :firmware, :device, :state, :date_requested, :date_completed

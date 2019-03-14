@@ -9,12 +9,14 @@
 module Services
   module Commands
 
-    class ScheduleDelete
+    class ScheduleAdd
 
-      attr_reader :device_name
+      attr_reader :device_name, :checksum
 
       def initialize(request_params={})
         @device_name  = request_params["name"]
+        @checksum  = request_params["name"]
+
         SknApp.logger.debug "#{self.class.name}.#{__method__} For device: #{@device_name}"
       end
 

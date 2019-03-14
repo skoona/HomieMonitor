@@ -1,5 +1,5 @@
 
-describe Homie::Component::Property, 'Node Properties and Device Stats Properies. ' do
+describe Homie::Components::Property, 'Node Properties and Device Stats Properies. ' do
   include QueueMessages
 
   let(:queue_node_property) {

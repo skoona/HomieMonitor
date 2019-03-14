@@ -11,6 +11,5 @@ module Homie
 end
 
 require_relative 'value_changed'
-require_relative 'subscription'
 require_relative 'notify'
 require_relative 'provider'

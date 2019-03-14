@@ -13,7 +13,7 @@ module Services
       attr_reader :filename
 
       def initialize(request_params)
-        @filename  = request_params["filename"]
+        @filename  = request_params["name"]
         SknApp.logger.debug "#{self.class.name}.#{__method__} File: #{@filename}"
       end
 

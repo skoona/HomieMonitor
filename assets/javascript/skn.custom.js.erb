@@ -81,7 +81,6 @@ SknUtil.prototype = {
             urlPath = urlBase.concat(x[0], '//', x[2], path);
         }
         return urlPath;
-
     },
     go: function(path) {
         window.location = this.genURL(path);
@@ -99,10 +98,12 @@ SknUtil.prototype = {
             var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
             consoleLog(msg);
             swal({title: "Did something good!", text: msg, icon: "warning"});
+            return true;
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var msg = "Failure: " + textStatus + ', thrown=' + errorThrown + ', RequestPkg=' + JSON.stringify(dataPackage);
             consoleLog(msg);
             swal({title: "Something failed!", text: msg, icon: "error"});
+            return false;
         });
     },
     putHomie: function(url, dataPackage) {
@@ -118,10 +119,12 @@ SknUtil.prototype = {
             var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
             consoleLog(msg);
             swal({title: "Did something good!", text: msg, icon: "warning"});
+            return true;
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var msg = "Failure: " + textStatus + ', thrown=' + errorThrown + ', RequestPkg=' + JSON.stringify(dataPackage);
             consoleLog(msg);
             swal({title: "Something failed!", text: msg, icon: "error"});
+            return false;
         });
     },
     deleteHomie: function(url, dataPackage) {
@@ -137,10 +140,12 @@ SknUtil.prototype = {
             var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
             consoleLog(msg);
             swal({title: "Did something good!", text: msg, icon: "warning"});
+            return true;
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var msg = "Failure: " + textStatus + ', thrown=' + errorThrown + ', RequestPkg=' + JSON.stringify(dataPackage);
             consoleLog(msg);
             swal({title: "Something failed!", text: msg, icon: "error"});
+            return false;
         });
     }
 };
@@ -156,6 +161,25 @@ function handle_in_action() {
     return true;
 }
 
+/*
+ * Serialize FORM field to JSON
+ * - $('myform').serializeObject();
+*/
+$.fn.serializeObject = function () {
+   var o = {};
+   var a = this.serializeArray();
+   $.each(a, function () {
+       if (o[this.name] !== undefined) {
+           if (!o[this.name].push) {
+               o[this.name] = [o[this.name]];
+           }
+           o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
 
 /* ********************************************************
  * JQuery Enabled Processing
@@ -198,10 +222,11 @@ $(function() {
             $("#mqttActionModal").modal({backdrop: "static"});
         });
 
-//        <tr data-package="{&quot;filename&quot;:&quot;sknSensors-IRService.ino.nodemcu.bin&quot;,&quot;name&quot;:&quot;sknSensors-IRService&quot;,&quot;checksum&quot;:&quot;e3c7afff47e09b74c0f1b23b044804de&quot;,&quot;version&quot;:&quot;0.1.1&quot;,&quot;brand&quot;:&quot;sknSensors&quot;,&quot;path&quot;:&quot;sknSensors-IRService.ino.nodemcu.bin&quot;,&quot;homie&quot;:true,&quot;fsize&quot;:472320,&quot;created&quot;:&quot;2019-Mar-13 19:21&quot;,&quot;updated&quot;:&quot;2019-03-13 19:21:20 -0400&quot;}">
+
         $('#scheduled-table > tbody > tr > td > a').click(function (ev) {
             var dataPkg = $(ev.target).closest('tr').data('package');
-            consoleLog(JSON.stringify(dataPkg));
+            var row = $(ev.target).closest('tr');
+
             // https://sweetalert.js.org/docs/#button
             swal({
                 title: "Are you sure?",
@@ -212,14 +237,15 @@ $(function() {
             }).then((willDelete) => {
                 if (willDelete) {
                     Skn.postHomie("/homie/delete_schedule_entry", {name: dataPkg.name});
+                    row.remove();
                 }
             });
         });
 
         $('#firmware-table > tbody > tr > td > a').click(function (ev) {
             var firmware = $(ev.target).closest('tr').data('package');
-            consoleLog(firmware);
-            consoleLog(JSON.stringify(firmware));
+            var row = $(ev.target).closest('tr');
+
             // https://sweetalert.js.org/docs/#button
             swal({
                 title: "Are you sure?",
@@ -230,8 +256,18 @@ $(function() {
             }).then((willDelete) => {
                 if (willDelete) {
                     Skn.postHomie("/homie/delete_firmware", {name: firmware.filename});
+                    row.remove();
                 }
             });
+        });
+
+        $('#firmware-schedule-add').click(function(ev) {
+            var dataPkg  = {},
+                device   = $('#device-select').find(":selected").attr('value'),
+                firmware = $('#firmware-select').find(":selected").attr('value');
+
+            console.log("Device: %s, File: %s", device, firmware);
+
         });
 
         var manualUploader = new qq.FineUploader({
@@ -261,8 +297,8 @@ $(function() {
                     if (responseJSON.success) {
                         row = '<tr data-package="' + firmware + '">' +
                             '<td class="text-center" data-toggle="tooltip" ' +
-                              'data-placement="top" title="Remove from Filesystem!">' +
-                              '<a href="#"><i class="fa fa-trash fa-1x"></i></a></td>' +
+                            'data-placement="top" title="Remove from Filesystem!">' +
+                            '<a href="#"><i class="fa fa-trash fa-1x"></i></a></td>' +
                             '<td>' + firmware.filename + '</td>' +
                             '<td>' + firmware.name + '</td>' +
                             '<td>' + firmware.version + '</td>' +

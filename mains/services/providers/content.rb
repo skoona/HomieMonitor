@@ -58,7 +58,7 @@ module Services
 
       def firmware_inventory
         Dir[SknSettings.content_service.firmware_path + "*"].map do |fware|
-          Homie::Component::Firmware.new(fware).to_hash
+          Homie::Components::Firmware.new(fware).to_hash
         end
       end
 

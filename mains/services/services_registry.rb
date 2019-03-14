@@ -55,6 +55,11 @@ module Services
           Commands::ScheduleDelete.new( payload ))
     end
 
+    def schedule_entry_add(payload)
+      SknApp.registry.resolve("content_action_provider").call(
+          Commands::ScheduleAdd.new( payload ))
+    end
+
     # def firmware_send(payload)
     #   SknApp.registry.resolve("firmware_provider").call(
     #       Commands::SendFile.new(payload) )

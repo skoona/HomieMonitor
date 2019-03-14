@@ -7,12 +7,6 @@ require 'roda/session_middleware'
 
 class SknWeb < Roda
 
-  plugin :json_parser
-  plugin :all_verbs
-  plugin :halt
-  plugin :json
-  plugin :head
-
   opts[:root] = SknApp.root
   opts[:env]  = SknApp.env
 
@@ -52,6 +46,13 @@ class SknWeb < Roda
   # ERB support in SCSS, already present for JS
   Tilt.pipeline('scss.erb')
 
+
+  plugin :json_parser
+  plugin :all_verbs
+  plugin :halt
+  plugin :json
+  plugin :head
+
   plugin :assets, {
       css_dir: 'stylesheets',
       js_dir: 'javascript',
@@ -77,8 +78,6 @@ class SknWeb < Roda
     view :unknown, locals: {exception: uncaught_exception }, path: File.expand_path('web/views/unknown.html.erb', opts[:root])
   end
 
-  compile_assets if opts[:env].production?
-
   plugin :view_options
   plugin :symbol_views
   plugin :symbol_status
@@ -91,6 +90,8 @@ class SknWeb < Roda
   plugin :drop_body
 
   plugin :multi_route
+
+  compile_assets if opts[:env].production?
 
   # ##
   # Routing Table

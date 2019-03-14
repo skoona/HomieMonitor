@@ -10,7 +10,7 @@ end
 
 require_relative 'commands/commands'
 require_relative 'events/events'
-require_relative 'component/component'
+require_relative 'components/components'
 require_relative 'handlers/handlers'
 require_relative 'manager'
 

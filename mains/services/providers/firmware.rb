@@ -36,8 +36,8 @@ module Services
                   @_send_handler.call(cmd)
                 when "FirmwareDelete"
                   @_delete_handler.call(cmd.filename)
-                when "ScheduledDelete"
-                  @_schedule_handler.call(cmd.filename)
+                when "ScheduleDelete"
+                  @_schedule_handler.call(cmd.device_name)
                 else
                   SknSuccess.call( {success: false, status: 404, message: "Cannot Process Now!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Unknown Request type" )
                 end

@@ -6,7 +6,7 @@
 
 
 module Homie
-  module Component
+  module Components
   end
 end
 
@@ -15,3 +15,4 @@ require_relative 'property'
 require_relative 'node'
 require_relative 'device'
 require_relative 'firmware'
+require_relative 'subscription'
