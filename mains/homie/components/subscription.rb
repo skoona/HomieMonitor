@@ -6,26 +6,26 @@ module Homie
   module Components
 
     class Subscription
-      attr_reader :firmware, :device, :device_name, :mac, :filename,
+      attr_reader :device_name, :mac, :filename, :firmware_name,
                   :state, :date_requested, :date_completed, :version, :checksum
 
       def initialize(firmware:, device:)
-        @firmware = firmware
+        @firmware_name = firmware.name
         @filename = firmware.filename
         @version  = firmware.version
         @checksum = firmware.checksum
-        @device = device
         @device_name = device.name
         @mac = device.attributes.detect{|r| r.name.eql?('$mac')}&.value
         @state = "Waiting"
         @date_requested = Date.today
         @date_completed = nil
-        SknApp.logger.debug "#{self.class.name}.#{__method__} for: #{device_name}:#{firmware.name}"
+        SknApp.logger.debug "#{self.class.name}.#{__method__} for: #{device_name}:#{firmware_name}"
       end
 
       def handle_queue_event?(queue_event)
+        message_type = queue_event.device_attribute_property.value
         if device_name.eql?(queue_event.topic_parts[1])
-          case queue_event.device_attribute_property.value
+          case message_type
             when "/[$online|$state]/"
               if ["ready","true"].include?(queue_event.value)
               #send firmware
@@ -54,16 +54,17 @@ module Homie
                 @state = 'error'
               elsif queue_event.value.include?("206 ")
                 @state = 'inprogress'
+                SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Processing!) (#{queue_event.value})"
               else
-                @state = 'waiting'
+                @state = 'unknown'
               end
             else
               @state = 'waiting'
           end
-          SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Processed) STATE: #{@state}"
+          SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Processed) STATE: #{@state}:#{message_type}"
           true
         else
-          SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Skipped) STATE: #{@state}"
+          SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Skipped) STATE: #{@state}:#{message_type}"
           false
         end
         # pending
@@ -81,10 +82,13 @@ module Homie
         # success = 200
       end
 
-      def eql?(other)
-        other.kind_of?(self.class) &&
-          checksum.eql?(other.checksum) &&
-              mac.eql?(other.mac)
+      def ==(other)
+        other.class == self.class && other.state == self.state
+      end
+      alias_method :eql?, :==
+
+      def state
+        self.instance_variables.map { |variable| self.instance_variable_get variable }
       end
 
       def to_hash

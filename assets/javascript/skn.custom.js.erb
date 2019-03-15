@@ -294,7 +294,7 @@ $(function() {
                         '<td>' + lastData.payload.version + '</td>' +
                         '<td>Waiting</td></tr>';
 
-                    $('#scheduled-table tr:last').after(row).show();
+                    $('#scheduled-table > tr:last').after(row).show();
                     $('#scheduled-table').table("refresh");
 
                 }

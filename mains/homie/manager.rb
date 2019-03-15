@@ -85,7 +85,9 @@ module Homie
     end
 
     def establish_stream
-      @_stream = SknApp.registry.resolve("device_stream_listener").call().payload;
+      unless stream_active?
+        @_stream = SknApp.registry.resolve("device_stream_listener").call().payload;
+      end
     end
 
     def new_message
