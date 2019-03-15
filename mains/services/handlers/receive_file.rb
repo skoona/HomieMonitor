@@ -31,6 +31,7 @@ module Services
 
       def initialize()
         @_temp_path = SknSettings.content_service.firmware_path
+        SknApp.logger.debug "#{self.class.name}.#{__method__}"
       end
 
       def call(fname, fsize, tfile)

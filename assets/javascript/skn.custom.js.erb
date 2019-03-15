@@ -9,6 +9,8 @@
 
 var logEnabled = <%= SknApp.env.development? %>;
 var Skn;
+var lastData = {},
+    lastSuccess = false;
 
 /**
  * Prevents debuging messages from going to console none development mode
@@ -98,12 +100,14 @@ SknUtil.prototype = {
             var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
             consoleLog(msg);
             swal({title: "Did something good!", text: msg, icon: "warning"});
-            return true;
+            lastData = data;
+            lastSuccess = true;
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var msg = "Failure: " + textStatus + ', thrown=' + errorThrown + ', RequestPkg=' + JSON.stringify(dataPackage);
             consoleLog(msg);
             swal({title: "Something failed!", text: msg, icon: "error"});
-            return false;
+            lastData = {};
+            lastSuccess = false;
         });
     },
     putHomie: function(url, dataPackage) {
@@ -119,12 +123,14 @@ SknUtil.prototype = {
             var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
             consoleLog(msg);
             swal({title: "Did something good!", text: msg, icon: "warning"});
-            return true;
+            lastData = data;
+            lastSuccess = true;
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var msg = "Failure: " + textStatus + ', thrown=' + errorThrown + ', RequestPkg=' + JSON.stringify(dataPackage);
             consoleLog(msg);
             swal({title: "Something failed!", text: msg, icon: "error"});
-            return false;
+            lastData = {};
+            lastSuccess = false;
         });
     },
     deleteHomie: function(url, dataPackage) {
@@ -140,12 +146,14 @@ SknUtil.prototype = {
             var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
             consoleLog(msg);
             swal({title: "Did something good!", text: msg, icon: "warning"});
-            return true;
+            lastData = data;
+            lastSuccess = true;
         }).fail(function (jqXHR, textStatus, errorThrown) {
             var msg = "Failure: " + textStatus + ', thrown=' + errorThrown + ', RequestPkg=' + JSON.stringify(dataPackage);
             consoleLog(msg);
             swal({title: "Something failed!", text: msg, icon: "error"});
-            return false;
+            lastData = {};
+            lastSuccess = false;
         });
     }
 };
@@ -161,25 +169,6 @@ function handle_in_action() {
     return true;
 }
 
-/*
- * Serialize FORM field to JSON
- * - $('myform').serializeObject();
-*/
-$.fn.serializeObject = function () {
-   var o = {};
-   var a = this.serializeArray();
-   $.each(a, function () {
-       if (o[this.name] !== undefined) {
-           if (!o[this.name].push) {
-               o[this.name] = [o[this.name]];
-           }
-           o[this.name].push(this.value || '');
-        } else {
-            o[this.name] = this.value || '';
-        }
-    });
-    return o;
-};
 
 /* ********************************************************
  * JQuery Enabled Processing
@@ -239,7 +228,9 @@ $(function() {
             }).then((willDelete) => {
                 if (willDelete) {
                     Skn.postHomie("/homie/delete_schedule_entry", {name: dataPkg.name});
-                    row.remove();
+                    if (lastSuccess) {
+                        row.remove();
+                    }
                 }
             });
         });
@@ -260,11 +251,23 @@ $(function() {
             }).then((willDelete) => {
                 if (willDelete) {
                     Skn.postHomie("/homie/delete_firmware", {name: firmware.filename});
-                    row.remove();
+                    if (lastSuccess) {
+                        row.remove();
+                    }
                 }
             });
         });
 
+
+// {"success":true,"error":"",
+// "payload":{
+//  "device":{"klass":"Device","name":"HomeOffice","value":"Home Office","base":"sknSensors",
+//      "attributes":[{"klass":"Attribute","name":"$state","value":"ready","properties":[]},{"klass":"Attribute","name":"$homie","value":"3.0.1","properties":[]},{"klass":"Attribute","name":"$name","value":"Home Office","properties":[]},{"klass":"Attribute","name":"$mac","value":"84:F3:EB:B7:55:D5","properties":[]},{"klass":"Attribute","name":"$localip","value":"10.100.1.163","properties":[]},{"klass":"Attribute","name":"$nodes","value":"motion,temperature,humidity","properties":[]},{"klass":"Attribute","name":"$stats","value":"uptime",
+//      "properties":[{"klass":"Property","name":"interval","value":"0","settable":false,"attributes":[]},{"klass":"Property","name":"signal","value":"46","settable":false,"attributes":[]},{"klass":"Property","name":"uptime","value":"1223297","settable":false,"attributes":[]}]},{"klass":"Attribute","name":"$fw","value":"sknSensors-Rcwl_Dht11","properties":[{"klass":"Property","name":"name","value":"sknSensors-Rcwl_Dht11","settable":false,"attributes":[]},{"klass":"Property","name":"version","value":"0.2.5","settable":false,"attributes":[]},{"klass":"Property","name":"checksum","value":"aff42a25572516ac5abbca989ddaf2aa","settable":false,"attributes":[]}]},{"klass":"Attribute","name":"$implementation","value":"esp8266","properties":[{"klass":"Property","name":"config","value":"{\"name\":\"Home Office\",\"device_id\":\"HomeOffice\",\"device_stats_interval\":180,\"wifi\":{\"ssid\":\"SFNSS1-24G\"},\"mqtt\":{\"host\":\"openhabianpi.skoona.net\",\"port\":1883,\"base_topic\":\"sknSensors/\",\"auth\":true},\"ota\":{\"enabled\":true},\"settings\":{\"sensorsInterval\":300}}","settable":false,"attributes":[]},{"klass":"Property","name":"version","value":"3.0.0","settable":false,"attributes":[]},{"klass":"Property","name":"ota.enabled","value":"true","settable":false,"attributes":[]}]}]},
+//  "firmware":{"filename":"sknSensors-IRService.ino.d1_mini.bin","name":"sknSensors-IRService.d1_mini","checksum":"934a0239a5b8513b09e16765dfdba9b5","version":"0.2.0","brand":"sknSensors","path":"sknSensors-IRService.ino.d1_mini.bin","homie":true,"fsize":473616,"created":"2019-Mar-14 11:31","updated":"2019-03-14 11:31:23 -0400"},
+//  "state":"",
+//  "date_requested":"2019-03-14",
+//  "date_completed":null}}
 
         $('#firmware-schedule-add').click(function(ev) {
             var dataPkg  = {},
@@ -273,10 +276,30 @@ $(function() {
 
             ev.stopImmediatePropagation();
 
-            Skn.postHomie("/homie/subscribe", {device: device, checksum: firmware});
-            console.log("Device: %s, File: %s", device, firmware);
+            // 'Select'
+            if (device.includes('Select') || firmware.includes('Select')) {
+                swal({title: "Validation Issue!", text: "Selection must be made for device and firmware to create a schedule!", icon: "warn"});
+            } else {
+                Skn.postHomie("/homie/subscribe", {device: device, checksum: firmware});
+                if (lastSuccess) {
+                    console.log("Schedule Add: data=>%s", JSON.stringify(lastData));
+                    row = '<tr data-package="' + lastData.payload + '">' +
+                        '<td class="text-center" data-toggle="tooltip" ' +
+                        'data-placement="top" title="Cancel Item Scheduled!">' +
+                        '<a href="#"><i class="fa fa-trash fa-1x"></i></a></td>' +
+                        '<td>' + lastData.payload.date_requested + '</td>' +
+                        '<td>' + lastData.payload.device_name + '</td>' +
+                        '<td>' + lastData.payload.mac + '</td>' +
+                        '<td>' + lastData.payload.firmware_filename + '</td>' +
+                        '<td>' + lastData.payload.version + '</td>' +
+                        '<td>Waiting</td></tr>';
 
+                    $('#scheduled-table > tbody').append($(row));
+
+                }
+            }
         });
+
 
 
         var manualUploader = new qq.FineUploader({

@@ -14,15 +14,26 @@ module Services
       end
 
       def initialize()
+        @_provider  = SknApp.registry.resolve("subscriptions_provider")
+        @_firmwares = SknApp.registry.resolve("firmware_catalog")
+        @_stream    = SknApp.registry.resolve("device_stream_manager")
+        SknApp.logger.debug "#{self.class.name}.#{__method__} "
       end
 
       def call(device_name, checksum)
+
+        firmware_obj = @_firmwares.call('find', checksum)
+        device_obj   = @_stream.devices.detect {|rec| rec.name.eql?(device_name.gsub(" ", '')) }
+        raise "Device not Found" if device_obj.nil?
+
+        subscription = @_provider.create_subscription(device_obj: device_obj,
+                                                      firmware_obj: firmware_obj.value[:payload].first)
 
         msg = "#{self.class.name}##{__method__} Processed(#{device_name})"
         SknApp.logger.debug msg
         SknSuccess.call({success: true,
                          error: "",
-                         payload: {name: device_name, checksum: checksum}
+                         payload: subscription.to_hash
                         })
         
       rescue => ex

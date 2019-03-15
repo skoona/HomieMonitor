@@ -11,12 +11,13 @@ module Services
   module Handlers
 
     class SendFile
-      def self.call(response, options={})
-        self.new(options).call(response)
+      def self.call(response)
+        self.new().call(response)
       end
 
-      def initialize(options={})
-        @_temp_path = options.fetch(:temp_path, './public/content/')
+      def initialize()
+        @_temp_path = SknSettings.content_service.firmware_path
+        SknApp.logger.debug "#{self.class.name}.#{__method__}"
       end
 
       def call(response)

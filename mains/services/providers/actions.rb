@@ -18,8 +18,8 @@ module Services
       end
 
       def initialize
-        @_message_handler  = SknApp.registry.resolve("stream_handler")
-        @_schedule_add_handler = SknApp.registry.resolve("add_schedule_handler")
+        @_message_handler         = SknApp.registry.resolve("stream_handler")
+        @_schedule_add_handler    = SknApp.registry.resolve("add_schedule_handler")
         @_schedule_delete_handler = SknApp.registry.resolve("delete_schedule_handler")
         @_start_time   = SknUtils.duration
         @description   = SknSettings.content_service.description
@@ -48,11 +48,6 @@ module Services
         msg =  "#{self.class.name}##{__method__} Failure Request: Provider: #{@description}, klass=#{e.class.name}, cause=#{e.message}, Duration: #{duration}, Backtrace=#{e.backtrace[0..1]}"
         SknApp.logger.warn(msg)
         SknFailure.call({success: false, status: 404, message: "#{self.class.name} rescued -> #{e.class.name}"},"#{self.class.name} -> [#{e.class.name}] #{e.message}, Duration: #{duration}")
-      end
-
-      # SknSuccess or SknFailure
-      def process(cmd)
-        @_do_request.call(cmd.action, Homie::Commands::QueueEvent.new(cmd))
       end
 
     end # end class

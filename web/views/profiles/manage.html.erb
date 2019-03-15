@@ -32,12 +32,12 @@
             <% scheduled.each do |entry| %>
               <tr data-package="<%== entry.to_json %>">
                 <td class="text-center" data-toggle="tooltip" data-placement="top" title="Cancel Item Scheduled"><a href="#"><i class="fa fa-trash  fa-1x"></i></a></td>
-                <td><%= Date.today.iso8601 %></td>
-                <td><%= get_attribute_value(entry, '$name') %></td>
-                <td><%= get_attribute_value(entry, '$mac') %></td>
-                <td><%= get_attribute_property_value(entry, '$fw', 'name') %></td>
-                <td><%= get_attribute_property_value(entry, '$fw', 'version') %></td>
-                <td>Incomplete</td>
+                <td><%= entry.date_requested %></td>
+                <td><%= entry.device_name %></td>
+                <td><%= entry.mac %></td>
+                <td><%= entry.firmware_filename %></td>
+                <td><%= entry.version %></td>
+                <td><%= entry.state %></td>
               </tr>
             <% end %>
             </tbody>
@@ -130,7 +130,7 @@
                 <select class="form-control" id="device-select" name="device">
                   <option class="active" value="">Select Device</option>
                   <% devices.each do |device| %>
-                    <option value="<%= get_attribute_value(device, '$mac') %>">
+                    <option value="<%= device[:name] %>">
                       [<%= get_attribute_value(device, '$mac') %>] ~> <%= get_attribute_value(device, '$name') %>
                     </option>
                   <% end %>

@@ -1,7 +1,7 @@
 # ##
 #
-# Handle Delete Firmware
-# Services::Handlers::DeleteFile
+# Handle Delete
+# Services::Handlers::DeleteSchedule
 #
 #
 
@@ -15,6 +15,9 @@ module Services
       end
 
       def initialize()
+        @_provider       = SknApp.registry.resolve("subscriptions_provider")
+        @_stream_manager = SknApp.registry.resolve("device_stream_manager")
+        SknApp.logger.debug "#{self.class.name}.#{__method__}"
       end
 
       def call(device_name)

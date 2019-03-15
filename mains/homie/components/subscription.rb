@@ -14,6 +14,7 @@ module Homie
         @state = ""
         @date_requested = Date.today
         @date_completed = nil
+        SknApp.logger.debug "#{self.class.name}.#{__method__} "
       end
 
       def handle_queue_event?(queue_event)
@@ -51,6 +52,7 @@ module Homie
             else
               @state = 'waiting'
           end
+          SknApp.logger.debug "#{self.class.name}.#{__method__} STATE CHANGE: #{@state}"
           true
         else
           false
@@ -78,8 +80,12 @@ module Homie
 
       def to_hash
         {
-            device: device.attributes.map(&:device_hash),
+            device: device.device_hash,
+            device_name: device.name,
             firmware: firmware.to_hash,
+            firmware_filename: firmware.filename,
+            version: firmware.version,
+            mac: device.attributes.detect{|r| r.name.eql?('$mac')}&.value,
             state: state,
             date_requested: date_requested,
             date_completed: date_completed

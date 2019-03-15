@@ -32,7 +32,7 @@ module Homie
       end
 
       def handle_queue_event?(queue_event)
-        !!@_subscriptions.detect {|subscript| subscript.handle_subscription_event(queue_event) }
+        !!@_subscriptions.detect {|subscript| subscript.handle_queue_event?(queue_event) }
       end
 
       def subscriptions
@@ -42,6 +42,7 @@ module Homie
       def create_subscription(device_obj:, firmware_obj:)
         subscript = Homie::Components::Subscription.new(firmware: firmware_obj, device: device_obj)
         subscription_add(subscript)
+        subscript
       rescue
         false
       end

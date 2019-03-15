@@ -19,16 +19,18 @@ module Services
       end
 
       def initialize
-        @_do_request   = SknApp.registry.resolve("stream_handler")
-        @_start_time   = SknUtils.duration
-        @description   = SknSettings.content_service.description
+        @_stream     = SknApp.registry.resolve("stream_handler")
+        @_firmwares  = SknApp.registry.resolve("firmware_catalog")
+        @_subscriptions = SknApp.registry.resolve("subscriptions_provider")
+        @_start_time = SknUtils.duration
+        @description = SknSettings.content_service.description
       end
 
       # Services::Content::Commands::HomieDevices, HomieBroadcasts
       def call(cmd)
         resp = cmd.valid? ? process(cmd) : SknFailure.call( self.class.name, "[#{cmd.class.name}] #{@description}: Unknown Request type" )
         if cmd.collection.eql?("management") and resp.success
-          resp = add_firmware_inventory(resp)
+          resp = add_firmware_catalog(resp)
         end
 
         duration = SknUtils.duration(@_start_time)
@@ -42,24 +44,26 @@ module Services
 
       # SknSuccess or SknFailure
       def process(cmd)
-        @_do_request.call(cmd.collection, cmd.device_name)
+        @_stream.call(cmd.collection, cmd.device_name)
       end
 
-      def add_firmware_inventory(resp)
+      def add_firmware_catalog(resp)
         SknSuccess.(
             {
                   devices: resp.value[:package],
-                scheduled: [resp.value[:package]&.first].compact,
-                  catalog: firmware_inventory
+                scheduled: subscriptions,
+                  catalog: firmware_catalog.value[:payload]
             },
             resp.message
         )
       end
 
-      def firmware_inventory
-        Dir[SknSettings.content_service.firmware_path + "*"].map do |fware|
-          Homie::Components::Firmware.new(fware).to_hash
-        end
+      def subscriptions
+        @_subscriptions.subscriptions.map(&:to_hash)
+      end
+
+      def firmware_catalog
+        @_firmwares.call('catalog', 'hash')
       end
 
       def logger
