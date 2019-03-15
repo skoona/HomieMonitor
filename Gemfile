@@ -21,7 +21,8 @@ gem 'tilt-pipeline'
 gem 'execjs'
 gem "therubyracer", platform: :ruby
 gem 'therubyrhino', platform: :jruby, require: "rhino"
-gem 'uglifier'
+gem 'yui-compressor'
+# gem 'uglifier'
 
 # Core Components
 gem 'skn_utils'

@@ -283,7 +283,7 @@ $(function() {
                         '<td>' + lastData.payload.version + '</td>' +
                         '<td>Waiting</td></tr>';
 
-                    $('#scheduled-table > tbody > tr:last').after(row).show();
+                    $('#scheduled-table > tbody:last-child').append(row).show();
                     $('#scheduled-table').table("refresh");
                 }
             }
@@ -327,7 +327,7 @@ $(function() {
                             '<td>' + firmware.fsize + '</td>' +
                             '<td>' + firmware.created + '</td></tr>';
 
-                        tbl.append($(row));
+                        tbl.append($(row)).show();
                     }
                     return;
                 }

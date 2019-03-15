@@ -4,7 +4,7 @@
 # Warbler web application assembly configuration file
 Warbler::Config.new do |config|
   config.features = %w(runnable)
-  config.dirs = %w(assets bin config content db i18n main vendor tmp web log spec)
+  config.dirs = %w(assets bin config content db i18n mains vendor tmp web log spec)
   config.includes = FileList["config.ru", "Gemfile", "Gemfile.lock", "LICENSE", "README.md"]
   config.pathmaps.java_classes << "%{target/classes/,}p"
   config.gem_excludes = [/^(test|spec)\//]

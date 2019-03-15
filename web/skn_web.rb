@@ -57,7 +57,8 @@ class SknWeb < Roda
       css_dir: 'stylesheets',
       js_dir: 'javascript',
       css: ['skn.scss.erb' ],
-      js: ['jquery-3.2.1.js', 'bootstrap-3.3.7.js', 'jquery.matchHeight.js', 'bootstrap-select.js', 'jquery.fine-uploader.js', 'skn.custom.js.erb'],
+      js: ['jquery-3.2.1.js', 'bootstrap-3.3.7.js', 'jquery.matchHeight.js', 'jquery.fine-uploader.js', 'skn.custom.js.erb'],
+      # js_compressor: :yui, # :uglifier,
       dependencies: {'_bootstrap.scss' => Dir['assets/stylesheets/**/*.scss', 'assets/stylesheets/*.scss']}
   }
 
