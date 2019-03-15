@@ -1,6 +1,8 @@
 # File: ./main/homie/component/subscription.rb
 #
-
+# This class is serialized to YML via YAML::Store
+# - Please do not leave behind references to core objects
+# 
 
 module Homie
   module Components
