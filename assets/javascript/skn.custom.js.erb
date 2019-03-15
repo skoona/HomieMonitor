@@ -221,13 +221,13 @@ $(function() {
             // https://sweetalert.js.org/docs/#button
             swal({
                 title: "Are you sure?",
-                text: "Your Scheduled Entry for: " + dataPkg.name + " will be deleted permanently!",
+                text: "Your Scheduled Entry for: " + dataPkg.device_name + " will be deleted permanently!",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true
             }).then((willDelete) => {
                 if (willDelete) {
-                    Skn.postHomie("/homie/delete_schedule_entry", {name: dataPkg.name});
+                    Skn.postHomie("/homie/delete_schedule_entry", {name: dataPkg.device_name});
                     if (lastSuccess) {
                         row.remove();
                     }
@@ -281,7 +281,7 @@ $(function() {
                 swal({title: "Validation Issue!", text: "Selection must be made for device and firmware to create a schedule!", icon: "warn"});
             } else {
                 Skn.postHomie("/homie/subscribe", {device: device, checksum: firmware});
-                if (lastSuccess) {
+                if (lastSuccess && lastData.success) {
                     console.log("Schedule Add: data=>%s", JSON.stringify(lastData));
                     row = '<tr data-package="' + lastData.payload + '">' +
                         '<td class="text-center" data-toggle="tooltip" ' +
@@ -294,7 +294,8 @@ $(function() {
                         '<td>' + lastData.payload.version + '</td>' +
                         '<td>Waiting</td></tr>';
 
-                    $('#scheduled-table > tbody').append($(row));
+                    $('#scheduled-table tr:last').after(row).show();
+                    $('#scheduled-table').table("refresh");
 
                 }
             }

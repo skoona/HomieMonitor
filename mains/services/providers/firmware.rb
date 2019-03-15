@@ -23,6 +23,7 @@ module Services
         @_delete_handler = SknApp.registry.resolve("delete_file_handler")
         @_start_time   = SknUtils.duration
         @description   = SknSettings.content_service.description
+        SknApp.logger.debug "#{self.class.name}.#{__method__}"
       end
 
       # Services::Commands::ReceiveFile|SendFile

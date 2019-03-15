@@ -24,6 +24,7 @@ module Services
         @_subscriptions = SknApp.registry.resolve("subscriptions_provider")
         @_start_time = SknUtils.duration
         @description = SknSettings.content_service.description
+        SknApp.logger.debug "#{self.class.name}.#{__method__}"
       end
 
       # Services::Content::Commands::HomieDevices, HomieBroadcasts

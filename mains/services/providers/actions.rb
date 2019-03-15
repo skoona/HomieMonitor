@@ -23,6 +23,7 @@ module Services
         @_schedule_delete_handler = SknApp.registry.resolve("delete_schedule_handler")
         @_start_time   = SknUtils.duration
         @description   = SknSettings.content_service.description
+        SknApp.logger.debug "#{self.class.name}.#{__method__}"
       end
 
       # Services::Commands::MessageTransport

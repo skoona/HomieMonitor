@@ -31,20 +31,12 @@ module Services
 
         msg = "#{self.class.name}##{__method__} Processed(#{device_name})"
         SknApp.logger.debug msg
-        SknSuccess.call({success: true,
-                         error: "",
-                         payload: subscription.to_hash
-                        })
+        SknSuccess.call({success: true, error: "", payload: subscription.to_hash})
         
       rescue => ex
         msg = "#{self.class.name}##{__method__} Failure: klass=#{ex.class.name}, cause=#{ex.message}, Backtrace=#{ex.backtrace[0..8]}"
         SknApp.logger.error msg
-        SknSuccess.call({success: false,
-                         error: msg,
-                         payload: {}
-                        },
-                        msg
-        )
+        SknFailure.call({success: false, error: msg, payload: {}}, msg)
       end
 
     end # end class

@@ -16,28 +16,26 @@ module Services
 
       def initialize()
         @_provider       = SknApp.registry.resolve("subscriptions_provider")
-        @_stream_manager = SknApp.registry.resolve("device_stream_manager")
         SknApp.logger.debug "#{self.class.name}.#{__method__}"
       end
 
       def call(device_name)
+        SknApp.logger.debug "#{self.class.name}##{__method__} (Input) Processed(#{device_name})"
 
-        msg = "#{self.class.name}##{__method__} Processed(#{device_name})"
+        found = @_provider.subscriptions.detect {|rec| rec.device_name.eql?(device_name.gsub(" ",''))}
+        @_provider.subscription_delete(found) if found
+
+        msg = "#{self.class.name}##{__method__} (#{!!found}) Processed(#{device_name})"
         SknApp.logger.debug msg
-        SknSuccess.call({success: true,
-                         error: "",
-                         payload: {name: device_name}
-                        })
-        
+        if found
+          SknSuccess.call({success: true, error: "", payload: found.to_hash})
+        else
+          SknSuccess.call({success: false, error: "Subscription not Found!", payload: { device_name: device_name }})
+        end
       rescue => ex
         msg = "#{self.class.name}##{__method__} Failure: klass=#{ex.class.name}, cause=#{ex.message}, Backtrace=#{ex.backtrace[0..8]}"
         SknApp.logger.error msg
-        SknSuccess.call({success: false,
-                         error: msg,
-                         payload: {}
-                        },
-                        msg
-        )
+        SknFailure.call({success: false, error: msg, payload: {}}, msg)
       end
 
       def delete_schedule(device_name)

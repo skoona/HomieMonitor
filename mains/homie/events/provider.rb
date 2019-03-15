@@ -24,6 +24,7 @@ module Homie
         @_subscriptions = subscriptions_restore
         @_events        = []
         @_publishers    = []
+        SknApp.logger.debug "#{self.class.name}.#{__method__}"
       end
 
       # Notify callback
@@ -43,7 +44,9 @@ module Homie
         subscript = Homie::Components::Subscription.new(firmware: firmware_obj, device: device_obj)
         subscription_add(subscript)
         subscript
-      rescue
+      rescue => e
+        msg =  "#{self.class.name}##{__method__} Create Failed: klass=#{e.class.name}, cause=#{e.message}, Backtrace=#{e.backtrace[0..4]}"
+        SknApp.logger.warn(msg)
         false
       end
 
