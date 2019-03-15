@@ -83,11 +83,11 @@ module Homie
       end
 
       def ==(other)
-        other.class == self.class && other.state == self.state
+        other.class == self.class && other.internal_state == self.internal_state
       end
       alias_method :eql?, :==
 
-      def state
+      def internal_state
         self.instance_variables.map { |variable| self.instance_variable_get variable }
       end
 
