@@ -26,13 +26,16 @@ module Homie
         message_type = queue_event.device_attribute_property.value
         if device_name.eql?(queue_event.topic_parts[1])
           case message_type
+            when 'checksum'
+              if checksum.eql?(queue_event.value)
+                @state = 'up-to-date'
+                @date_completed = Date.today
+              end
             when "/[$online|$state]/"
               if ["ready","true"].include?(queue_event.value)
-              #send firmware
+                #(send firmware) unless @state.eql?('up-to-date')
                 @state = 'pending'
                 SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] SEND FIRMWARE(#{@filename}) EVENT"
-              else
-                @state = 'waiting'
               end
 
             when "/ota\.firmware/"
@@ -45,7 +48,8 @@ module Homie
                 @state = 'success'
                 @date_completed = Date.today
               elsif queue_event.value == "304"
-                @state = 'completed-current'
+                @state = 'up-to-date'
+                @date_completed = Date.today
               elsif queue_event.value == "403"
                 @state = 'disabled'
               elsif queue_event.value == "400"
@@ -55,11 +59,7 @@ module Homie
               elsif queue_event.value.include?("206 ")
                 @state = 'inprogress'
                 SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Processing!) (#{queue_event.value})"
-              else
-                @state = 'unknown'
               end
-            else
-              @state = 'waiting'
           end
           SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Processed) STATE: #{@state}:#{message_type}"
           true
