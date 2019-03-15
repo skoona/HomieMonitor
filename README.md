@@ -4,6 +4,11 @@ An exploration into [Homie-esp8266](https://homieiot.github.io/homie-esp8266/doc
 [Roda](https://github.com/jeremyevans/roda) tooling.  This application is designed to act as a `Homie Controller`, or `Monitor`, 
 in support of IOT/Devices using [Homie-esp8266](https://github.com/homieiot/homie-esp8266); although any `Homie Device` implementation should be supported.
 
+#### Shared Link for executable java war file
+    $ java -jar homie_monitor_esp.war
+    
+Too big for GitHub [HomieMonitor](https://www.dropbox.com/sh/xpv5a6gyexthnev/AAB0eY59kxTsMQJg7FOT3Pw9a?dl=0)
+
 
 #### References: 
 * [Homie: An MQTT Convention for IOT/M2M](https://homieiot.github.io/specification/)
