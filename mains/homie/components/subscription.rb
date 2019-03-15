@@ -80,9 +80,7 @@ module Homie
 
       def to_hash
         {
-            device: device.device_hash,
             device_name: device.name,
-            firmware: firmware.to_hash,
             firmware_filename: firmware.filename,
             version: firmware.version,
             mac: device.attributes.detect{|r| r.name.eql?('$mac')}&.value,
