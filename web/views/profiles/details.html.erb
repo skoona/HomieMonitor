@@ -65,7 +65,10 @@
               <!--
                 V2 Fixup
               -->
-              <% ndx.attributes.each do |attr| %>
+            <% save_set = false %>
+               <% ndx.attributes.each do |attr| %>
+              <% save_set = (attr.name.eql?('$properties') and attr.value.include?(':') ? (attr.value.split(',').map {|r| z = r.split(':'); z.size > 1 ? z.first : nil }.compact) : [] ) %>
+
                 <% parts = attr.value&.split(":") %>
                 <tr>
                   <td class="text-right" colspan="2"><%== attr.name %></td>
@@ -82,9 +85,10 @@
               <% end %>
 
               <% ndx.properties.each do |props| %>
+
                 <tr>
                   <td class="text-left" colspan="2"><strong><%== props.name %></strong></td>
-                  <% if props.settable %>
+                  <% if props.settable or ((save_set || []).include?(props.name)) %>
                     <% topic = "#{device.base}/#{device.name}/#{ndx.name}/#{props.name}/set" %>
                     <td class="action" data-topic="<%== topic %>">
                       <button type="button" class="btn btn-info">true</button>
@@ -120,4 +124,3 @@
   <% end %>
 
 </article>
-

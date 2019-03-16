@@ -69,6 +69,8 @@
 # sknSensors/LabTarget/$stats/signal 78
 # sknSensors/LabTarget/$stats/uptime 9
 #
+# sknSensors/LabTarget/$implementation/ota/status ~> 500 INTERNAL_ERROR 8
+#
 
 
 module Homie
@@ -136,14 +138,14 @@ module Homie
             @nodes.push( obj )
             true
           rescue
-            debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Node Failue: #{queue_event.topic.value} ~> #{queue_event.value}"
+            debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Node Failure: #{queue_event.topic.value} ~> #{queue_event.value}"
             true   # no choice but answer true, cause it was our message to process no one else can
           end
         end
       end
 
       def handle_attribute(queue_event)
-        if queue_event.device_name.success
+        if queue_event.device_attribute.success and '$name'.eql?(queue_event.device_attribute.value)
           self.value = queue_event.value
         end
         if @attributes.detect {|prp| prp.handle_queue_event?(queue_event) }
@@ -154,7 +156,7 @@ module Homie
             @attributes.push( obj )
             true
           rescue => e
-            debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Node Failue: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
+            debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Attribute Failure: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
             true
           end
         end
@@ -183,3 +185,50 @@ module Homie
     end
   end
 end
+
+# ##
+#
+# This message overwrite the device somehow
+#
+# sknSensors/LabTarget/$implementation/ota/status ~> 500 INTERNAL_ERROR 8
+#   Base      Device     D-Attr        Attr-Properties
+#
+# {
+#   "klass":"device",
+#   "name":"labtarget",
+#   "value":"500="" internal_error="" 8",
+#   "base":"sknsensors",
+#   "attributes":[
+#       {
+#         "klass":"attribute",
+#         "name":"$implementation",
+#         "value":"500="" 8",
+#         "properties":[
+#             {"klass":"property","name":"ota.status","value":"500="" 8","settable":false,"attributes":[]}
+#             ]
+#       },
+#       {
+#         "klass":"attribute",
+#         "name":"$stats",
+#         "value":"76",
+#         "properties":[
+#             {"klass":"property","name":"signal","value":"74","settable":false,"attributes":[]},
+#             {"klass":"property","name":"uptime","value":"65162","settable":false,"attributes":[]}
+#                     ]
+#       }
+#   ],
+#   "nodes":[
+#       {
+#         "klass":"node",
+#         "name":"light",
+#         "value":"vcc:="" 3.3",
+#         "properties":[
+#             {"klass":"property","name":"vcc","value":"vcc:="" 3.3","settable":false,"attributes":[]},
+#             {"klass":"property","name":"on","value":"false","settable":false,"attributes":[]}
+#         ],
+#         "attributes":[]
+#       }
+#   ]
+# }
+#
+#           </tbody>

@@ -39,20 +39,19 @@
                           <% unless node.nil? %>
                             <tbody>
                               <%# V2 Work Around %>
-                              <% prop = get_attribute_value(node, '$properties') %>
+                              <% (get_attribute_value(node, '$properties')&.split(",") || []).each do |idx| %>
 
-                              <% if !prop.blank? && prop.include?(":") %>
+                              <% if idx.include?(":") %>
                                 <% unit = "" %>
-                                <% name = prop.split(":").first %>
+                                <% name = idx.split(":").first %>
                                 <% value = "" %>
-                                <% settable = "settable".eql?(prop.split(":").last) %>
+                                <% settable = "settable".eql?(idx.split(":").last) %>
                                 <tr>
                                   <td><i class="fa fa-gears" aria-hidden="true"></i> <%== name.titleize %></td>
                                   <td><%== value %> <%== unit %></td>
                                   <td><i class="fa fa-toggle-<%== settable ? 'on' : 'off' %>" aria-hidden="true"></i></td>
                                 </tr>
                               <% else %>
-                                <% (get_attribute_value(node, '$properties')&.split(",") || []).each do |idx| %>
                                   <% prop = get_property(node, idx) %>
                                   <% name = prop.name %>
                                   <% value = prop.value %>
