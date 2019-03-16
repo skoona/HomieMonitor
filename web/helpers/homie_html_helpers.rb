@@ -63,13 +63,8 @@ class SknWeb
   end
 
   def node_array_helper(device_hash)
-    v3 = false
     nds = get_attribute_value(device_hash, '$nodes')&.split(',')
-    puts "NDS-A:[#{nds}]:#{nds.class.name}"
-    v3 = nds.is_a?(Array)
     nds = v2_nodes(device_hash) unless nds.is_a?(Array)
-    puts "NDS-B:[#{nds}]:#{nds.class.name}"
-    nds.empty? ? ( puts("V2 Properties: #{device_hash.properties}"); puts("V2 Attributes: #{device_hash.attributes}") ) : puts("V2 Node(s) Found ~> #{get_node(device_hash.nodes, nds.first) unless v3}")
     nds.is_a?(Array) ? nds : []
   end
 

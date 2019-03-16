@@ -26,18 +26,23 @@ module Homie
 
       def handle_queue_event?(queue_event)
         message_type = queue_event.device_attribute_property.value
-        if device_name.eql?(queue_event.topic_parts[1])
+        if device_name.eql?(queue_event.topic_parts[1]) and @date_completed.blank?
+
+          if queue_event.device_attribute.success and
+              ['$online','$state'].include?(queue_event.device_attribute.value)
+            if ["ready","true"].include?(queue_event.value)
+              #(send firmware) unless @state.eql?('up-to-date')
+              @state = 'pending'
+              SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] SEND FIRMWARE(#{@filename}) EVENT"
+            end
+          end
+
           case message_type
+
             when 'checksum'
               if checksum.eql?(queue_event.value)
                 @state = 'up-to-date'
                 @date_completed = Date.today
-              end
-            when "/[$online|$state]/"
-              if ["ready","true"].include?(queue_event.value)
-                #(send firmware) unless @state.eql?('up-to-date')
-                @state = 'pending'
-                SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] SEND FIRMWARE(#{@filename}) EVENT"
               end
 
             when "/ota\.firmware/"
@@ -54,16 +59,22 @@ module Homie
                 @date_completed = Date.today
               elsif queue_event.value == "403"
                 @state = 'disabled'
+                @date_completed = Date.today
               elsif queue_event.value == "400"
                 @state = 'error'
+                @date_completed = Date.today
               elsif queue_event.value == "500"
                 @state = 'error'
+                @date_completed = Date.today
               elsif queue_event.value.include?("206 ")
                 @state = 'inprogress'
                 SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Processing!) (#{queue_event.value})"
               end
           end
           SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Processed) STATE: #{@state}:#{message_type}"
+          true
+        elsif !@date_completed.nil?
+          SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Ignored) STATE: #{@state}:#{message_type}"
           true
         else
           SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Skipped) STATE: #{@state}:#{message_type}"

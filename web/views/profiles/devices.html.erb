@@ -14,7 +14,7 @@
 <!--      <div class="row">-->
 
         <% package.each do |device| %>
-<% puts device %>
+
           <% ready         = get_online_value(device) %>
           <% homie_version = get_attribute_value(device, '$homie') %>
           <% homie_impl    = get_attribute_value(device, '$implementation') %>

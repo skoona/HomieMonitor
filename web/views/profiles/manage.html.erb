@@ -21,6 +21,7 @@
             <thead>
               <th>Actions</th>
               <th>Scheduled</th>
+              <th>Completed</th>
               <th>Device</th>
               <th>Mac Addr</th>
               <th>Firmware</th>
@@ -33,6 +34,7 @@
               <tr data-package="<%== entry.to_json %>">
                 <td class="text-center" data-toggle="tooltip" data-placement="top" title="Cancel Item Scheduled"><a href="#"><i class="fa fa-trash  fa-1x"></i></a></td>
                 <td><%= entry.date_requested %></td>
+                <td><%= entry.date_completed %></td>
                 <td><%= entry.device_name %></td>
                 <td><%= entry.mac %></td>
                 <td><%= entry.firmware_filename %></td>
