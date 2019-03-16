@@ -982,3 +982,28 @@
   elements: 4
   id: 82
   _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '500 INTERNAL_ERROR 8'
+  _qos: 1
+  _original: sknSensors/LabTarget/$implementation/ota/status
+  _package:
+    - sknSensors
+    - LabTarget
+    - "$implementation"
+    - ota.status
+  elements: 4
+  id: 83
+  _retain: false
+- !ruby/object:Homie::Commands::QueueEvent
+  value: '200'
+  _qos: 1
+  _original: sknSensors/LabTarget/$implementation/ota/status
+  _package:
+    - sknSensors
+    - LabTarget
+    - "$implementation"
+    - ota.status
+  elements: 4
+  id: 84
+  _retain: false
+

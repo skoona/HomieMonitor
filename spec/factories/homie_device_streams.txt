@@ -82,3 +82,4 @@ sknSensors/LabTarget/$stats/signal 72
 sknSensors/LabTarget/$stats/uptime 8
 sknSensors/LabTarget/$implementation/ota/status 202
 sknSensors/LabTarget/$implementation/ota/status 500 INTERNAL_ERROR 8
+sknSensors/LabTarget/$implementation/ota/status 200
