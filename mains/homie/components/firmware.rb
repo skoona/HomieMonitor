@@ -32,6 +32,14 @@ module Homie
         @path.binread
       end
 
+      def as_base64_no_pad_url
+        urlsafe_encode64(as_binary, padding: false)
+      end
+
+      def as_base64_with_pad_url
+        Base64.urlsafe_encode64(as_binary, padding: true)
+      end
+
       def as_strict_base64
         Base64.strict_encode64(as_binary)
       end
@@ -63,7 +71,18 @@ module Homie
       end
 
       def value
-        as_base64
+        case Homie::Handlers::Stream.ota_type
+        when 'RFC4648_pad'
+          as_base64_no_pad_url
+        when 'RFC4648'
+          as_base64_with_pad_url
+        when 'base64strict'
+          as_strict_base64
+        when 'base64'
+          as_base64
+        else
+          as_binary
+        end
       end
 
       def retain

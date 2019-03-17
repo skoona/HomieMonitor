@@ -9,7 +9,7 @@ Warbler::Config.new do |config|
   config.pathmaps.java_classes << "%{target/classes/,}p"
   config.gem_excludes = [/^(test|spec)\//]
   config.pathmaps.application = ["WEB-INF/%p"]
-  config.jar_name = "homie_monitor_esp"
+  config.jar_name = "homie_monitor_esp-#{Skn::VERSION}"
   config.autodeploy_dir = "target/"
   config.gem_path = "WEB-INF/vendor/bundle"
   config.public_html  += FileList["META-INF/context.xml","public/**/*"]

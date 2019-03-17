@@ -572,6 +572,9 @@ The configuration module will prefers environment variables over config file val
     HM_FIRMWARE_PATH    defaults to './content/firmwares/'
     HM_SPIFFS_PATH      defaults to './content/spiffs/'
     HM_DATA_STORE       defaults to './db/HomieMonitor_store.yml'
+    HM_OTA_TYPE         binary, base64strict, base64, RFC4648_pad, RFC4648_no_pad 
+                        - are the choice for OTA transmissions; defaults to `binary`
+
 
 
 ## Following Along: Initialization
@@ -604,13 +607,16 @@ The configuration module will prefers environment variables over config file val
 * ./main/homie/homie.rb
     * Message wiring
 
-#### As java executable
-* Java 8 Runtime
+#### As java executable 
+* JavaSE V8+ Runtime
     * export RACK_ENV='development'    or 'production'
-    * $ java -jar homie_admin_esp.war    
+    * $ java -jar homie_admin_esp-<version>.war    
 * Default port is `8080`
-    * $ java -Dwarbler.port=9999 -jar homie_admin_esp.war
-* Logs output to $stdout or console only    
+    * $ java -Dwarbler.port=8585 -jar homie_admin_esp-<version>.war
+* Logs output to $stdout or console only
+* OR USE THE SCRIPT FROM [HomieMonitor](https://www.dropbox.com/sh/xpv5a6gyexthnev/AAB0eY59kxTsMQJg7FOT3Pw9a?dl=0)
+    * Edit script to add MQTT credentials at a minimum!
+    * $ bash <path-to_script>/homieMonitor.sh    
 
     
 ## Following Along: WTF

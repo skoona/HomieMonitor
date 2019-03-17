@@ -18,6 +18,7 @@ module Homie
       setting(:password, SknSetting.mqtt.password,  reader: true)
       setting(:base_topics, (SknSettings.mqtt.env_base_topics.is_a?(Array) ? SknSettings.mqtt.env_base_topics : SknSetting.mqtt.base_topics), reader: true )
       setting(:debug_log_file, SknSetting.mqtt.debug_log_file, reader: true)
+      setting(:ota_type, SknSettings.content_service.ota.type, reader: true)
     end
   end
 end
