@@ -17,6 +17,11 @@ module Homie
       setting(:username, SknSetting.mqtt.username, reader: true)
       setting(:password, SknSetting.mqtt.password,  reader: true)
       setting(:base_topics, (SknSettings.mqtt.env_base_topics.is_a?(Array) ? SknSettings.mqtt.env_base_topics : SknSetting.mqtt.base_topics), reader: true )
+
+      setting(:ssl_enable, SknSetting.mqtt.ssl_enable, reader: true)
+      setting(:ssl_certificate_path, SknSetting.mqtt.ssl_certificate_path, reader: true)
+      setting(:ssl_key_path, SknSetting.mqtt.ssl_key_path, reader: true)
+
       setting(:debug_log_file, SknSetting.mqtt.debug_log_file, reader: true)
       setting(:ota_type, SknSettings.content_service.ota.type, reader: true)
     end

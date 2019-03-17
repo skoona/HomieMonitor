@@ -568,6 +568,11 @@ The configuration module will prefers environment variables over config file val
     HM_MQTT_USER        defaults are invalid
     HM_MQTT_PASS        defaults are invalid
     HM_BASE_TOPICS      defaults to `'[["sknSensors/#",1],["homie/#",1]]'`
+
+    HM_MQTT_SSL_ENABLE_FLAG defaults to false
+    HM_MQTT_SSL_CERT_PATH   defaults are invalid
+    HM_MQTT_SSL_KEY_PATH    defaults are invalid
+
     HM_MQTT_LOG         defaults to `/tmp/homieMonitor/paho-debug.log`
     HM_FIRMWARE_PATH    defaults to './content/firmwares/'
     HM_SPIFFS_PATH      defaults to './content/spiffs/'

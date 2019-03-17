@@ -28,6 +28,9 @@ module Homie
       def handle_queue_event?(queue_event)
         message_type = queue_event.device_attribute_property_all.value.strip
         message_value = queue_event.value
+
+        rc = true
+
         if device_name.eql?(queue_event.topic_parts[1]) and @date_completed.blank?
 
           if queue_event.device_attribute.success and
@@ -77,13 +80,14 @@ module Homie
                 elsif message_value.start_with?("500")
                   @state = message_value
                 elsif message_value.start_with?("206 ")
+                  rc = false
                   @state = 'inprogress'
                   SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Processing!) (#{message_value})"
                 end
             end
           end
           SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Processed) STATE: #{@state}:#{message_type}"
-          true
+          rc
         elsif device_name.eql?(queue_event.topic_parts[1]) and !@date_completed.blank?
           SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Ignored) STATE: #{@state}:#{message_type}"
           true

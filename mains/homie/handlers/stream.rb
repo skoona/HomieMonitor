@@ -60,7 +60,8 @@ module Homie
                               reconnect_delay: 10,
                               client_id: Stream.client_id,
                               username:  Stream.username,
-                              password:  Stream.password
+                              password:  Stream.password,
+                              ssl: Stream.ssl_enable
                            })
         if SknApp.debug and Stream.debug_log_file.present?
           PahoMqtt.logger  = Stream.debug_log_file
@@ -70,7 +71,17 @@ module Homie
       end
 
       def call
+
+        sleep(30)   # Startup Delay
+
         @client = PahoMqtt::Client.new(@_config.to_hash)
+
+        ### Set the encryption mode to True
+        if Stream.ssl_enable and not Stream.ssl_certificate_path.blank?
+          @client.ssl = true
+          ### Configure the user SSL key and the certificate
+          @client.config_ssl_context(Stream.ssl_certificate_path, Stream.ssl_key_path)
+        end
 
         client.on_message do |pck|
           # write to receive_q

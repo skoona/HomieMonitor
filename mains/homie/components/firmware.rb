@@ -18,7 +18,7 @@ module Homie
         @path        = filename.kind_of?(Pathname) ? filename : Pathname.new(filename)
         @filename    = @path.basename
         binfile      = @path.binread  # Not Retained
-        @checksum    = Digest::MD5.hexdigest(binfile)
+        @checksum    = Digest::MD5.hexdigest(value)
         @_homie_flag = binfile.unpack('H*').first.include?(HOMIE_PATTERN)
         if @_homie_flag
           @brand     = find_pattern(BRAND_PATTERN, binfile)
