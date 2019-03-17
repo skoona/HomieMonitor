@@ -13,7 +13,8 @@ module Homie
     class Firmware
       attr_reader :checksum, :name, :filename, :version, :brand, :path
 
-      def initialize(filename)
+      def initialize(filename, topic=nil)
+        @_topic      = topic
         @path        = filename.kind_of?(Pathname) ? filename : Pathname.new(filename)
         @filename    = @path.basename
         binfile      = @path.binread  # Not Retained
@@ -24,14 +25,19 @@ module Homie
           @name      = find_pattern(NAME_PATTERN, binfile)
           @version   = find_pattern(VERSION_PATTERN, binfile)
         end
+        SknApp.logger.debug "#{self.class.name}.#{__method__} for: #{@name}:#{@_topic}"
       end
 
       def as_binary
         @path.binread
       end
 
-      def as_base64
+      def as_strict_base64
         Base64.strict_encode64(as_binary)
+      end
+
+      def as_base64
+        Base64.encode64(as_binary)
       end
 
       def homie?
@@ -47,6 +53,27 @@ module Homie
         end
         value
       end
+
+      def id
+        1000
+      end
+
+      def topic
+        SknSuccess.(@_topic)
+      end
+
+      def value
+        as_base64
+      end
+
+      def retain
+        false
+      end
+
+      def qos
+        1
+      end
+
 
       def to_hash
         {

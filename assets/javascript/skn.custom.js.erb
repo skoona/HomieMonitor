@@ -87,6 +87,9 @@ SknUtil.prototype = {
     go: function(path) {
         window.location = this.genURL(path);
     },
+    flashMessage: function(message) {
+        $('#message-section').append('<div class="alert alert-error"><a href="#" class="close" data-dismiss="alert">&times;</a>' + message + '</div>');
+    },
     postHomie: function(url, dataPackage) {
         $.ajax({
             headers: {'X-CSRF-Token': Skn.csrf, 'X-XSRF-Token': Skn.csrfToken},
@@ -122,7 +125,6 @@ SknUtil.prototype = {
         }).done(function (data, textStatus, jqXHR) {
             var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
             consoleLog(msg);
-//            swal({title: "Did something good!", text: msg, icon: "warning"});
             lastData = data;
             lastSuccess = true;
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -145,7 +147,6 @@ SknUtil.prototype = {
         }).done(function (data, textStatus, jqXHR) {
             var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
             consoleLog(msg);
-//            swal({title: "Did something good!", text: msg, icon: "warning"});
             lastData = data;
             lastSuccess = true;
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -229,7 +230,9 @@ $(function() {
                 if (willDelete) {
                     Skn.postHomie("/homie/delete_schedule_entry", {name: dataPkg.device_name});
                     if (lastSuccess) {
+                        var tbl = row.closest('table');
                         row.remove();
+                        tbl.show();
                     }
                 }
             });
@@ -252,7 +255,9 @@ $(function() {
                 if (willDelete) {
                     Skn.postHomie("/homie/delete_firmware", {name: firmware.filename});
                     if (lastSuccess) {
+                        var tbl = row.closest('table');
                         row.remove();
+                        tbl.show();
                     }
                 }
             });
@@ -283,8 +288,8 @@ $(function() {
                         '<td>' + lastData.payload.version + '</td>' +
                         '<td>Waiting</td></tr>';
 
-                    $('#scheduled-table > tbody:last-child').append(row).show();
-                    $('#scheduled-table').table("refresh");
+                    $('#scheduled-table > tbody:last-child').append($(row)).show();
+                    Skn.flashMessage("Schedule Add, Please refresh page.");
                 }
             }
         });

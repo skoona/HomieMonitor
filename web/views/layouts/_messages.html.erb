@@ -1,5 +1,5 @@
 <%# Roda flash messages styled for Bootstrap 3.0, using Roda-tags %>
-<section>
+<section id="message-section">
   <% flash.each_pair do |name, msg| %>
     <%# puts "HELP FLASH=#{name}:#{msg.class.name}:#{msg}" %>
     <% if msg.is_a?(String) %>

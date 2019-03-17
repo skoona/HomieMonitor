@@ -65,8 +65,8 @@ module Homie
         @_package[1].eql?("$broadcast")
       end
       def schedule_related?
-        ["$fw", "ota"].any? do |q|
-          @_original.include?(q)
+        ['$state','$online', '$fw', '$implementation'].any? do |q|
+          @_package[2]&.include?(q)
         end
       end
 
