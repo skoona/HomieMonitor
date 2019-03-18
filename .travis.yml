@@ -5,7 +5,9 @@ sudo: false
 rvm: jruby-18mode
 jdk: oraclejdk8
 
-cache: bundler
+cache:
+  - bundler
+  - /home/travis/.rvm
 
 gemfile:
   - Gemfile
@@ -18,5 +20,3 @@ gemfile:
 before_install:
   - gem update --system
   - gem install bundler
-
-script: ruby rake
