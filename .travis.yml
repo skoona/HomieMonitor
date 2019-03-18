@@ -1,9 +1,22 @@
 language: ruby
 
-jdk:
-  - oraclejdk8
-  
 sudo: false
+
 rvm: jruby-18mode
+jdk: oraclejdk8
 
 cache: bundler
+
+gemfile:
+  - Gemfile
+
+#before_script:
+#  - unset JRUBY_OPTS
+#  - unset _JAVA_OPTIONS
+#  - if ruby -e "exit RUBY_VERSION >= '2.3.0'"; then gem update --system=3.0.1; else gem update --system=2.7.8; fi
+
+before_install:
+  - gem update --system
+  - gem install bundler
+
+script: ruby rake
