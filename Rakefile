@@ -30,7 +30,10 @@ Dir["rakelib/**/*.rake"].each do |task_resource|
 end
 
 # Set default and test to spec --prerequisites
-RSpec::Core::RakeTask.new(:spec)
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.pattern = Dir.glob("spec/**/*_spec.rb")
+  t.rspec_opts = "--format documentation"
+end
 
 desc "Run all rspec tests. "
 task :default => :spec

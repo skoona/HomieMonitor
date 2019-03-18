@@ -47,20 +47,19 @@ gem "rack-protection"
 gem "rack_csrf"
 
 gem "jruby-jars", "9.2.6.0", platform: :jruby
-gem "rake"
 
 # MQTT Support
 gem 'paho-mqtt'
 gem "deep_merge", '~> 1'
 
 group :development, :test do
+  gem "rake"
   gem 'pry'
   gem "rubocop", require: false
   gem "warbler", require: false
 end
 
 group :test do
-  gem 'rake'
   gem 'rspec'
   gem 'faker'
   gem 'rack-test'
