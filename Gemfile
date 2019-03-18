@@ -60,6 +60,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'rake'
   gem 'rspec'
   gem 'faker'
   gem 'rack-test'
