@@ -10,7 +10,7 @@ cache:
   - /home/travis/.rvm
 
 env:
-  - JRUBY_OPTS=--dev --debug -Xcompile.invokedynamic=true
+  - JRUBY_OPTS: --dev --debug -Xcompile.invokedynamic=true
 gemfile:
   - Gemfile
 
