@@ -26,7 +26,7 @@ module Homie
           @name      = find_pattern(NAME_PATTERN, binfile)
           @version   = find_pattern(VERSION_PATTERN, binfile)
         end
-        SknApp.logger.debug "#{self.class.name}.#{__method__} for: #{@name}:#{@_topic}"
+        SknApp.debug_logger.debug "#{self.class.name}.#{__method__} for: #{@name}:#{@_topic}"
       end
 
       def as_binary

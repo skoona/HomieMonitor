@@ -64,7 +64,7 @@ module Homie
     class Property
       include Homie::Components::Notifier
 
-      attr_reader :name, :settable, :attributes, :debug_logger
+      attr_reader :name, :settable, :attributes
 
       watch_attributes :value
 
@@ -77,7 +77,6 @@ module Homie
         @_notify_topic_parts = []
         @attributes   = []
         @settable     = false
-        @debug_logger = SknApp.debug_logger
         init_name(queue_event)
         true
       end
@@ -90,7 +89,7 @@ module Homie
 
         @name = rec.value
         @value = queue_event.value
-        debug_logger.perf "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) With: #{queue_event.topic.value}"
+        SknApp.debug_logger.perf "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) With: #{queue_event.topic.value}"
         handle_queue_event?(queue_event)
       end
 
@@ -113,7 +112,7 @@ module Homie
                     @attributes.push( obj )
                     true
                   rescue => e
-                    debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Property-Attribute Failure: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
+                    SknApp.debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Property-Attribute Failure: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
                     true
                   end
                 end
@@ -124,7 +123,7 @@ module Homie
         else
           false
         end
-        debug_logger.perf "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) #{rc ? 'Processed' : 'Skipped'}: #{queue_event.topic.value} ~> #{queue_event.value}"
+        SknApp.debug_logger.perf "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) #{rc ? 'Processed' : 'Skipped'}: #{queue_event.topic.value} ~> #{queue_event.value}"
         rc
       end
 
