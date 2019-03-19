@@ -10,9 +10,11 @@ begin
 
   require 'bundler/setup' # Setup LoadPath for gems listed in the Gemfile.
 
-  if RUBY_PLATFORM == "java"
+  if defined?(JRUBY_VERSION)
     require 'java'
     $stdout.puts("Using JRuby and requiring JAVA!")
+  else
+    $stdout.puts("Using Ruby #{RUBY_PLATFORM}")
   end
 
   require_relative 'version'              # Skn::Version
