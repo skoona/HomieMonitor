@@ -1,5 +1,5 @@
 Discovery Outcome
-Homie::Manager Homie Discovery Provider.
+Homie::Providers::Manager Homie Discovery Provider.
 Two broadcast discovered.
 
 Device: HomeOffice:Home Office 	Nodes ~> 3

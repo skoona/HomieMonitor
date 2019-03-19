@@ -62,7 +62,7 @@ module Homie
     # Properties update themself if name matches, then if attr flag update/create attributes
     # Subscribe-able via :subscribe, :unsubscribe methods
     class Property
-      include Homie::Events::Notify
+      include Homie::Components::Notifier
 
       attr_reader :name, :settable, :attributes, :debug_logger
 
@@ -90,7 +90,7 @@ module Homie
 
         @name = rec.value
         @value = queue_event.value
-        debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) With: #{queue_event.topic.value}"
+        debug_logger.perf "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) With: #{queue_event.topic.value}"
         handle_queue_event?(queue_event)
       end
 
@@ -124,7 +124,7 @@ module Homie
         else
           false
         end
-        debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) #{rc ? 'Processed' : 'Skipped'}: #{queue_event.topic.value} ~> #{queue_event.value}"
+        debug_logger.perf "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) #{rc ? 'Processed' : 'Skipped'}: #{queue_event.topic.value} ~> #{queue_event.value}"
         rc
       end
 

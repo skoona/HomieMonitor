@@ -11,14 +11,15 @@ module Homie
 
     # Homie (>= V.2.0 because of magic bytes)
     class Firmware
-      attr_reader :checksum, :name, :filename, :version, :brand, :path
+      attr_reader :checksum, :name, :filename, :version, :brand, :path, :homie_version
 
       def initialize(filename, topic=nil)
         @_topic      = topic
         @path        = filename.kind_of?(Pathname) ? filename : Pathname.new(filename)
         @filename    = @path.basename
         binfile      = @path.binread  # Not Retained
-        @checksum    = Digest::MD5.hexdigest(value)
+        @checksum    = Digest::MD5.hexdigest(binfile)
+        @homie_version = 3
         @_homie_flag = binfile.unpack('H*').first.include?(HOMIE_PATTERN)
         if @_homie_flag
           @brand     = find_pattern(BRAND_PATTERN, binfile)
@@ -101,7 +102,7 @@ module Homie
             checksum: checksum,
             version: version,
             brand: brand,
-            path: path.basename.to_s,
+            path: path,
             homie: homie?,
             fsize: path.size,
             created: path.ctime.strftime("%Y-%b-%d %H:%M"),
@@ -112,18 +113,3 @@ module Homie
     end
   end
 end
-
-# SPI Flash Filing System, SPIFFS
-
-# # this method for decode base64 code to file
-# def parse_image_data(image[1])
-#   base64_file = image[1]
-#   ext, string = base64_file.split(',')
-#
-#   ext = MIME::Types[base64_file].first.preferred_extension if ext.include?("base64")
-#   tempfile = Tempfile.new(["#{DateTime.now.to_i}", ".#{ext}"])
-#   tempfile.binmode
-#   tempfile.write Base64.decode64(string)
-#   tempfile.rewind
-#   tempfile
-# end

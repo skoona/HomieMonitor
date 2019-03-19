@@ -1,4 +1,4 @@
-# File: ./main/homie/events/provider.rb
+# File: ./main/homie/providers/subscriptions.rb
 #
 ##
 # Persistence via YAML and YAML::Store
@@ -6,7 +6,7 @@
 # ##
 
 module Homie
-  module Events
+  module Providers
 
     # ## Action Sources
     # $implementation/ota/firmware/<md5 checksum>
@@ -16,20 +16,13 @@ module Homie
     # $fw/name
     # $fw/version
     # $fw/checksum
-    class Provider
+    class Subscriptions
       include Singleton
 
       def initialize()
         @_data_source   = SknApp.registry.resolve("data_source")
         @_subscriptions = subscriptions_restore
-        @_events        = []
-        @_publishers    = []
         SknApp.logger.debug "#{self.class.name}.#{__method__}"
-      end
-
-      # Notify callback
-      def change_event(event)
-        @_events.push(event)
       end
 
       def handle_queue_event?(queue_event)
@@ -70,6 +63,7 @@ module Homie
       def subscriptions_restore
         @_data_source.transaction { @_data_source.fetch(:subscriptions, []) }
       end
+
 
     end
   end

@@ -160,7 +160,7 @@ using V3.01 test data with four devices, mixed
 <p>
 
 ```text
-Homie::Manager Homie Discovery Provider.
+Homie::Providers::Manager Homie Discovery Provider.
   Discovery Outcome
 Device: HomeOffice:Home Office 	Nodes ~> 3
 	(A) $state:ready 	Properties: 0

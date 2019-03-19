@@ -1,5 +1,5 @@
 
-describe Homie::Manager,  'Homie Discovery Provider. ' do
+describe Homie::Providers::Manager,  'Homie Discovery Provider. ' do
   include QueueMessages
 
   SknApp.registry

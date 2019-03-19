@@ -72,15 +72,17 @@ module Homie
 
       def call
 
-        sleep(30)   # Startup Delay
+        if defined?($servlet_context)
+          sleep(45)   # Startup Delay when running on Jetty
+        end
 
         @client = PahoMqtt::Client.new(@_config.to_hash)
 
         ### Set the encryption mode to True
         if Stream.ssl_enable and not Stream.ssl_certificate_path.blank?
-          @client.ssl = true
           ### Configure the user SSL key and the certificate
           @client.config_ssl_context(Stream.ssl_certificate_path, Stream.ssl_key_path)
+          debug_logger.debug "#{self.class.name}##{__method__}: SSL Certs Engaged: #{Stream.ssl_enable} "
         end
 
         client.on_message do |pck|
@@ -157,7 +159,7 @@ module Homie
       end
 
       def queue_message_push(packet)
-        if packet.topic.include?('$implementation/ota/firmware/') # can't use firmware loads messages
+        if packet.topic.include?('$implementation/ota/firmware') # can't use firmware loads messages
           bytes = packet.payload.size
           packet.payload = "MessageBytes=#{bytes}"
         end

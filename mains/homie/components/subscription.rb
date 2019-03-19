@@ -8,7 +8,7 @@ module Homie
   module Components
 
     class Subscription
-      attr_reader :device_name, :mac, :filename, :firmware_name, :path,
+      attr_reader :device_name, :mac, :filename, :firmware_name, :path, :homie_version,
                   :state, :date_requested, :date_completed, :version, :checksum
 
       def initialize(firmware:, device:)
@@ -19,6 +19,7 @@ module Homie
         @checksum = firmware.checksum
         @device_name = device.name
         @mac = device.attributes.detect{|r| r.name.eql?('$mac')}&.value
+        @homie_version = device.attributes.detect{|r| r.name.eql?('$homie')}&.value
         @state = "Waiting"
         @date_requested = time_stamp
         @date_completed = nil
@@ -42,12 +43,15 @@ module Homie
                       ['up-to-date', 'disabled'].include?(state)
 
               parts = queue_event.topic_parts
+              homie_format =  homie_version&.start_with?("1") ?
+                                  "#{parts[0]}/#{parts[1]}/$implementation/ota/firmware" :
+                                  "#{parts[0]}/#{parts[1]}/$implementation/ota/firmware/#{checksum}"
+
               SknApp.registry.resolve("device_stream_manager").send_queue_event(
-                  Homie::Components::Firmware.new(path,
-                    "#{parts[0]}/#{parts[1]}/$implementation/ota/firmware/#{checksum}")
+                  Homie::Components::Firmware.new(path,homie_format)
               )
               @state = 'active'
-              SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] SEND FIRMWARE(#{@filename}) EVENT"
+              SknApp.logger.perf "#{self.class.name}.#{__method__} [#{device_name}:#{homie_version}] SEND FIRMWARE(#{@filename}) EVENT"
             end
 
           else
@@ -86,7 +90,7 @@ module Homie
                 end
             end
           end
-          SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Processed) STATE: #{@state}:#{message_type}"
+          SknApp.logger.perf "#{self.class.name}.#{__method__} [#{device_name}] (Processed) STATE: #{@state}:#{message_type}"
           rc
         elsif device_name.eql?(queue_event.topic_parts[1]) and !@date_completed.blank?
           SknApp.logger.debug "#{self.class.name}.#{__method__} [#{device_name}] (Ignored) STATE: #{@state}:#{message_type}"
@@ -130,6 +134,7 @@ module Homie
             version: version,
             firmware_checksum: checksum,
             mac: mac,
+            homie_version: homie_version,
             state: state,
             date_requested: date_requested,
             date_completed: date_completed

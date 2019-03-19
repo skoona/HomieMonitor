@@ -42,7 +42,7 @@ module Services
               end
 
         duration = SknUtils.duration(@_start_time)
-        SknApp.logger.info "#{self.class.name}##{__method__} Command: #{cmd.class.name.split('::').last}, Returned: #{resp.class.name.split('::').last}, Duration: #{duration}"
+        SknApp.logger.perf "#{self.class.name}##{__method__} Command: #{cmd.class.name.split('::').last}, Returned: #{resp.class.name.split('::').last}, Duration: #{duration}"
         resp
       rescue StandardError => e
         duration = SknUtils.duration(@_start_time)

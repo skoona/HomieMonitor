@@ -77,7 +77,7 @@ module Homie
   module Components
 
     class Device
-      include Homie::Events::Notify
+      include Homie::Components::Notifier
 
       attr_reader :name, :nodes, :attributes, :base, :debug_logger
 
@@ -91,7 +91,7 @@ module Homie
         @_subscribers = []
         @_notify_topic_parts = []
         @base        = queue_event.homie_base
-        @value       = queue_event.value
+        @value       = nil
         @nodes       = []
         @attributes  = []
         @debug_logger = SknApp.debug_logger
@@ -104,7 +104,7 @@ module Homie
 
         raise ArgumentError, "Invalid Device Property: #{queue_event.topic_parts.last}" if @name.nil?
 
-        debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) With: #{queue_event.topic.value}"
+        debug_logger.perf "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) With: #{queue_event.topic.value}"
         handle_queue_event?(queue_event)
       end
 
@@ -125,7 +125,7 @@ module Homie
              else
                false
              end
-        debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) #{rc ? 'Processed' : 'Skipped'}: #{queue_event.topic.value} ~> #{queue_event.value}"
+        debug_logger.perf "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) #{rc ? 'Processed' : 'Skipped'}: #{queue_event.topic.value} ~> #{queue_event.value}"
         rc
       end
 

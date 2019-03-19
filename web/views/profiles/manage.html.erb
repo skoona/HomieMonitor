@@ -177,25 +177,32 @@
         <div class="panel-body">
           <a href="#" class="btn btn-info" id="any-action"><i class="fa fa-send-o"></i> Send Message</a>
         </div>
-        <ul>
-          <li>/device/node/property/set</li>
-          <li>/device/attr/property/set</li>
-          <li>$implementation/reset: You can publish a true to this topic to reset the device.  Erases its config file and goes offline!</li>
-          <li>$implementation/config/set: You can update the configuration.json by sending incremental JSON on this topic.</li>
-          <li>$implementation/ota/firmware/&lt;md5 checksum&gt;: If the update request is accepted, you must send the firmware payload to this topic.</li>
-          <li>$implementation/ota/status: HTTP-like status code indicating the status of the OTA. Might be:</li>
-          <li>
-            <ul>
-              <li>200	OTA successfully flashed</li>
-              <li>202	OTA request / checksum accepted</li>
-              <li>206 465/349680	OTA in progress. The data after the status code corresponds to &lt;bytes written&gt;/&lt;bytes total&gt;</li>
-              <li>304	The current firmware is already up-to-date</li>
-              <li>400 BAD_FIRMWARE	OTA error from your side. The identifier might be BAD_FIRMWARE, BAD_CHECKSUM, NOT_ENOUGH_SPACE, NOT_REQUESTED</li>
-              <li>403	OTA not enabled</li>
-              <li>500 FLASH_ERROR	OTA error on the ESP8266. The identifier might be FLASH_ERROR</li>
-            </ul>
-          </li>
-        </ul>
+        <div class="well">
+          <dl>
+            <dt>baseId/deviceId/nodeId/propertyId/attributeId</dt>
+              <dd>Formal Node message structure</dd>
+            <dt>homie/deviceId/attributeId/propertyId/propertyId</dt>
+              <dd>Formal Device message structure</dd>
+            <dt>homie/deviceId/$implementation/reset</dt>
+              <dd>You can publish a true to this topic to reset the device.  Erases its config file and goes offline!</dd>
+            <dt>homie/deviceId/$implementation/config/set</dt>
+              <dd>You can update the configuration.json by sending incremental JSON on this topic.</dd>
+            <dt>homie/deviceId/$implementation/ota/firmware/&lt;md5 checksum&gt;</dt>
+              <dd>If the update request is accepted, you must send the firmware payload to this topic.</dd>
+            <dt>homie/deviceId/$implementation/ota/status</dt>
+              <dd>HTTP-like status code indicating the status of the OTA. Might be:
+                <ul>
+                  <li>200	OTA successfully flashed</li>
+                  <li>202	OTA request / checksum accepted</li>
+                  <li>206 465/349680	OTA in progress. The data after the status code corresponds to &lt;bytes written&gt;/&lt;bytes total&gt;</li>
+                  <li>304	The current firmware is already up-to-date</li>
+                  <li>400 BAD_FIRMWARE	OTA error from your side. The identifier might be BAD_FIRMWARE, BAD_CHECKSUM, NOT_ENOUGH_SPACE, NOT_REQUESTED</li>
+                  <li>403	OTA not enabled</li>
+                  <li>500 FLASH_ERROR	OTA error on the ESP8266. The identifier might be FLASH_ERROR</li>
+                </ul>
+              </dd>
+          </dl>
+        </div>
       </div>
     </section>
 

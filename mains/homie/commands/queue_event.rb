@@ -70,6 +70,11 @@ module Homie
         end
       end
 
+      def ota_loading?
+        @_original.include?('$implementation/ota/status') &&
+          @value.start_with?("206 ")
+      end
+
       def broadcast_key
         broadcast? && @_package[2..-1].join('.')
       end
