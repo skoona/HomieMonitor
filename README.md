@@ -1,27 +1,27 @@
 # HomieMonitor
-An exploration into [Homie-esp8266](https://homieiot.github.io/homie-esp8266/docs/develop/quickstart/getting-started/), using modules from [Dry-RB](http://dry-rb.org), 
-[Paho.MQTT.Ruby](https://github.com/RubyDevInc/paho.mqtt.ruby), [JRuby](https://www.jruby.org) and 
-[Roda](https://github.com/jeremyevans/roda) tooling.  This application is designed to act as a `Homie Controller`, or `Monitor`, 
+An exploration into [Homie-esp8266](https://homieiot.github.io/homie-esp8266/docs/develop/quickstart/getting-started/), using modules from [Dry-RB](http://dry-rb.org),
+[Paho.MQTT.Ruby](https://github.com/RubyDevInc/paho.mqtt.ruby), [JRuby](https://www.jruby.org) and
+[Roda](https://github.com/jeremyevans/roda) tooling. This application is designed to act as a `Homie Controller`, or `Monitor`,
 in support of IOT/Devices using [Homie-esp8266](https://github.com/homieiot/homie-esp8266); although any `Homie Device` implementation should be supported.
 
 #### Shared Link for executable java war file
     $ java -jar homie_monitor_esp.war
-    
+
 Too big for GitHub [HomieMonitor](https://www.dropbox.com/sh/xpv5a6gyexthnev/AAB0eY59kxTsMQJg7FOT3Pw9a?dl=0)
 
 
-#### References: 
+#### References:
 * [Homie: An MQTT Convention for IOT/M2M](https://homieiot.github.io/specification/)
 * [Homie-ESP8266 Example of RCWL-0516 Microwave Presence Detector and DHT22 Temperature and Humidity sensors](https://github.com/skoona/sknSensors-Rcwl_Dht22)
 
 ### WIP: Comments
-The plan is to use JRuby and build an executable, and self-contained, Java Jar that will run on any OS.  Today it works with either MRI or JRuby.
+The plan is to use JRuby and build an executable, and self-contained, Java Jar that will run on any OS. Today it works with either MRI or JRuby.
 
-Ruby's Standard Library offers YAML::Store as a key/value datasource, based on readable yaml files, this appears to be a good fit as most data is dynamically discovered.  Also, with a few gemfile tweaks you could use MRI/Ruby vs JRuby; only the Javascript engine needs to be changed.
+Ruby's Standard Library offers YAML::Store as a key/value datasource, based on readable yaml files, this appears to be a good fit as most data is dynamically discovered. Also, with a few gemfile tweaks you could use MRI/Ruby vs JRuby; only the Javascript engine needs to be changed.
 
 
 <img src="public/images/homepage.png" width="23%" /> <img src="public/images/devices.png" width="23%" /> <img src="public/images/details.png" width="23%" /> <img src="public/images/details-blink.png" width="23%" /> <img src="public/images/manage.png" width="23%" /> <img src="public/images/iphone-broadcasts.png" width="23%" /> <img src="public/images/iphone-discovered.png" width="23%" />
- 
+
 ## Planned Features
 #### Primary
 * Monitor Homie V2, and V3 Devices (Initial Focus on `ESP8266`)
@@ -35,24 +35,24 @@ Ruby's Standard Library offers YAML::Store as a key/value datasource, based on r
 
 
 ## Demonstration Mode
-If you do not have a MQTT Broker accessable, it is possible to use a mock mqtt stream.  Edit/create
+If you do not have a MQTT Broker accessable, it is possible to use a mock mqtt stream. Edit/create
 your `./config/settings/development.local.yml` file and add the following starting at line 0 or 1:
 
     ---
     Packaging:
       short_name: esp
-    
+
     content_service:
       demo_mode: true
-    
+
     # ##
     # Override (restate) by development, stage, production, etc
     mqtt:
       debug_log_file: './log/paho.log'
 
 
-The `content_service` entry controls which mqtt stgream is used; live or mocked.  You can find the 
-source files for the mock in directory: `./spec/factories/homie_*.txt`.  The class which transform these 
+The `content_service` entry controls which mqtt stgream is used; live or mocked. You can find the
+source files for the mock in directory: `./spec/factories/homie_*.txt`. The class which transform these
 text entries into mqtt messages is `./main/homie/handlers/mock_stream.rb`
 
 However, if MQTT `host` has not been configured, `demo_mode` will default to true!
@@ -82,14 +82,14 @@ However, if MQTT `host` has not been configured, `demo_mode` will default to tru
         │   │   ├── development.local.yml  -- you need to create this non-git file and set local passwords, etc.
         │   │   ├── development.yml
         │   │   ├── production.yml
-        │   │   └── test.yml    
+        │   │   └── test.yml
         │   ├── puma.rb             - Puma local webserver
         │   ├── settings.yml        - Default Application Settings
         │   ├── version.rb          - Application Version Object
         │   ├── environment.rb      - Loads Gems and Initializers Only
         │   ├── boot_web.rb         - Load Main and Web Application components
         │   └── boot.rb             - Load Main Application Only
-        ├── content/                 
+        ├── content/
         │   ├── firmwares/          - Firmware Storage
         │   └── spiffs/             - SPIFFS Storage
         ├── db                      - Default storage location for YAML::Store
@@ -149,7 +149,7 @@ However, if MQTT `host` has not been configured, `demo_mode` will default to tru
 
 
 ## Output from RSpec HomieManager module test
-using V3.01 test data with four devices, mixed 
+using V3.01 test data with four devices, mixed
 * One Device, one-node multiple-properties, 
 * One Device, three-nodes one-property-per-node
 * see `./spec/factories` and `./spec/support` for test data
@@ -170,41 +170,41 @@ Device: HomeOffice:Home Office 	Nodes ~> 3
 	(A) $localip:10.100.1.163 	Properties: 0
 	(A) $nodes:motion,temperature,humidity 	Properties: 0
 	(A) $stats:uptime 	Properties: 3
-		(P) interval:0 
-		(P) signal:42 
-		(P) uptime:409276 
+		(P) interval:0
+		(P) signal:42
+		(P) uptime:409276
 	(A) $fw:sknSensors-Rcwl_Dht11 	Properties: 3
-		(P) name:sknSensors-Rcwl_Dht11 
-		(P) version:0.2.5 
-		(P) checksum:aff42a25572516ac5abbca989ddaf2aa 
+		(P) name:sknSensors-Rcwl_Dht11
+		(P) version:0.2.5
+		(P) checksum:aff42a25572516ac5abbca989ddaf2aa
 	(A) $implementation:esp8266 	Properties: 3
-		(P) config:{"name":"Home Office","device_id":"HomeOffice","device_stats_interval":180,"wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true},"settings":{"sensorsInterval":300}} 
-		(P) version:3.0.0 
-		(P) ota.enabled:true 
+		(P) config:{"name":"Home Office","device_id":"HomeOffice","device_stats_interval":180,"wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true},"settings":{"sensorsInterval":300}}
+		(P) version:3.0.0
+		(P) ota.enabled:true
 	Node: motion:Humans Present 	Properties: 1
-		(A) $name:Humans Present 
-		(A) $type:motion 
-		(A) $properties:motion 
+		(A) $name:Humans Present
+		(A) $type:motion
+		(A) $properties:motion
 		(P) motion:true 	Attributes: 3
-			(A) $name:Motion 
-			(A) $datatype:boolean 
-			(A) $unit:s 
+			(A) $name:Motion
+			(A) $datatype:boolean
+			(A) $unit:s
 	Node: temperature:Room Temperature 	Properties: 1
-		(A) $name:Room Temperature 
-		(A) $type:temperature 
-		(A) $properties:degrees 
+		(A) $name:Room Temperature
+		(A) $type:temperature
+		(A) $properties:degrees
 		(P) degrees:69.80 	Attributes: 3
-			(A) $name:Degrees 
-			(A) $datatype:float 
-			(A) $unit:ºF 
+			(A) $name:Degrees
+			(A) $datatype:float
+			(A) $unit:ºF
 	Node: humidity:Room Humidity 	Properties: 1
-		(A) $name:Room Humidity 
-		(A) $type:humidity 
-		(A) $properties:percent 
+		(A) $name:Room Humidity
+		(A) $type:humidity
+		(A) $properties:percent
 		(P) percent:25.00 	Attributes: 3
-			(A) $name:Percent 
-			(A) $datatype:float 
-			(A) $unit:% 
+			(A) $name:Percent
+			(A) $datatype:float
+			(A) $unit:%
 
 Device: TheaterIR:Theater IR Server 	Nodes ~> 1
 	(A) $state:ready 	Properties: 0
@@ -214,34 +214,34 @@ Device: TheaterIR:Theater IR Server 	Nodes ~> 1
 	(A) $localip:10.100.1.215 	Properties: 0
 	(A) $nodes:irservice 	Properties: 0
 	(A) $stats:uptime 	Properties: 3
-		(P) interval:0 
-		(P) signal:42 
-		(P) uptime:245887 
+		(P) interval:0
+		(P) signal:42
+		(P) uptime:245887
 	(A) $fw:sknSensors-IRService.d1_mini 	Properties: 3
-		(P) name:sknSensors-IRService.d1_mini 
-		(P) version:0.2.0 
-		(P) checksum:934a0239a5b8513b09e16765dfdba9b5 
+		(P) name:sknSensors-IRService.d1_mini
+		(P) version:0.2.0
+		(P) checksum:934a0239a5b8513b09e16765dfdba9b5
 	(A) $implementation:esp8266 	Properties: 3
 		(P) config:{"name":"Theater IR Server","device_id":"TheaterIR","device_stats_interval":180,
 		            "wifi":{"ssid":"SFNSS1-24G"},
 		            "mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},
 		            "ota":{"enabled":true},
-		            "settings":{"sensorsInterval":300,"onSequence":"3,2FD48B7,32 43,5006,16 3,4BB620DF,32 3,4BB6F00F,32","offSequence":"3,2FD48B7,32 43,5006,16 3,4B36E21D,32"}} 
-		(P) version:3.0.0 
-		(P) ota.enabled:true 
+		            "settings":{"sensorsInterval":300,"onSequence":"3,2FD48B7,32 43,5006,16 3,4BB620DF,32 3,4BB6F00F,32","offSequence":"3,2FD48B7,32 43,5006,16 3,4B36E21D,32"}}
+		(P) version:3.0.0
+		(P) ota.enabled:true
 	Node: irservice:IR Provider 	Properties: 2
-		(A) $name:IR Provider 
-		(A) $type:theater-remote 
-		(A) $properties:command,received 
+		(A) $name:IR Provider
+		(A) $type:theater-remote
+		(A) $properties:command,received
 		(P) command:IR Broadcaster 	Attributes: 4
-			(A) $name:IR Broadcaster 
-			(A) $settable:true 
-			(A) $datatype:string 
-			(A) $unit:%s 
+			(A) $name:IR Broadcaster
+			(A) $settable:true
+			(A) $datatype:string
+			(A) $unit:%s
 		(P) received:IR Listener 	Attributes: 3
-			(A) $name:IR Listener 
-			(A) $datatype:string 
-			(A) $unit:%s 
+			(A) $name:IR Listener
+			(A) $datatype:string
+			(A) $unit:%s
 ```
 
 </p>
@@ -253,7 +253,7 @@ Device: TheaterIR:Theater IR Server 	Nodes ~> 1
 
 ```ruby
 # Array of two Devices
-# 
+#
 [{:klass=>"Device",
   :name=>"HomeOffice",
   :value=>"Home Office",
@@ -580,7 +580,19 @@ The configuration module will prefers environment variables over config file val
     HM_OTA_TYPE         binary, base64strict, base64, RFC4648_pad, RFC4648_no_pad 
                         - are the choice for OTA transmissions; defaults to `binary`
 
+### Docker Container
 
+Creation of Docker Container:
+
+```bash
+$ docker build -t homie-monitor .
+```
+
+Run created Container:
+
+```bash
+docker run -it --name my-homie-monitor homie-monitor
+```
 
 ## Following Along: Initialization
 #### Console
