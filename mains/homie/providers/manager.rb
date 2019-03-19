@@ -28,7 +28,7 @@ module Homie
         @_stream_send_queue    = SknApp.registry.resolve("stream_send_queue")
         @_subscriptions_provider = SknApp.registry.resolve("subscriptions_provider")
         @_data_source          = SknApp.registry.resolve("data_source")
-        @_devices              = load_device_inventory
+        @_devices              = [] # load_device_inventory
         @_broadcasts           = []
         @_subscriptions        = []
         @debug_logger          = SknApp.debug_logger
