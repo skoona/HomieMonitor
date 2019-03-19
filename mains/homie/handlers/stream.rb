@@ -63,7 +63,7 @@ module Homie
                               password:  Stream.password,
                               ssl: Stream.ssl_enable
                            })
-        if SknApp.debug and Stream.debug_log_file.present?
+        if SknApp.debug or Stream.debug_log_file.present?
           PahoMqtt.logger  = Stream.debug_log_file
         end
         @debug_logger.debug "#{self.class.name}##{__method__}: Init to #{Stream.host}"
