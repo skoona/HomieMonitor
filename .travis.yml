@@ -1,0 +1,20 @@
+language: ruby
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t homie/homie-monitor .
+
+script:
+  - rake
+
+after_script:
+  - docker images
+  
+deploy:
+  provider: script
+  script: bash docker_push.sh
+  on:
+    branch: master
