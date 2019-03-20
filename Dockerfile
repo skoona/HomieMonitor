@@ -19,7 +19,15 @@ ENV HM_MQTT_HOST=localhost
 ENV HM_MQTT_PORT=1883
 ENV HM_MQTT_USER=
 ENV HM_MQTT_PASS=
+
 ENV HM_BASE_TOPICS='[["homie/#",1]]'
+
+ENV HM_MQTT_SSL_ENABLE_FLAG=false
+ENV HM_MQTT_SSL_CERT_PATH=
+ENV HM_MQTT_SSL_KEY_PATH=
+
+ENV HM_OTA_TYPE='binary'
+
 ENV RACK_ENV='production'
 
 RUN mkdir /tmp/homieMonitor
@@ -30,6 +38,8 @@ RUN mkdir tmp/pids
 RUN touch tmp/pids/puma.pid
 
 VOLUME /tmp/homieMonitor/
+VOLUME /usr/src/app/content
+VOLUME /usr/src/app/db
 
 ENTRYPOINT ["bundle", "exec", "puma", "config.ru"]
 
