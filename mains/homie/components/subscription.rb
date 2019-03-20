@@ -9,10 +9,11 @@ module Homie
 
     class Subscription
       attr_reader :device_name, :mac, :filename, :firmware_name, :path, :homie_version,
-                  :state, :date_requested, :date_completed, :version, :checksum
+                  :state, :date_requested, :date_completed, :version, :checksum, :ota_format
 
       def initialize(firmware:, device:)
         @path = firmware.path
+        @ota_format = firmware.ota_format
         @firmware_name = firmware.name
         @filename = firmware.filename
         @version  = firmware.version
@@ -133,6 +134,7 @@ module Homie
             firmware_filename: filename,
             version: version,
             firmware_checksum: checksum,
+            ota_format: ota_format,
             mac: mac,
             homie_version: homie_version,
             state: state,

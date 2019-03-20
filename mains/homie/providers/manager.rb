@@ -144,6 +144,7 @@ module Homie
       end
 
       def load_device_inventory
+        return [] if SknApp.env.test?
         @_data_source.transaction { @_data_source.fetch(:devices, []) }
       end
       def save_device_inventory(ary)

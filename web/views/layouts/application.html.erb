@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
-    <% if ['devices', 'details'].any? {|n| n.include?(current_action_name) } %>
+    <% if 'devices'.eql?(current_action_name) %>
       <meta http-equiv="refresh" content="30">
     <% end %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

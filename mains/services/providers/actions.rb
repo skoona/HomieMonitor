@@ -35,7 +35,7 @@ module Services
                  when "ScheduleDelete"
                    @_schedule_delete_handler.call(cmd.device_name)
                  when "ScheduleAdd"
-                   @_schedule_add_handler.call(cmd.device_name, cmd.checksum)
+                   @_schedule_add_handler.call(cmd.device_name, cmd.checksum, cmd.ota_format)
                  else
                    SknSuccess.call( {success: false, status: 404, message: "Cannot Process Now!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Unknown Request type" )
                  end

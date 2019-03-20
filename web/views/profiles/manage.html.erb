@@ -37,7 +37,7 @@
                 <td><%= entry.date_completed %></td>
                 <td><%= entry.device_name %></td>
                 <td><%= entry.mac %></td>
-                <td><%= entry.firmware_filename %></td>
+                <td data-toggle="tooltip" data-placement="top" title="<%= entry.ota_format %>"><%= entry.firmware_filename %></td>
                 <td><%= entry.version %></td>
                 <td><%= entry.state %></td>
               </tr>
@@ -148,6 +148,18 @@
                       [<%= item.version %>] ~> <%= item.filename %>
                     </option>
                   <% end %>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <select class="form-control" id="ota-select" name="ota_format">
+                  <option class="active" value="">Select OTA Format</option>
+                    <option value="binary">Binary</option>
+                    <option value="base64">Base64</option>
+                    <option value="base64strict">Base64Strict</option>
+                    <option value="RFC4648">RFC4648 (URL Safe) with Padding</option>
+                    <option value="RFC4648_pad">RFC4648 (URL Safe) w/o Padding</option>
                 </select>
               </div>
             </div>

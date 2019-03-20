@@ -17,6 +17,7 @@ module Homie
         @_topic      = topic
         @path        = filename.kind_of?(Pathname) ? filename : Pathname.new(filename)
         @filename    = @path.basename
+        @ota_format  = nil
         binfile      = @path.binread  # Not Retained
         @checksum    = Digest::MD5.hexdigest(binfile)
         @homie_version = 3
@@ -27,6 +28,14 @@ module Homie
           @version   = find_pattern(VERSION_PATTERN, binfile)
         end
         SknApp.debug_logger.debug "#{self.class.name}.#{__method__} for: #{@name}:#{@_topic}"
+      end
+
+      def ota_format
+        @ota_format ||= Homie::Handlers::Stream.ota_type
+      end
+
+      def ota_format=(ota)
+        @ota_format = ota
       end
 
       def as_binary
@@ -72,7 +81,7 @@ module Homie
       end
 
       def value
-        case Homie::Handlers::Stream.ota_type
+        case ota_format
         when 'RFC4648_pad'
           as_base64_no_pad_url
         when 'RFC4648'
@@ -102,6 +111,7 @@ module Homie
             checksum: checksum,
             version: version,
             brand: brand,
+            ota_format: ota_format,
             path: path,
             homie: homie?,
             fsize: path.size,

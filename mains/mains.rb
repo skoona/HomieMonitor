@@ -16,7 +16,7 @@ SknApp.registry
     .register("content_action_provider", ->(command) { Services::Providers::Actions.call(command) }, call: false)
     .register("firmware_provider",       ->(command) { Services::Providers::Firmware.call(command) }, call: false)
     .register("firmware_catalog",        ->(action, value) { Services::Handlers::Firmwares.call(action, value) }, call: false)
-    .register("add_schedule_handler",    ->(device_name, checksum) { Services::Handlers::AddSchedule.call(device_name, checksum) }, call: false)
+    .register("add_schedule_handler",    ->(device_name, checksum, ota_format) { Services::Handlers::AddSchedule.call(device_name, checksum, ota_format) }, call: false)
     .register("delete_schedule_handler", ->(device_name) { Services::Handlers::DeleteSchedule.call(device_name) }, call: false)
     .register("send_file_handler",       ->(command) { Services::Handlers::SendFile.call(command) }, call: false)
     .register("receive_file_handler",    ->(fname, fsize, tfile) { Services::Handlers::ReceiveFile.call(fname, fsize, tfile) }, call: false)

@@ -1,7 +1,7 @@
 # ##
 # services_registry_spec.rb
 
-describe Services::ServicesRegistry, 'Service Registry Module. ' do
+describe Services::Providers::Registry, 'Service Registry Module. ' do
   let(:package) {
     {
         roda_context: double(:roda,

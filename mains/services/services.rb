@@ -17,4 +17,3 @@ end
 require_relative 'commands/commands'
 require_relative 'handlers/handlers'
 require_relative 'providers/providers'
-require_relative 'services_registry'

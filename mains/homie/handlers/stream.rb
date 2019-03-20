@@ -73,7 +73,7 @@ module Homie
       def call
 
         # if defined?($servlet_context)
-          sleep(45)   # Startup Delay when running on Jetty
+          sleep(45)  # Startup Delay when running on Jetty
         # end
 
         @client = PahoMqtt::Client.new(@_config.to_hash)

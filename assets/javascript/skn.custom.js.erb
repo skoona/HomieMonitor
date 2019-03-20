@@ -241,7 +241,7 @@ $(function() {
                         tbl.show();
                     }
                 }
-            });
+            })
         });
 
         $('#firmware-table > tbody > tr > td > a').click(function (ev) {
@@ -266,13 +266,14 @@ $(function() {
                         tbl.show();
                     }
                 }
-            });
+            })
         });
 
         $('#firmware-schedule-add').click(function(ev) {
-            var dataPkg  = {},
-                device   = $('#device-select').find(":selected").attr('value'),
-                firmware = $('#firmware-select').find(":selected").attr('value');
+            var dataPkg   = {},
+                device    = $('#device-select').find(":selected").attr('value'),
+                firmware  = $('#firmware-select').find(":selected").attr('value'),
+                otaFormat = $('#ota-select').find(":selected").attr('value');
 
             ev.stopImmediatePropagation();
 
@@ -280,7 +281,7 @@ $(function() {
             if (device.includes('Select') || firmware.includes('Select')) {
                 swal({title: "Validation Issue!", text: "Selection must be made for device and firmware to create a schedule!", icon: "warn"});
             } else {
-                Skn.postHomie("/homie/subscribe", {device: device, checksum: firmware});
+                Skn.postHomie("/homie/subscribe", {device: device, checksum: firmware, ota_format: otaFormat});
                 if (lastSuccess && lastData.success) {
                     console.log("Schedule Add: data=>%s", JSON.stringify(lastData));
                     row = '<tr data-package="' + lastData.payload + '">' +
@@ -290,7 +291,7 @@ $(function() {
                         '<td>' + lastData.payload.date_requested + '</td>' +
                         '<td>' + lastData.payload.device_name + '</td>' +
                         '<td>' + lastData.payload.mac + '</td>' +
-                        '<td>' + lastData.payload.firmware_filename + '</td>' +
+                        '<td data-toggle="tooltip" data-placement="top" title="' + lastData.ota_format + '">' + lastData.payload.firmware_filename + '</td>' +
                         '<td>' + lastData.payload.version + '</td>' +
                         '<td>Waiting</td></tr>';
 
