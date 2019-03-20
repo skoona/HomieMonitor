@@ -20,6 +20,7 @@ ENV HM_MQTT_PORT=1883
 ENV HM_MQTT_USER=
 ENV HM_MQTT_PASS=
 ENV HM_BASE_TOPICS='[["homie/#",1]]'
+ENV RACK_ENV='production'
 
 RUN mkdir /tmp/homieMonitor
 RUN touch /tmp/homieMonitor/paho-debug.log
