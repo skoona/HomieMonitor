@@ -198,6 +198,12 @@ $(function() {
             $("#mqttActionModal").modal({backdrop: "static"});
         });
 
+//        $('#reloader').click(function (ev) {
+//            if($(ev.target).prop('checked')) {
+//                window.location.reload(true);
+//            }
+//        });
+
     } else if (Skn.currentPage.includes('manage')) {
 
         consoleLog("Entered Init :manage");
@@ -290,7 +296,7 @@ $(function() {
 
                     $('#scheduled-table > tbody:last-child').append($(row)).show();
                     Skn.flashMessage("Schedule Added, Please refresh page.");
-                    location.reload(true);
+                    window.location.reload(true);
                 }
             }
         });

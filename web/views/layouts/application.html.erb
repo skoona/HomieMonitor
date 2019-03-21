@@ -3,10 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <% if ['devices', 'details'].any? {|n| n.include?(current_action_name) } %>
+      <meta http-equiv="refresh" content="30">
+    <% end %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= content_for(:title) ? content_for(:title) : release_name %></title>
     <meta name="description" content="<%= content_for(:description) ? yield(:description) : "#{release_name} explores Roda and the Dry-Rb Ruby Gems" %>" />
     <meta name="author" content="systems@skoona.net"/>
+
 
     <% unless current_environment_test? %>
       <%= csrf_metatag %>
