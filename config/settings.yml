@@ -22,7 +22,7 @@ content_service:
   data_source:
     store: <%= ENV.fetch('HM_DATA_STORE', "./db/HomieMonitor_store.yml") %>
   ota:
-    type: <%= ENV.fetch('HM_OTA_TYPE', "RFC4648_no_pad") %>
+    type: <%= ENV.fetch('HM_OTA_TYPE', "binary") %>
 
 # ##
 # Override (restate) by development, stage, production, etc

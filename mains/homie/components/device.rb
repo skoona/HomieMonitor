@@ -77,9 +77,9 @@ module Homie
   module Components
 
     class Device
-      include Homie::Events::Notify
+      include Homie::Components::Notifier
 
-      attr_reader :name, :nodes, :attributes, :base, :debug_logger
+      attr_reader :name, :nodes, :attributes, :base
 
       watch_attributes :value
 
@@ -91,10 +91,9 @@ module Homie
         @_subscribers = []
         @_notify_topic_parts = []
         @base        = queue_event.homie_base
-        @value       = queue_event.value
+        @value       = nil
         @nodes       = []
         @attributes  = []
-        @debug_logger = SknApp.debug_logger
         init_name(queue_event)
         true
       end
@@ -104,7 +103,7 @@ module Homie
 
         raise ArgumentError, "Invalid Device Property: #{queue_event.topic_parts.last}" if @name.nil?
 
-        debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) With: #{queue_event.topic.value}"
+        SknApp.debug_logger.perf "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) With: #{queue_event.topic.value}"
         handle_queue_event?(queue_event)
       end
 
@@ -125,7 +124,7 @@ module Homie
              else
                false
              end
-        debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) #{rc ? 'Processed' : 'Skipped'}: #{queue_event.topic.value} ~> #{queue_event.value}"
+        SknApp.debug_logger.perf "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) #{rc ? 'Processed' : 'Skipped'}: #{queue_event.topic.value} ~> #{queue_event.value}"
         rc
       end
 
@@ -138,7 +137,7 @@ module Homie
             @nodes.push( obj )
             true
           rescue
-            debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Node Failure: #{queue_event.topic.value} ~> #{queue_event.value}"
+            SknApp.debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Node Failure: #{queue_event.topic.value} ~> #{queue_event.value}"
             true   # no choice but answer true, cause it was our message to process no one else can
           end
         end
@@ -156,7 +155,7 @@ module Homie
             @attributes.push( obj )
             true
           rescue => e
-            debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Attribute Failure: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
+            SknApp.debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Attribute Failure: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
             true
           end
         end

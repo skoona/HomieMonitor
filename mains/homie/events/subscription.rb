@@ -1,19 +1,21 @@
-# File: ./main/homie/events/value_changed.rb
+# File: ./main/homie/events/subscription.rb
 #
 
 
 module Homie
   module Events
 
-    class ValueChanged
-      attr_reader :topic_ary, :name, :old_value, :new_value, :description
+    class Subscription
+      attr_reader :topic_ary, :device_name, :old_version, :new_version, :filename, :description
 
-      def initialize(topic_array:, source:, from:, to:, description:)
+      def initialize(topic_array:, device_name:, source:, from:, to:, filename:, description:)
         @topic_ary   = topic_array.dup
         @description = description
         @name        = source.dup
-        @old_value   = from.dup
-        @new_value   = to.dup
+        @device_name = device_name
+        @filename    = filename
+        @old_version = from.dup
+        @new_version = to.dup
         @created     = DateTime.now.strftime("%Y-%b-%d %H:%M")
       end
 
@@ -32,8 +34,10 @@ module Homie
             description: description,
             topic: topic_ary.join("/"),
             source:  name,
-            from: old_value,
-            to: new_value,
+            device_name: device_name,
+            filename: filename,
+            from: old_version,
+            to: new_version,
             created: @created
         }
       end

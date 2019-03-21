@@ -56,7 +56,7 @@ module Homie
   module Components
 
     class Node
-      attr_reader :name, :value, :attributes, :properties, :debug_logger
+      attr_reader :name, :value, :attributes, :properties
 
       def self.call(event)
         new(event)
@@ -66,7 +66,6 @@ module Homie
         @value   = queue_event.value.to_s
         @properties  = []
         @attributes  = []
-        @debug_logger = SknApp.debug_logger
         init_name(queue_event)
         true
       end
@@ -75,7 +74,7 @@ module Homie
         @name = queue_event.node_name_abs.value.to_s if queue_event.node_name_abs.success
         raise ArgumentError, "Invalid Node Property: #{queue_event.topic_parts.last}" if @name.nil?
 
-        debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) With: #{queue_event.topic.value}"
+        SknApp.debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) With: #{queue_event.topic.value}"
         handle_queue_event?(queue_event)
       end
 
@@ -89,13 +88,13 @@ module Homie
                elsif queue_event.node_property.success
                  handle_property(queue_event)
                else
-                 debug_logger.warn "#{self.class.name}##{__method__}(#{name}) Unknown|Ignored: #{queue_event.topic.value}"
+                 SknApp.debug_logger.warn "#{self.class.name}##{__method__}(#{name}) Unknown|Ignored: #{queue_event.topic.value}"
                end
                true # Required to respond true, cause it was our message - no matter the outcome
         else
           false
         end
-        debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) #{rc ? 'Processed' : 'Skipped'}: #{queue_event.topic.value} ~> #{queue_event.value}"
+        SknApp.debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) #{rc ? 'Processed' : 'Skipped'}: #{queue_event.topic.value} ~> #{queue_event.value}"
         rc
       end
 
@@ -115,7 +114,7 @@ module Homie
             @attributes.push( obj )
             true
           rescue => e
-            debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Attribute Failue: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
+            SknApp.debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Attribute Failue: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
             true
           end
         end
@@ -130,7 +129,7 @@ module Homie
             @properties.push( obj )
             true
           rescue => e
-            debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Property Failue: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
+            SknApp.debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Property Failue: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
             true
           end
         end

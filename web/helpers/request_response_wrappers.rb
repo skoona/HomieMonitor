@@ -5,7 +5,7 @@
 class SknWeb
 
   def registry_service
-    Services::ServicesRegistry.new(roda_context: self)
+    Services::Providers::Registry.new(roda_context: self)
   end
 
   def generate_standard_json_error_message(identifier, status, additional_detail=nil)

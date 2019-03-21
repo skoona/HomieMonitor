@@ -38,33 +38,34 @@
                         <table class="table table-hover table-condensed col-md-8">
                           <% unless node.nil? %>
                             <tbody>
+
                               <%# V2 Work Around %>
                               <% (get_attribute_value(node, '$properties')&.split(",") || []).each do |idx| %>
-
-                              <% if idx.include?(":") %>
-                                <% unit = "" %>
-                                <% name = idx.split(":").first %>
-                                <% value = "" %>
-                                <% settable = "settable".eql?(idx.split(":").last) %>
-                                <tr>
-                                  <td><i class="fa fa-gears" aria-hidden="true"></i> <%== name.titleize %></td>
-                                  <td><%== value %> <%== unit %></td>
-                                  <td><i class="fa fa-toggle-<%== settable ? 'on' : 'off' %>" aria-hidden="true"></i></td>
-                                </tr>
-                              <% else %>
-                                  <% prop = get_property(node, idx) %>
-                                  <% name = prop.name %>
-                                  <% value = prop.value %>
-                                  <% unit = get_property_attribute_value(node, prop.name, '$unit') %>
-                                  <% settable = prop.settable %>
+                                <% if idx.include?(":") %>
+                                  <% unit = "" %>
+                                  <% name = idx.split(":").first %>
+                                  <% value = "" %>
+                                  <% settable = "settable".eql?(idx.split(":").last) %>
                                   <tr>
                                     <td><i class="fa fa-gears" aria-hidden="true"></i> <%== name.titleize %></td>
                                     <td><%== value %> <%== unit %></td>
                                     <td><i class="fa fa-toggle-<%== settable ? 'on' : 'off' %>" aria-hidden="true"></i></td>
                                   </tr>
+                                <% else %>
+                                    <% prop = get_property(node, idx) %>
+                                    <% if prop %>
+                                      <% name = prop.name %>
+                                      <% value = prop.value %>
+                                      <% unit = get_property_attribute_value(node, prop.name, '$unit') %>
+                                      <% settable = prop.settable %>
+                                      <tr>
+                                        <td><i class="fa fa-gears" aria-hidden="true"></i> <%== name.titleize %></td>
+                                        <td><%== value %> <%== unit %></td>
+                                        <td><i class="fa fa-toggle-<%== settable ? 'on' : 'off' %>" aria-hidden="true"></i></td>
+                                      </tr>
+                                    <% end %>
                                 <% end %>
-                            <% end %>
-
+                              <% end %>
 
                             </tbody>
                           <% else %>

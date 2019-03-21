@@ -56,7 +56,7 @@ gem "deep_merge", '~> 1'
 group :development, :test do
   gem 'pry'
   gem "rubocop", require: false
-  gem "warbler", require: false
+  gem "warbler", require: false, platform: :jruby
 end
 
 group :test do

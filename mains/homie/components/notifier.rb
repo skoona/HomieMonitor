@@ -13,9 +13,9 @@
 # #    ...
 # #  end
 module Homie
-  module Events
+  module Components
 
-    module Notify
+    module Notifier
 
       def self.included(klass)
         klass.extend ClassMethods
@@ -52,7 +52,8 @@ module Homie
                       Homie::Events::ValueChanged.new(topic_array: @_notify_topic_parts,
                                                source: attr,
                                                from: old_value,
-                                               to: value)
+                                               to: value,
+                                               description: self.class.name )
                   )
                 end
               end
