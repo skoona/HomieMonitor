@@ -18,5 +18,3 @@ jobs:
       script: bundle install --path=vendor/bundle
     - stage: Create Docker image
       script: docker build -t homie-monitor .
-    - stage: test
-      script: docker run --rm --name my-homie-monitor homie-monitor
