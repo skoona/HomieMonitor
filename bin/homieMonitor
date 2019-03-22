@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# ##
+# Setup HomieMonitor Java executable
+# - Ref: https://github.com/skoona/HomieMonitor
+#
+# ##
+#  Description
+#  ----------------------------------------------
+# RACK_ENV='production'         Use `production` for UI performance, or `development` for debug logging
+# HM_MQTT_HOST='<mqtt-server-fqdn-or-ip_address>'
+# HM_MQTT_PORT=<mqtt-connection-port>
+# HM_MQTT_USER='<mqtt-username>'
+# HM_MQTT_PASS='<mqtt-user-password>'
+# HM_MQTT_SSL_ENABLE_FLAG defaults to false
+# HM_MQTT_SSL_CERT_PATH   defaults are invalid, full-path required if ssl=true
+# HM_MQTT_SSL_KEY_PATH    defaults are invalid, full-path required if ssl=true
+# HM_BASE_TOPICS='[["sknSensors/#",1],["homie/#",1]]'   base mqtt message name <homie>/<device-id>/<node-id>/...
+# HM_MQTT_LOG=`/tmp/homieMonitor/paho-debug.log`        extra mqtt specific logfile, from paho-mqtt-ruby.gem
+# HM_FIRMWARE_PATH="$HOME/homieMonitor/content/firmwares/"      Directory to store uploaded homie Firmware
+# HM_DATA_STORE="$HOME/homieMonitor/db/HomieMonitor_store.yml"  Full path and filename of YAML storage of OTA Subscriptions
+# HM_OTA_TYPE='base64strict'          binary, base64strict, base64, RFC4648_pad, RFC4648_no_pad
+#                                     - are the choice for OTA transmissions; defaults to `binary`
+
+#
+# Special Paths
+# 1. with HM_MQTT_SSL_CERT_PATH & HM_MQTT_SSL_KEY_PATH value empty `''`, set HM_MQTT_SSL_ENABLE_FLAG='true'
+# 2. if above fails then certs are required.  populate HM_MQTT_SSL_CERT_PATH & HM_MQTT_SSL_KEY_PATH with proper file paths
+#
+
+# Make runtime dirs
+[ -w $HOME/homieMonitor/ ] || {
+	echo 'Setting Up HomieMonitor' ;	 
+	mkdir -p $HOME/homieMonitor/{content/firmwares,content/spiffs,db,bin,log} ;
+}
+
+# Set Environment Vars
+RACK_ENV='production'
+HM_MQTT_HOST='localhost'
+# HM_MQTT_PORT=1883
+# HM_MQTT_USER=''
+# HM_MQTT_PASS=''
+HM_BASE_TOPICS='[["sknSensors/#",2],["homie/#",2]]'
+HM_MQTT_LOG="$HOME/homieMonitor/log/paho-debug.log"
+HM_FIRMWARE_PATH="$HOME/homieMonitor/content/firmwares/"
+HM_DATA_STORE="$HOME/homieMonitor/db/HomieMonitor_store.yml"
+HM_OTA_TYPE='binary'
+HM_MQTT_SSL_ENABLE_FLAG='false'
+HM_MQTT_SSL_CERT_PATH=''
+HM_MQTT_SSL_KEY_PATH=''
+
+
+# Export Environment (not required)
+export RACK_ENV HM_MQTT_HOST HM_MQTT_PORT HM_MQTT_USER HM_MQTT_PASS 
+export HM_OTA_TYPE HM_MQTT_SSL_ENABLE_FLAG HM_MQTT_SSL_CERT_PATH HM_MQTT_SSL_KEY_PATH
+export HM_BASE_TOPICS HM_MQTT_LOG HM_FIRMWARE_PATH HM_DATA_STORE 
+
+# copy homie_monitor-0.7.1.war to bin directory
+# cp -v $HOME/Downloads/homie_monitor* $HOME/homieMonitor/bin/
+
+# Java execute
+# java -Dwarbler.port=8585 -jar $HOME/homieMonitor/bin/homie_monitor_esp-0.8.0.war
+
+# OR Ruby execute
+# cd $HOME/homieMonitor
+# git clone git@github.com:skoona/HomieMonitor.git
+# cd HomieMonitor
+# git pull origin master
+bundle exec puma config.ru
+
+#end
+

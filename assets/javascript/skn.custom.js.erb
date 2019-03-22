@@ -198,12 +198,6 @@ $(function() {
             $("#mqttActionModal").modal({backdrop: "static"});
         });
 
-//        $('#reloader').click(function (ev) {
-//            if($(ev.target).prop('checked')) {
-//                window.location.reload(true);
-//            }
-//        });
-
     } else if (Skn.currentPage.includes('manage')) {
 
         consoleLog("Entered Init :manage");
@@ -239,6 +233,7 @@ $(function() {
                         var tbl = row.prev('tr');
                         row.remove();
                         tbl.show();
+                        Skn.go('/profiles/manage');
                     }
                 }
             })
@@ -264,6 +259,7 @@ $(function() {
                         var tbl = row.prev('tr');
                         row.remove();
                         tbl.show();
+                        Skn.go('/profiles/manage');
                     }
                 }
             })
@@ -297,7 +293,7 @@ $(function() {
 
                     $('#scheduled-table > tbody:last-child').append($(row)).show();
                     Skn.flashMessage("Schedule Added, Please refresh page.");
-                    window.location.reload(true);
+                    Skn.go('/profiles/manage');
                 }
             }
         });
@@ -341,6 +337,7 @@ $(function() {
                             '<td>' + firmware.created + '</td></tr>';
 
                         tbl.append($(row)).show();
+                        Skn.go('/profiles/manage');
                     }
                     return;
                 }
@@ -384,7 +381,8 @@ $(function() {
 
     /* **
      * Timeout non-Error Flash messages
-     *    { alert: :alert, notice: :success, info: :info, secondary: :secondary, success: :success, error: :alert, warning: :warning, primary: :primary }
+     *    { alert: :alert, notice: :success, info: :info, secondary: :secondary,
+     *      success: :success, error: :alert, warning: :warning, primary: :primary }
      */
     setTimeout(function() { // all except alert
         var elems = $('div.alert.alert-success,.alert.alert-notice,.alert.alert-info,.alert.alert-warning');

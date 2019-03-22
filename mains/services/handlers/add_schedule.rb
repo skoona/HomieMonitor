@@ -24,7 +24,7 @@ module Services
 
         firmware_obj = @_firmwares.call('find', checksum)
         raise "Firmware not Found" if firmware_obj.nil?
-        firmware_obj.value[:ota_format] = ota_format
+        firmware_obj.value[:payload].first.ota_format = ota_format
 
         device_obj   = @_stream.devices.detect {|rec| rec.name.eql?(device_name.gsub(" ", '')) }
         raise "Device not Found" if device_obj.nil?
