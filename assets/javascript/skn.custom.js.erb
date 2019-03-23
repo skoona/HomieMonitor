@@ -230,10 +230,8 @@ $(function() {
                 if (willDelete) {
                     Skn.postHomie("/homie/delete_schedule_entry", {name: dataPkg.device_name});
                     if (lastSuccess) {
-                        var tbl = row.prev('tr');
-                        row.remove();
-                        tbl.show();
-                        Skn.go('/profiles/manage');
+                        console.log("Delete Schedule: data=>%s", JSON.stringify(lastData));
+                        Skn.go(Skn.currentPage);
                     }
                 }
             })
@@ -256,10 +254,8 @@ $(function() {
                 if (willDelete) {
                     Skn.postHomie("/homie/delete_firmware", {name: firmware.filename});
                     if (lastSuccess) {
-                        var tbl = row.prev('tr');
-                        row.remove();
-                        tbl.show();
-                        Skn.go('/profiles/manage');
+                        console.log("Delete Firmware: data=>%s", JSON.stringify(lastData));
+                        Skn.go(Skn.currentPage);
                     }
                 }
             })
@@ -280,20 +276,7 @@ $(function() {
                 Skn.postHomie("/homie/subscribe", {device: device, checksum: firmware, ota_format: otaFormat});
                 if (lastSuccess && lastData.success) {
                     console.log("Schedule Add: data=>%s", JSON.stringify(lastData));
-                    row = '<tr data-package="' + lastData.payload + '">' +
-                        '<td class="text-center" data-toggle="tooltip" ' +
-                        'data-placement="top" title="Cancel Item Scheduled!">' +
-                        '<a href="#"><i class="fa fa-trash fa-1x"></i></a></td>' +
-                        '<td>' + lastData.payload.date_requested + '</td>' +
-                        '<td>' + lastData.payload.device_name + '</td>' +
-                        '<td>' + lastData.payload.mac + '</td>' +
-                        '<td data-toggle="tooltip" data-placement="top" title="' + lastData.ota_format + '">' + lastData.payload.firmware_filename + '</td>' +
-                        '<td>' + lastData.payload.version + '</td>' +
-                        '<td>Waiting</td></tr>';
-
-                    $('#scheduled-table > tbody:last-child').append($(row)).show();
-                    Skn.flashMessage("Schedule Added, Please refresh page.");
-                    Skn.go('/profiles/manage');
+                    Skn.go(Skn.currentPage);
                 }
             }
         });
@@ -320,24 +303,11 @@ $(function() {
             debug: true,
             callbacks: {
                 onComplete: function(id, name, responseJSON, xhr) {
-                    var tbl = $("#firmware-table > tbody:last-child");
-                    var row = '<tr>';
                     var firmware = responseJSON.payload;
 
                     if (responseJSON.success) {
-                        row = '<tr data-package="' + firmware + '">' +
-                            '<td class="text-center" data-toggle="tooltip" ' +
-                            'data-placement="top" title="Remove from Filesystem!">' +
-                            '<a href="#"><i class="fa fa-trash fa-1x"></i></a></td>' +
-                            '<td>' + firmware.filename + '</td>' +
-                            '<td>' + firmware.name + '</td>' +
-                            '<td>' + firmware.version + '</td>' +
-                            '<td>' + firmware.checksum + '</td>' +
-                            '<td>' + firmware.fsize + '</td>' +
-                            '<td>' + firmware.created + '</td></tr>';
-
-                        tbl.append($(row)).show();
-                        Skn.go('/profiles/manage');
+                        console.log("FineUploader onComplete: data=>%s", JSON.stringify(lastData));
+                        Skn.go(Skn.currentPage);
                     }
                     return;
                 }
@@ -377,6 +347,12 @@ $(function() {
         }
 
         Skn.postHomie( Skn.currentPage, dataPackage);
+        if (lastSuccess) {
+            setTimeout(function() {
+                console.log("MQTT Send Message: data=>%s", JSON.stringify(lastData));
+                Skn.go(Skn.currentPage)
+            }, 1000);
+        }
     });
 
     /* **
