@@ -32,12 +32,12 @@ mqtt:
   username: <%= ENV.fetch('HM_MQTT_USER', "userid") %>
   password: <%= ENV.fetch('HM_MQTT_PASS', "password") %>
   env_base_topics: <%= ENV['HM_BASE_TOPICS'] %>
-  # [["sknSensors/#", 1], ["homie/#", 1]]
+  # [["sknSensors/#", 0], ["homie/#", 0]]
   :base_topics:
     - - sknSensors/#
-      - 1
+      - 0
     - - homie/#
-      - 1
+      - 0
   debug_log_file: <%= ENV.fetch('HM_MQTT_LOG', '/tmp/homieMonitor/paho-debug.log') %>
   ssl_enable: <%= ENV.fetch('HM_MQTT_SSL_ENABLE_FLAG', false) %>
   ssl_certificate_path: <%= ENV.fetch('HM_MQTT_SSL_CERT_PATH', nil) %>

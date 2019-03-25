@@ -184,35 +184,47 @@
     <section>
       <div class="panel panel-default">
         <div class="panel-heading ">
-          <h2 class="panel-title">Random Notes</h2>
+          <h2 class="panel-title">System Information</h2>
         </div>
         <div class="panel-body">
-          <a href="#" class="btn btn-info" id="any-action"><i class="fa fa-send-o"></i> Send Message</a>
+          <a href="#" class="btn btn-info btn-block" id="any-action"><i class="fa fa-send-o"></i> Send Message</a>
         </div>
-        <div class="well">
+        <div class="well col-md-6">
+          <h3>Runtime Configuration</h3>
           <dl>
-            <dt>baseId/deviceId/nodeId/propertyId/attributeId</dt>
-              <dd>Formal Node message structure</dd>
-            <dt>homie/deviceId/attributeId/propertyId/propertyId</dt>
-              <dd>Formal Device message structure</dd>
+            <dt>Release</dt>
+            <dd><%= release_name_and_version %></dd>
+            <dt>MQTT Host</dt>
+            <dd><%= SknSettings.mqtt.host %></dd>
+            <dt>MQTT Client ID</dt>
+            <dd><%= Homie::Handlers::Stream.client_id %></dd>
+            <dt>MQTT SSL Enabled</dt>
+            <dd><%= Homie::Handlers::Stream.ssl_enable %></dd>
+            <dt>MQTT Username</dt>
+            <dd><%= SknSettings.mqtt.username %></dd>
+            <dt>MQTT Topic Subscription</dt>
+            <dd><%= Homie::Handlers::Stream.base_topics %></dd>
+            <dt>MQTT/OTA default type</dt>
+            <dd><%= Homie::Handlers::Stream.ota_type %></dd>
+            <dt>Discovery Database File</dt>
+            <dd><%= SknSettings.content_service.data_source.store %></dd>
+            <dt>Firmware Path</dt>
+            <dd><%= SknSettings.content_service.firmware_path %></dd>
+            <dt>Paho Debug Log Path</dt>
+            <dd><%= SknSettings.mqtt.debug_log_file %></dd>
+          </dl>
+        </div>
+        <div class="well col-md-6">
+          <h3>Notes</h3>
+          <dl>
+            <dt>Formal Node message structure</dt>
+            <dd>baseId/deviceId/nodeId/propertyId/attributeId</dd>
+            <dt>Formal Device message structure</dt>
+            <dd>homie/deviceId/attributeId/propertyId/propertyId</dd>
             <dt>homie/deviceId/$implementation/reset</dt>
               <dd>You can publish a true to this topic to reset the device.  Erases its config file and goes offline!</dd>
             <dt>homie/deviceId/$implementation/config/set</dt>
               <dd>You can update the configuration.json by sending incremental JSON on this topic.</dd>
-            <dt>homie/deviceId/$implementation/ota/firmware/&lt;md5 checksum&gt;</dt>
-              <dd>If the update request is accepted, you must send the firmware payload to this topic.</dd>
-            <dt>homie/deviceId/$implementation/ota/status</dt>
-              <dd>HTTP-like status code indicating the status of the OTA. Might be:
-                <ul>
-                  <li>200	OTA successfully flashed</li>
-                  <li>202	OTA request / checksum accepted</li>
-                  <li>206 465/349680	OTA in progress. The data after the status code corresponds to &lt;bytes written&gt;/&lt;bytes total&gt;</li>
-                  <li>304	The current firmware is already up-to-date</li>
-                  <li>400 BAD_FIRMWARE	OTA error from your side. The identifier might be BAD_FIRMWARE, BAD_CHECKSUM, NOT_ENOUGH_SPACE, NOT_REQUESTED</li>
-                  <li>403	OTA not enabled</li>
-                  <li>500 FLASH_ERROR	OTA error on the ESP8266. The identifier might be FLASH_ERROR</li>
-                </ul>
-              </dd>
           </dl>
         </div>
       </div>

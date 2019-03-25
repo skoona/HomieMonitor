@@ -72,9 +72,7 @@ module Homie
 
       def call
 
-        # if defined?($servlet_context)
-          sleep(45)  # Startup Delay when running on Jetty
-        # end
+        sleep(10)
 
         @client = PahoMqtt::Client.new(@_config.to_hash)
 
@@ -86,9 +84,7 @@ module Homie
         end
 
         client.on_message do |pck|
-          # write to receive_q
           queue_message_push(pck)
-          debug_logger.debug "Received(#{pck.id}): #{pck.topic} ~> #{pck.payload}" if Stream.debug_log_file.present?
         end
 
         @_wait_suback = true
@@ -169,4 +165,3 @@ module Homie
     end # end class
   end
 end
-

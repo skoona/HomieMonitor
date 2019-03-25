@@ -3,7 +3,8 @@
 
 # Warbler web application assembly configuration file
 Warbler::Config.new do |config|
-  config.features = %w(runnable)
+  config.init_contents << StringIO.new("\nGem.clear_paths\nGem.path\n\n")
+  config.features = %w(executable)
   config.dirs = %w(assets bin config content db i18n mains vendor tmp web log spec)
   config.includes = FileList["config.ru", "Gemfile", "Gemfile.lock", "LICENSE", "README.md"]
   config.excludes = FileList["config/**/*.local.yml"]
