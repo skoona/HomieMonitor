@@ -56,16 +56,6 @@ However, if MQTT `host` has not been configured, `demo_mode` will default to tru
         * Above will produce a console log that can be used as test data by this system.
 
 
-#### Shared Link for executable java warFile
-    $ vim homieMonitor.sh  (* and supply values for mqtt and others, then execute
-    $ cp <Downloads>/homie_monitor_esp-<version>.war $HOME/homieMonitor/bin/
-     -- OR --
-    $ java -jar homie_monitor_esp-<version>.war  (* demo mode
-    
-Too big for GitHub [HomieMonitor warFile](https://www.dropbox.com/sh/xpv5a6gyexthnev/AAB0eY59kxTsMQJg7FOT3Pw9a?dl=0)
-
-
-
 ## Following Along: Installation
 #### (a) Ruby/JRuby
 <dl>   
@@ -82,7 +72,8 @@ Too big for GitHub [HomieMonitor warFile](https://www.dropbox.com/sh/xpv5a6gyext
 #### (b) Java warFile
 <dl>
     <dt>Download warFile and `homieMonitor.sh`</dt>
-        <dd><code>[HomieMonitor warFile and script](https://www.dropbox.com/sh/xpv5a6gyexthnev/AAB0eY59kxTsMQJg7FOT3Pw9a?dl=0)</code></dd>
+        <dd><code>homie_monitor_esp-<version>.war and homieMonitoer.sh</code></dd>
+	[HomieMonitor warFile and script](https://www.dropbox.com/sh/xpv5a6gyexthnev/AAB0eY59kxTsMQJg7FOT3Pw9a?dl=0)
     <dt>Edit `homieMonitor.sh` script</dt>
         <dd>set your mqtt credentials</dd>
     <dt>Start the app on port 8585</dt>
