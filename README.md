@@ -9,8 +9,6 @@ in support of IOT/Devices using [Homie-esp8266](https://github.com/homieiot/homi
 * [Homie-ESP8266 Example of RCWL-0516 Microwave Presence Detector and DHT22 Temperature and Humidity sensors](https://github.com/skoona/sknSensors-Rcwl_Dht22)
 
 #### Screenshots
-<img src="public/images/homepage.png" width="23%" /> <img src="public/images/devices.png" width="23%" /> <img src="public/images/details.png" width="23%" /> <img src="public/images/details-blink.png" width="23%" /> <img src="public/images/manage.png" width="23%" /> <img src="public/images/iphone-broadcasts.png" width="23%" /> <img src="public/images/iphone-discovered.png" width="23%" />
-
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |<img src="public/images/homepage.png" width="23%" />|<img src="public/images/devices.png" width="23%" />|<img src="public/images/details.png" width="23%" />|
