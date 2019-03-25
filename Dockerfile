@@ -40,6 +40,7 @@ RUN touch tmp/pids/puma.pid
 VOLUME /tmp/homieMonitor/
 VOLUME /usr/src/app/content
 VOLUME /usr/src/app/db
+VOLUME /usr/src/app/config/settings
 
 ENTRYPOINT ["bundle", "exec", "puma", "config.ru"]
 
