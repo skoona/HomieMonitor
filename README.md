@@ -192,11 +192,11 @@ To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, befo
 ### Docker Container
 Creation of [Docker Container:](https://hub.docker.com/r/stritti/homie-monitor)
 
-	$ docker build -t homie-monitor .
+    $ docker build -t homie-monitor .
 
 Run created Container:
 
-	$ docker run -it --name my-homie-monitor homie-monitor
+	$ docker run -it -p 8585:8585 --name my-homie-monitor homie-monitor
 
 ## Contributors
 	* Docker configuration contributed by Stephan Strittmatter @stritti on DockerHub.
