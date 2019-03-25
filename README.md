@@ -24,6 +24,7 @@ in support of IOT/Devices using [Homie-esp8266](https://github.com/homieiot/homi
 * MQTT OTA operations
 * `Discover Devices` page auto-refreshes every 30 seconds
 * Self contained Application packaged as Java Executable warFile; using Warbler.gem -- port 8080
+* Docker build script.
 * Internally designed to tollerate potentially Homie Specification 1.5+, but focused on V3.
 * Attribute and Property retention, via YAML:Store file, as Homie considers some discovery related attributes optional and they are not always retained!
 
@@ -182,7 +183,21 @@ bundle exec puma config.ru
 
 
 ## Alternate Builds
+### Switch Ruby
 To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, before proceeding.
+
+### Docker Container
+Creation of [Docker Container:](https://hub.docker.com/r/stritti/homie-monitor)
+
+	$ docker build -t homie-monitor .
+
+Run created Container:
+
+	$ docker run -it --name my-homie-monitor homie-monitor
+
+## Contributors
+Docker configuration contributed by Stephan Strittmatter @stritti on DockerHub.
+Qos = 0 configuration value contributed by Marcus Klein @kleini on Gitter.
 
 
 ## Contributing
