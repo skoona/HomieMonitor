@@ -82,7 +82,7 @@ Too big for GitHub [HomieMonitor warFile](https://www.dropbox.com/sh/xpv5a6gyext
 #### (b) Java warFile
 <dl>
     <dt>Download warFile and `homieMonitor.sh`</dt>
-        <dd>[HomieMonitor warFile and script](https://www.dropbox.com/sh/xpv5a6gyexthnev/AAB0eY59kxTsMQJg7FOT3Pw9a?dl=0)</dd>
+        <dd><code>[HomieMonitor warFile and script](https://www.dropbox.com/sh/xpv5a6gyexthnev/AAB0eY59kxTsMQJg7FOT3Pw9a?dl=0)</code></dd>
     <dt>Edit `homieMonitor.sh` script</dt>
         <dd>set your mqtt credentials</dd>
     <dt>Start the app on port 8585</dt>
