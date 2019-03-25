@@ -12,3 +12,4 @@ end
 require_relative 'content'
 require_relative 'actions'
 require_relative 'firmware'
+require_relative 'registry'

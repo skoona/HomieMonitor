@@ -6,10 +6,10 @@
 
 
 module Homie
-  module Events
+  module Providers
   end
 end
 
-require_relative 'value_changed'
-require_relative 'subscription'
-require_relative 'firmware'
+require_relative 'subscriptions'
+require_relative 'events'
+require_relative 'manager'

@@ -11,13 +11,13 @@ module Services
 
     class ScheduleAdd
 
-      attr_reader :device_name, :checksum
+      attr_reader :device_name, :checksum, :ota_format
 
       def initialize(request_params={})
         @device_name  = request_params["device"]
         @checksum  = request_params["checksum"]
-
-        SknApp.logger.debug "#{self.class.name}.#{__method__} For device: #{@device_name}"
+        @ota_format = request_params["ota_format"]
+        SknApp.logger.debug "#{self.class.name}.#{__method__} For device: #{@device_name}:#{@ota_format}"
       end
 
       def valid?

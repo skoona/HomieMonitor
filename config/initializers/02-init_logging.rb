@@ -7,7 +7,7 @@ begin
   dpattern = Logging.layouts.pattern({ pattern: '%d %c:%-5l %m\n', date_pattern: '%Y-%m-%d %H:%M:%S.%3N' })
    std_out = Logging.appenders.stdout( $stdout, :layout => dpattern)
 
-  Logging.logger.root.level     = (SknApp.env.production? ? :info : :debug )
+  Logging.logger.root.level     = :debug # (SknApp.env.production? ? :info : :debug )
   Logging.logger.root.appenders = std_out
   SknApp.config.logger          = Logging.logger['ESP']
   SknApp.config.debug_logger    = Logging.logger['HMIE']

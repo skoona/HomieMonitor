@@ -60,7 +60,7 @@ module Homie
 
     # Attribues update themself if name matches, then if prop flag update/create properties
     class Attribute
-      attr_reader :name, :value, :properties, :debug_logger
+      attr_reader :name, :value, :properties
 
       def self.call(event)
         new(event)
@@ -68,7 +68,6 @@ module Homie
 
       def initialize(queue_event)
         @properties   = []
-        @debug_logger  = SknApp.debug_logger
         init_name(queue_event)
         true
       end
@@ -83,7 +82,7 @@ module Homie
         @name = rec.value
         @value = queue_event.value
 
-        debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) With: #{queue_event.topic.value} ~> #{queue_event.value}"
+        SknApp.debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) With: #{queue_event.topic.value} ~> #{queue_event.value}"
         handle_queue_event?(queue_event)
       end
 
@@ -104,7 +103,7 @@ module Homie
               else
                 false
               end
-        debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) #{rc ? 'Processed' : 'Skipped'}: #{queue_event.topic.value} ~> #{queue_event.value}"
+        SknApp.debug_logger.info "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) #{rc ? 'Processed' : 'Skipped'}: #{queue_event.topic.value} ~> #{queue_event.value}"
         rc
       end
 
@@ -126,7 +125,7 @@ module Homie
             @properties.push( obj )
             true
           rescue => e
-            debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Property Failue: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
+            SknApp.debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Property Failue: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
             true
           end
         end

@@ -56,7 +56,7 @@ group :development, :test do
   gem "rake"
   gem 'pry'
   gem "rubocop", require: false
-  gem "warbler", require: false
+  gem "warbler", require: false, platform: :jruby
 end
 
 group :test do

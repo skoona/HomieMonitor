@@ -16,31 +16,25 @@
     add_filter '/target/'
 
     add_group 'Main Application' do |src_file|
-      ['main/utils','config', 'rakelib'].any? do |item|
+      ['mains/utils','config', 'rakelib'].any? do |item|
         src_file.filename.include? item
       end
     end
 
     add_group 'Homie Stream' do |src_file|
-      ['main/homie'].any? do |item|
+      ['mains/homie'].any? do |item|
         src_file.filename.include? item
       end
     end
 
     add_group 'Services' do |src_file|
-      ['main/services'].any? do |item|
+      ['mains/services'].any? do |item|
         src_file.filename.include? item
       end
     end
 
     add_group 'Web Interface' do |src_file|
       ['web'].any? do |item|
-        src_file.filename.include? item
-      end
-    end
-
-    add_group 'Persistence' do |src_file|
-      ['main/persistence'].any? do |item|
         src_file.filename.include? item
       end
     end

@@ -37,7 +37,7 @@
                 <td><%= entry.date_completed %></td>
                 <td><%= entry.device_name %></td>
                 <td><%= entry.mac %></td>
-                <td><%= entry.firmware_filename %></td>
+                <td data-toggle="tooltip" data-placement="top" title="<%= entry.ota_format %>"><%= entry.firmware_filename %></td>
                 <td><%= entry.version %></td>
                 <td><%= entry.state %></td>
               </tr>
@@ -153,6 +153,18 @@
             </div>
             <div class="form-group">
               <div class="col-sm-12">
+                <select class="form-control" id="ota-select" name="ota_format">
+                  <option class="active" value="">Select OTA Format</option>
+                    <option value="binary">Binary</option>
+                    <option value="base64">Base64</option>
+                    <option value="base64strict">Base64Strict</option>
+                    <option value="RFC4648">RFC4648 (URL Safe) with Padding</option>
+                    <option value="RFC4648_pad">RFC4648 (URL Safe) w/o Padding</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
                 <button type="submit" class="btn btn-block btn-info" id="firmware-schedule-add">
                   <i class="fa fa-calendar-check-o"></i> Schedule Firmware Update
                 </button>
@@ -172,30 +184,49 @@
     <section>
       <div class="panel panel-default">
         <div class="panel-heading ">
-          <h2 class="panel-title">Random Notes</h2>
+          <h2 class="panel-title">System Information</h2>
         </div>
         <div class="panel-body">
-          <a href="#" class="btn btn-info" id="any-action"><i class="fa fa-send-o"></i> Send Message</a>
+          <a href="#" class="btn btn-info btn-block" id="any-action"><i class="fa fa-send-o"></i> Send Message</a>
         </div>
-        <ul>
-          <li>/device/node/property/set</li>
-          <li>/device/attr/property/set</li>
-          <li>$implementation/reset: You can publish a true to this topic to reset the device.  Erases its config file and goes offline!</li>
-          <li>$implementation/config/set: You can update the configuration.json by sending incremental JSON on this topic.</li>
-          <li>$implementation/ota/firmware/&lt;md5 checksum&gt;: If the update request is accepted, you must send the firmware payload to this topic.</li>
-          <li>$implementation/ota/status: HTTP-like status code indicating the status of the OTA. Might be:</li>
-          <li>
-            <ul>
-              <li>200	OTA successfully flashed</li>
-              <li>202	OTA request / checksum accepted</li>
-              <li>206 465/349680	OTA in progress. The data after the status code corresponds to &lt;bytes written&gt;/&lt;bytes total&gt;</li>
-              <li>304	The current firmware is already up-to-date</li>
-              <li>400 BAD_FIRMWARE	OTA error from your side. The identifier might be BAD_FIRMWARE, BAD_CHECKSUM, NOT_ENOUGH_SPACE, NOT_REQUESTED</li>
-              <li>403	OTA not enabled</li>
-              <li>500 FLASH_ERROR	OTA error on the ESP8266. The identifier might be FLASH_ERROR</li>
-            </ul>
-          </li>
-        </ul>
+        <div class="well col-md-6">
+          <h3>Runtime Configuration</h3>
+          <dl>
+            <dt>Release</dt>
+            <dd><%= release_name_and_version %></dd>
+            <dt>MQTT Host</dt>
+            <dd><%= SknSettings.mqtt.host %></dd>
+            <dt>MQTT Client ID</dt>
+            <dd><%= Homie::Handlers::Stream.client_id %></dd>
+            <dt>MQTT SSL Enabled</dt>
+            <dd><%= Homie::Handlers::Stream.ssl_enable %></dd>
+            <dt>MQTT Username</dt>
+            <dd><%= SknSettings.mqtt.username %></dd>
+            <dt>MQTT Topic Subscription</dt>
+            <dd><%= Homie::Handlers::Stream.base_topics %></dd>
+            <dt>MQTT/OTA default type</dt>
+            <dd><%= Homie::Handlers::Stream.ota_type %></dd>
+            <dt>Discovery Database File</dt>
+            <dd><%= SknSettings.content_service.data_source.store %></dd>
+            <dt>Firmware Path</dt>
+            <dd><%= SknSettings.content_service.firmware_path %></dd>
+            <dt>Paho Debug Log Path</dt>
+            <dd><%= SknSettings.mqtt.debug_log_file %></dd>
+          </dl>
+        </div>
+        <div class="well col-md-6">
+          <h3>Notes</h3>
+          <dl>
+            <dt>Formal Node message structure</dt>
+            <dd>baseId/deviceId/nodeId/propertyId/attributeId</dd>
+            <dt>Formal Device message structure</dt>
+            <dd>homie/deviceId/attributeId/propertyId/propertyId</dd>
+            <dt>homie/deviceId/$implementation/reset</dt>
+              <dd>You can publish a true to this topic to reset the device.  Erases its config file and goes offline!</dd>
+            <dt>homie/deviceId/$implementation/config/set</dt>
+              <dd>You can update the configuration.json by sending incremental JSON on this topic.</dd>
+          </dl>
+        </div>
       </div>
     </section>
 
