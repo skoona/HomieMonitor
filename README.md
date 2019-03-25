@@ -196,8 +196,8 @@ Run created Container:
 	$ docker run -it --name my-homie-monitor homie-monitor
 
 ## Contributors
-Docker configuration contributed by Stephan Strittmatter @stritti on DockerHub.
-Qos = 0 configuration value contributed by Marcus Klein @kleini on Gitter.
+	* Docker configuration contributed by Stephan Strittmatter @stritti on DockerHub.
+	* Qos = 0 configuration value contributed by Marcus Klein @kleini on Gitter.
 
 
 ## Contributing
