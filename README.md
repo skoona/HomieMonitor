@@ -11,9 +11,9 @@ in support of IOT/Devices using [Homie-esp8266](https://github.com/homieiot/homi
 #### Screenshots
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
-|<img src="public/images/homepage.png" width="100%" />|<img src="public/images/devices.png" width="100%" />|<img src="public/images/details.png" width="100%" />|
-|<img src="public/images/details-blink.png" width="100%" />|<img src="public/images/manage.png" width="100%" />|<img src="public/images/iphone-broadcasts.png" width="100%" />|
-|<img src="public/images/iphone-discovered.png" width="100%" />||
+|<img src="public/images/homepage.png" width="28%" />|<img src="public/images/devices.png" width="28%" />|<img src="public/images/details.png" width="28%" />|
+|<img src="public/images/details-blink.png" width="28%" />|<img src="public/images/manage.png" width="28%" />|<img src="public/images/iphone-broadcasts.png" width="28%" />|
+|<img src="public/images/iphone-discovered.png" width="28%" />||
  
 
 #### Features
