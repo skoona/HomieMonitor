@@ -17,7 +17,7 @@ in support of IOT/Devices using [Homie-esp8266](https://github.com/homieiot/homi
  
 
 #### Features
-* Default build using `Ruby-2.6.2`, would require `Ruby-2.5.1+`
+* Default build using `Ruby-2.6.2`, JRuby is optional.
     * To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` or `ruby-2.6.2`, then `$ bundle install`
 * Monitor Homie V2, and V3 Devices (Initial Focus on `ESP8266`)
 * Controller model for Esp8266 devices
