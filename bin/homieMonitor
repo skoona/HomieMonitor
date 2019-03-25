@@ -15,7 +15,7 @@
 # HM_MQTT_SSL_ENABLE_FLAG defaults to false
 # HM_MQTT_SSL_CERT_PATH   defaults are invalid, full-path required if ssl=true
 # HM_MQTT_SSL_KEY_PATH    defaults are invalid, full-path required if ssl=true
-# HM_BASE_TOPICS='[["sknSensors/#",1],["homie/#",1]]'   base mqtt message name <homie>/<device-id>/<node-id>/...
+# HM_BASE_TOPICS='[["sknSensors/#",0],["homie/#",0]]'   base mqtt message name <homie>/<device-id>/<node-id>/...
 # HM_MQTT_LOG=`/tmp/homieMonitor/paho-debug.log`        extra mqtt specific logfile, from paho-mqtt-ruby.gem
 # HM_FIRMWARE_PATH="$HOME/homieMonitor/content/firmwares/"      Directory to store uploaded homie Firmware
 # HM_DATA_STORE="$HOME/homieMonitor/db/HomieMonitor_store.yml"  Full path and filename of YAML storage of OTA Subscriptions
@@ -40,7 +40,7 @@ HM_MQTT_HOST='localhost'
 # HM_MQTT_PORT=1883
 # HM_MQTT_USER=''
 # HM_MQTT_PASS=''
-HM_BASE_TOPICS='[["sknSensors/#",2],["homie/#",2]]'
+HM_BASE_TOPICS='[["sknSensors/#",0],["homie/#",0]]'
 HM_MQTT_LOG="$HOME/homieMonitor/log/paho-debug.log"
 HM_FIRMWARE_PATH="$HOME/homieMonitor/content/firmwares/"
 HM_DATA_STORE="$HOME/homieMonitor/db/HomieMonitor_store.yml"
