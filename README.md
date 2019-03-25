@@ -26,7 +26,7 @@ in support of IOT/Devices using [Homie-esp8266](https://github.com/homieiot/homi
 * Self contained Application packaged as Java Executable warFile; using Warbler.gem -- port 8080
 * Docker build script.
 * Internally designed to tollerate potentially Homie Specification 1.5+, but focused on V3.
-* Attribute and Property retention, via YAML:Store file, as Homie considers some discovery related attributes optional and they are not always retained!
+* Attribute and Property retention, via YAML:Store file, as Homie may consider some discovery related attributes optional and they are not always retained!
 
 
 ## Demonstration Mode
@@ -50,7 +50,7 @@ The `content_service` entry controls which mqtt stream is used; live or mocked. 
 source files for the mock in directory: `./spec/factories/homie_*.txt`.  The class which transform these 
 text entries into mqtt messages is `./main/homie/handlers/mock_stream.rb`
 
-However, if MQTT `host` has not been configured, `demo_mode` will default to true!
+***However, if `HM_MQTT_HOST` has not been configured, `demo_mode` will default to true!***
 
     See `./spec/factories` and `./spec/support` for test data
         * `$  mosquitto_sub -v -h hostname -t homie/#  -u username -P password`
@@ -59,37 +59,33 @@ However, if MQTT `host` has not been configured, `demo_mode` will default to tru
 
 ## Following Along: Installation
 #### (a) Ruby/JRuby
-<dl>   
-    <dt>Setup Application and Create Directories</dt>
-        <dd><code>$ bin/setup</code></dd>
-    <dt>Start Server with Puma, Port 8585:</dt>
-        <dd><code>$ bundle exec puma config.ru -v</code></dd>
-    <dt>Start Server with RackUp, Port 9292:</dt>
-        <dd><code>$ rackup</code></dd>
-    <dt>Start Console with Pry:</dt>
-        <dd><code>$ bin/console</code></dd>
-</dl>
+    Setup Application and Create Directories
+        Edit .ruby-version and remove Gemfile.lock, and vendor directory if changing rubies
+        `$ bin/setup`
+    Start Server with Puma, Port 8585:
+        `$ bundle exec puma config.ru -v`
+    Start Server with RackUp, Port 9292:
+        `$ rackup`
+    Start Console with Pry:</dt>
+        `$ bin/console`
 
-#### (b) Java warFile
-<dl>
-    <dt>Download warFile and `homieMonitor.sh`</dt>
-        <dd><code>homie_monitor_esp-<version>.war and homieMonitoer.sh</code></dd>
-	[HomieMonitor warFile and script](https://www.dropbox.com/sh/xpv5a6gyexthnev/AAB0eY59kxTsMQJg7FOT3Pw9a?dl=0)
-    <dt>Edit `homieMonitor.sh` script</dt>
-        <dd>set your mqtt credentials</dd>
-    <dt>Start the app on port 8585</dt>
-        <dd><code>$ homieMonitor</code></dd>
-</dl>
+#### (b) Java [HomieMonitor warFile and script](https://www.dropbox.com/sh/xpv5a6gyexthnev/AAB0eY59kxTsMQJg7FOT3Pw9a?dl=0)
+    Download warFile and `homieMonitor.sh`
+        homie_monitor_esp-<version>.war and homieMonitoer.sh	    
+    Edit `homieMonitor.sh` script
+        set your mqtt credentials
+    Start the app on port 8585
+        $ homieMonitor
 
 #### Helpful Environmental Vars
 The configuration module will prefers environment variables over yaml config file values.
 
-    RACK_ENV            defaults to `'development'`
-    HM_MQTT_HOST        defaults are invalid
+    RACK_ENV            defaults to `'development'`         Performance is greater with `production`
+    HM_MQTT_HOST        defaults are invalid                Absence will force :demo_mode, unless using yaml comfigs
     HM_MQTT_PORT        defaults to 1883
     HM_MQTT_USER        defaults are invalid
     HM_MQTT_PASS        defaults are invalid
-    HM_BASE_TOPICS      defaults to `'[["sknSensors/#",1],["homie/#",1]]'`
+    HM_BASE_TOPICS      defaults to `'[["sknSensors/#",0],["homie/#",0]]'`
 
     HM_MQTT_SSL_ENABLE_FLAG defaults to false
     HM_MQTT_SSL_CERT_PATH   defaults are invalid
@@ -100,11 +96,11 @@ The configuration module will prefers environment variables over yaml config fil
     HM_SPIFFS_PATH      defaults to './content/spiffs/'
     HM_DATA_STORE       defaults to './db/HomieMonitor_store.yml'
     HM_OTA_TYPE         binary, base64strict, base64, RFC4648_pad, RFC4648_no_pad 
-                        - are the choice for OTA transmissions; defaults to `binary`
+                        - are the content choices for OTA transmissions; defaults to `binary`
 
-#### Example Bash script [homieMonitor.sh]
+#### Example Bash script [homieMonitor.sh](https://www.dropbox.com/sh/xpv5a6gyexthnev/AAB0eY59kxTsMQJg7FOT3Pw9a?dl=0)
 
-<details><summary>#### homieMonitor.sh</summary>
+<details><summary>homieMonitor.sh</summary>
 <p>
 
 ```bash
@@ -125,7 +121,7 @@ The configuration module will prefers environment variables over yaml config fil
 # HM_MQTT_SSL_ENABLE_FLAG defaults to false
 # HM_MQTT_SSL_CERT_PATH   defaults are invalid, full-path required if ssl=true
 # HM_MQTT_SSL_KEY_PATH    defaults are invalid, full-path required if ssl=true
-# HM_BASE_TOPICS='[["sknSensors/#",1],["homie/#",1]]'   base mqtt message name <homie>/<device-id>/<node-id>/...
+# HM_BASE_TOPICS='[["sknSensors/#",0],["homie/#",0]]'   base mqtt message name <homie>/<device-id>/<node-id>/...
 # HM_MQTT_LOG=`/tmp/homieMonitor/paho-debug.log`        extra mqtt specific logfile, from paho-mqtt-ruby.gem
 # HM_FIRMWARE_PATH="$HOME/homieMonitor/content/firmwares/"      Directory to store uploaded homie Firmware
 # HM_DATA_STORE="$HOME/homieMonitor/db/HomieMonitor_store.yml"  Full path and filename of YAML storage of OTA Subscriptions
@@ -150,7 +146,7 @@ HM_MQTT_HOST='localhost'
 # HM_MQTT_PORT=1883
 # HM_MQTT_USER=''
 # HM_MQTT_PASS=''
-HM_BASE_TOPICS='[["sknSensors/#",1],["homie/#",1]]'
+HM_BASE_TOPICS='[["sknSensors/#",0],["homie/#",0]]'
 HM_MQTT_LOG="$HOME/homieMonitor/log/paho-debug.log"
 HM_FIRMWARE_PATH="$HOME/homieMonitor/content/firmwares/"
 HM_DATA_STORE="$HOME/homieMonitor/db/HomieMonitor_store.yml"
@@ -165,11 +161,11 @@ export RACK_ENV HM_MQTT_HOST HM_MQTT_PORT HM_MQTT_USER HM_MQTT_PASS
 export HM_OTA_TYPE HM_MQTT_SSL_ENABLE_FLAG HM_MQTT_SSL_CERT_PATH HM_MQTT_SSL_KEY_PATH
 export HM_BASE_TOPICS HM_MQTT_LOG HM_FIRMWARE_PATH HM_DATA_STORE 
 
-# copy homie_monitor-0.7.1.war to bin directory
+# copy homie_monitor-0.8.1.war to bin directory
 # cp -v $HOME/Downloads/homie_monitor* $HOME/homieMonitor/bin/
 
 # Java warFile execution
-# java -Dwarbler.port=8585 -jar $HOME/homieMonitor/bin/homie_monitor_esp-0.7.5.war
+# java -Dwarbler.port=8585 -jar $HOME/homieMonitor/bin/homie_monitor_esp-0.8.1.war
 
 # or Ruby execution
 bundle exec puma config.ru
@@ -193,10 +189,11 @@ Creation of [Docker Container:](https://hub.docker.com/r/stritti/homie-monitor)
 
 Run created Container:
 
-	$ docker run -it --name my-homie-monitor homie-monitor
+	$ docker run -it -p 8585:8585 --name my-homie-monitor homie-monitor
+	* Browse http://<host>:8585/
 
 ## Contributors
-	* Docker configuration contributed by Stephan Strittmatter @stritti on DockerHub.
+	* Docker configuration contributed by Stephan Strittmatter @stritti on DockerHub, Gitter.
 	* Qos = 0 configuration value contributed by Marcus Klein @kleini on Gitter.
 
 
