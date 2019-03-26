@@ -91,6 +91,7 @@
         <div class="table-responsive">
           <table id="devices-table" class="table table-condensed table-hover table-striped no-wrap" cellspacing="0" width="100%">
             <thead>
+              <th>Action</th>
               <th>MAC Addr</th>
               <th>Online</th>
               <th>IP Addr</th>
@@ -103,7 +104,8 @@
             <tbody>
 
             <% devices.each do |device| %>
-              <tr id="<%= device[:name] %>" data-package="<%== device.to_json %>">
+              <tr id="<%== device[:name] %>" data-package="<%== device.to_json %>">
+                <td class="text-center" data-toggle="tooltip" data-placement="top" title="Remove !"><a href="#"><i class="fa fa-trash fa-1x"></i></a></td>
                 <td><%= get_attribute_value(device, '$mac') %></td>
                 <td><%= get_online_value(device).to_s %></td>
                 <td><%= get_attribute_value(device, '$localip') %></td>
@@ -240,4 +242,5 @@
 
   <% end %>
 
+  <input type="hidden" id="page-refresh" value="0"  />
 </article>

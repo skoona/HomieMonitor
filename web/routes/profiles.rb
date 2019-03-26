@@ -26,6 +26,5 @@ class SknWeb
       wrap_json_response(registry_service.content_message_transport)
     end
 
-
   end
 end

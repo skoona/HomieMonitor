@@ -1,0 +1,111 @@
+sknSensors/b4e62d53a8f0/$homie 2.0.0
+sknSensors/b4e62d53a8f0/$mac B4:E6:2D:53:A8:F0
+sknSensors/b4e62d53a8f0/$name light
+sknSensors/b4e62d53a8f0/$localip 10.100.1.233
+sknSensors/b4e62d53a8f0/$stats/interval 0
+sknSensors/b4e62d53a8f0/$stats/signal 54
+sknSensors/b4e62d53a8f0/$stats/uptime 420
+sknSensors/b4e62d53a8f0/$fw/name light-onoff
+sknSensors/b4e62d53a8f0/$fw/version 1.0.0
+sknSensors/b4e62d53a8f0/$fw/checksum a52afa583c2c440ad182214b9956723c
+sknSensors/b4e62d53a8f0/$implementation esp8266
+sknSensors/b4e62d53a8f0/$implementation/config {"name":"light","wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true}}
+sknSensors/b4e62d53a8f0/$implementation/version 2.0.0
+sknSensors/b4e62d53a8f0/$implementation/ota/enabled true
+sknSensors/b4e62d53a8f0/light/$type switch
+sknSensors/b4e62d53a8f0/light/$properties on:settable
+sknSensors/b4e62d53a8f0/$online false
+
+
+sknSensors/LabTarget/$homie 2.0.0
+sknSensors/LabTarget/$mac B4:E6:2D:53:A8:F0
+sknSensors/LabTarget/$name Blinking light
+sknSensors/LabTarget/$localip 10.100.1.233
+sknSensors/LabTarget/$stats/interval 0
+sknSensors/LabTarget/$stats/signal 74
+sknSensors/LabTarget/$stats/uptime 239047
+sknSensors/LabTarget/$fw/name Homie-light-onoff
+sknSensors/LabTarget/$fw/version 2.0.5
+sknSensors/LabTarget/$fw/checksum 2d29afe7f4b9e25a1f0dc5c0ad2f0f2f
+sknSensors/LabTarget/$implementation esp8266
+sknSensors/LabTarget/$implementation/config {"name":"Blinking light","device_id":"LabTarget","device_stats_interval":180,"wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true}}
+sknSensors/LabTarget/$implementation/version 2.0.0
+sknSensors/LabTarget/$implementation/ota/enabled true
+sknSensors/LabTarget/$implementation/ota/status 500 INTERNAL_ERROR 8
+sknSensors/LabTarget/light/$type switch
+sknSensors/LabTarget/light/$properties on:settable,vcc
+sknSensors/LabTarget/light/on false
+sknSensors/LabTarget/light/vcc Vcc: 3.3
+sknSensors/LabTarget/$online true
+
+
+sknSensors/MediaRoom/$state ready
+sknSensors/MediaRoom/$homie 3.0.1
+sknSensors/MediaRoom/$name Media Room
+sknSensors/MediaRoom/$mac B4:E6:2D:15:50:3A
+sknSensors/MediaRoom/$localip 10.100.1.229
+sknSensors/MediaRoom/$nodes motion,temperature,humidity
+sknSensors/MediaRoom/$stats uptime
+sknSensors/MediaRoom/$stats/interval 0
+sknSensors/MediaRoom/$stats/signal 30
+sknSensors/MediaRoom/$stats/uptime 596589
+sknSensors/MediaRoom/$fw/name sknSensors-Rcwl_Dht22
+sknSensors/MediaRoom/$fw/version 0.2.4
+sknSensors/MediaRoom/$fw/checksum 2a6ab6bbc65f645c979219216aa78f7a
+sknSensors/MediaRoom/$implementation esp8266
+sknSensors/MediaRoom/$implementation/config {"name":"Media Room","device_id":"MediaRoom","device_stats_interval":180,"wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true},"settings":{"sensorsInterval":300}}
+sknSensors/MediaRoom/$implementation/version 3.0.0
+sknSensors/MediaRoom/$implementation/ota/enabled true
+sknSensors/MediaRoom/$implementation/ota/status 200
+sknSensors/MediaRoom/motion/$name Humans Present
+sknSensors/MediaRoom/motion/$type motion
+sknSensors/MediaRoom/motion/$properties motion
+sknSensors/MediaRoom/motion/motion true
+sknSensors/MediaRoom/motion/motion/$name Motion
+sknSensors/MediaRoom/motion/motion/$datatype boolean
+sknSensors/MediaRoom/motion/motion/$unit true,false
+sknSensors/MediaRoom/temperature/$name Room Temperature
+sknSensors/MediaRoom/temperature/$type temperature
+sknSensors/MediaRoom/temperature/$properties degrees
+sknSensors/MediaRoom/temperature/degrees 70.34
+sknSensors/MediaRoom/temperature/degrees/$name Degrees
+sknSensors/MediaRoom/temperature/degrees/$datatype float
+sknSensors/MediaRoom/temperature/degrees/$unit ºF
+sknSensors/MediaRoom/humidity/$name Room Humidity
+sknSensors/MediaRoom/humidity/$type humidity
+sknSensors/MediaRoom/humidity/$properties percent
+sknSensors/MediaRoom/humidity/percent 36.70
+sknSensors/MediaRoom/humidity/percent/$name Percent
+sknSensors/MediaRoom/humidity/percent/$datatype float
+sknSensors/MediaRoom/humidity/percent/$unit %
+
+
+sknSensors/TheaterIR/$state ready
+sknSensors/TheaterIR/$homie 3.0.1
+sknSensors/TheaterIR/$name Theater IR Server
+sknSensors/TheaterIR/$mac 5C:CF:7F:63:30:AF
+sknSensors/TheaterIR/$localip 10.100.1.215
+sknSensors/TheaterIR/$nodes irservice
+sknSensors/TheaterIR/$stats uptime
+sknSensors/TheaterIR/$stats/interval 185
+sknSensors/TheaterIR/$stats/signal 54
+sknSensors/TheaterIR/$stats/uptime 525719
+sknSensors/TheaterIR/$fw/name sknSensors-IRService.d1_mini
+sknSensors/TheaterIR/$fw/version 0.2.0
+sknSensors/TheaterIR/$fw/checksum 998c8c18b1de92370702c723af3abbf9
+sknSensors/TheaterIR/$implementation esp8266
+sknSensors/TheaterIR/$implementation/config {"name":"Theater IR Server","device_id":"TheaterIR","device_stats_interval":180,"wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true},"settings":{"sensorsInterval":300,"onSequence":"3,2FD48B7,32 43,5006,16 3,4BB620DF,32 3,4BB6F00F,32","offSequence":"3,2FD48B7,32 43,5006,16 3,4B36E21D,32"}}
+sknSensors/TheaterIR/$implementation/version 3.0.0
+sknSensors/TheaterIR/$implementation/ota/enabled true
+sknSensors/TheaterIR/$implementation/ota/status 206 474555/474672
+sknSensors/TheaterIR/$implementation/reset false
+sknSensors/TheaterIR/irservice/$name IR Provider
+sknSensors/TheaterIR/irservice/$type theater-remote
+sknSensors/TheaterIR/irservice/$properties command,received
+sknSensors/TheaterIR/irservice/command/$name IR Broadcaster
+sknSensors/TheaterIR/irservice/command/$settable true
+sknSensors/TheaterIR/irservice/command/$datatype string
+sknSensors/TheaterIR/irservice/command/$unit %s
+sknSensors/TheaterIR/irservice/received/$name IR Listener
+sknSensors/TheaterIR/irservice/received/$datatype string
+sknSensors/TheaterIR/irservice/received/$unit %s
