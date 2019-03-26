@@ -20,7 +20,7 @@ COPY . .
 ENV HM_MQTT_USER=
 ENV HM_MQTT_PASS=
 
-ENV HM_BASE_TOPICS='[["homie/#",0]]'
+ENV HM_BASE_TOPICS='[["sknSensors/#,0"],["homie/#",0]]'
 
 ENV HM_MQTT_SSL_ENABLE_FLAG=false
 ENV HM_MQTT_SSL_CERT_PATH=

@@ -201,7 +201,7 @@ To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, befo
 
 	    $ docker run -it -p 8585:8585 -e HM_MQTT_HOST=<hostname|ip> -e HM_MQTT_PORT=<port> --name my-homie-monitor homie-monitor
 
-* Browse http://<host>:8585/
+* Browse `http://<host>:8585/`
 
 ## Contributors
 
