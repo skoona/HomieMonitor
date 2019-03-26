@@ -1,0 +1,38 @@
+sknSensors/b4e62d53a8f0/$homie 2.0.0
+sknSensors/b4e62d53a8f0/$mac B4:E6:2D:53:A8:F0
+sknSensors/b4e62d53a8f0/$name light
+sknSensors/b4e62d53a8f0/$localip 10.100.1.233
+sknSensors/b4e62d53a8f0/$stats/interval 0
+sknSensors/b4e62d53a8f0/$stats/signal 54
+sknSensors/b4e62d53a8f0/$stats/uptime 420
+sknSensors/b4e62d53a8f0/$fw/name light-onoff
+sknSensors/b4e62d53a8f0/$fw/version 1.0.0
+sknSensors/b4e62d53a8f0/$fw/checksum a52afa583c2c440ad182214b9956723c
+sknSensors/b4e62d53a8f0/$implementation esp8266
+sknSensors/b4e62d53a8f0/$implementation/config {"name":"light","wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true}}
+sknSensors/b4e62d53a8f0/$implementation/version 2.0.0
+sknSensors/b4e62d53a8f0/$implementation/ota/enabled true
+sknSensors/b4e62d53a8f0/light/$type switch
+sknSensors/b4e62d53a8f0/light/$properties on:settable
+sknSensors/b4e62d53a8f0/$online false
+
+sknSensors/LabTarget/$homie 2.0.0
+sknSensors/LabTarget/$mac B4:E6:2D:53:A8:F0
+sknSensors/LabTarget/$name Blinking light
+sknSensors/LabTarget/$localip 10.100.1.233
+sknSensors/LabTarget/$stats/interval 0
+sknSensors/LabTarget/$stats/signal 74
+sknSensors/LabTarget/$stats/uptime 239047
+sknSensors/LabTarget/$fw/name Homie-light-onoff
+sknSensors/LabTarget/$fw/version 2.0.5
+sknSensors/LabTarget/$fw/checksum 2d29afe7f4b9e25a1f0dc5c0ad2f0f2f
+sknSensors/LabTarget/$implementation esp8266
+sknSensors/LabTarget/$implementation/config {"name":"Blinking light","device_id":"LabTarget","device_stats_interval":180,"wifi":{"ssid":"SFNSS1-24G"},"mqtt":{"host":"openhabianpi.skoona.net","port":1883,"base_topic":"sknSensors/","auth":true},"ota":{"enabled":true}}
+sknSensors/LabTarget/$implementation/version 2.0.0
+sknSensors/LabTarget/$implementation/ota/enabled true
+sknSensors/LabTarget/$implementation/ota/status 500 INTERNAL_ERROR 8
+sknSensors/LabTarget/light/$type switch
+sknSensors/LabTarget/light/$properties on:settable,vcc
+sknSensors/LabTarget/light/on false
+sknSensors/LabTarget/light/vcc Vcc: 3.3
+sknSensors/LabTarget/$online true
