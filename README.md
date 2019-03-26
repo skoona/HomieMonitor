@@ -190,17 +190,24 @@ bundle exec puma config.ru
 To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, before proceeding.
 
 ### Docker Container
-Creation of [Docker Container:](https://hub.docker.com/r/stritti/homie-monitor)
 
-    $ docker build -t homie-monitor .
+* Creation of [Docker Container:](https://hub.docker.com/r/stritti/homie-monitor)
 
-Run created Container:
+        $ docker build -t homie-monitor .
 
-	$ docker run -it -p 8585:8585 --name my-homie-monitor homie-monitor
+* Run created Container in DEMO mode:
+
+	    $ docker run -it -p 8585:8585 --name my-homie-monitor homie-monitor
+
+* Run created Container connected to your MQTT-Server:
+
+  You have to pass **environment varibles** for **MQTT hostname** and **port** within run script.
+
+	    $ docker run -it -p 8585:8585 -e HM_MQTT_HOST=[hostname|ip] -e HM_MQTT_PORT=1883 --name my-homie-monitor homie-monitor
 
 ## Contributors
-	* Docker configuration contributed by Stephan Strittmatter @stritti on DockerHub.
-	* Qos = 0 configuration value contributed by Marcus Klein @kleini on Gitter.
+* Docker configuration contributed by Stephan Strittmatter @stritti on DockerHub.
+* Qos = 0 configuration value contributed by Marcus Klein @kleini on Gitter.
 
 
 ## Contributing

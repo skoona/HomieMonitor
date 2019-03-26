@@ -15,8 +15,8 @@ RUN bundle install --path=vendor/bundle
 
 COPY . .
 
-ENV HM_MQTT_HOST=localhost
-ENV HM_MQTT_PORT=1883
+# ENV HM_MQTT_HOST=localhost
+# ENV HM_MQTT_PORT=1883
 ENV HM_MQTT_USER=
 ENV HM_MQTT_PASS=
 
