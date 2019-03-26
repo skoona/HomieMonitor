@@ -62,10 +62,10 @@ module Services
             Commands::ScheduleAdd.new( payload ))
       end
 
-      # def firmware_send(payload)
-      #   SknApp.registry.resolve("firmware_provider").call(
-      #       Commands::SendFile.new(payload) )
-      # end
+      def device_delete(payload)
+        SknApp.registry.resolve("content_action_provider").call(
+            Commands::DeviceDelete.new( payload["device_id"] ))
+      end
 
     end # end class
   end

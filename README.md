@@ -16,7 +16,7 @@ in support of IOT/Devices using [Homie-esp8266](https://github.com/homieiot/homi
 |<img src="public/images/iphone-discovered.png" width="28%" />||
  
 
-#### Features
+## Features
 * Default build using `Ruby-2.6.2`, JRuby is optional.
     * To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` or `ruby-2.6.2`, then `$ bundle install`
 * Monitor Homie V2, and V3 Devices (Initial Focus on `ESP8266`)
@@ -57,7 +57,7 @@ text entries into mqtt messages is `./main/homie/handlers/mock_stream.rb`
         * Above will produce a console log that can be used as test data by this system.
 
 
-## Following Along: Installation
+## Installation
 #### (a) Ruby/JRuby
     Setup Application and Create Directories
         Edit .ruby-version and remove Gemfile.lock, and vendor directory if changing rubies

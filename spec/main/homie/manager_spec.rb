@@ -16,7 +16,7 @@ describe Homie::Providers::Manager,  'Homie Discovery Provider. ' do
       expect( @manager.devices.size ).to be > 2
     end
     it 'Two broadcast discovered. ' do
-      expect( @manager.broadcasts.size ).to eq 2
+      expect( @manager.broadcasts.size ).to eq 6
     end
     it '#to_hash renders the entire inventory. ' do
       out_hash = @manager.devices.map(&:to_hash)
