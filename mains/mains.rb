@@ -27,8 +27,8 @@ SknApp.registry
 # Configure streamers
 SknApp.registry
     .register("stream_handler",       ->(type, device_name) { Services::Handlers::Stream.call(type,device_name) }, call: false)
-    .register("stream_receive_queue", Queue.new,  call: false)
-    .register("stream_send_queue", Queue.new, call: false)
+    .register("stream_receive_queue", Queue.new, call: false)
+    .register("stream_send_queue",    Queue.new, call: false)
     .register("device_stream_manager", ->() { Homie::Providers::Manager.instance }, call: true)
     .register("data_source", ->(){ YAML::Store.new(SknSetting.content_service.data_source.store, true) }, call: true)
     .register("subscriptions_provider", ->(){ Homie::Providers::Subscriptions.instance }, call: true)

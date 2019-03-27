@@ -31,11 +31,12 @@ module Homie
       def self.call()
         container = new()
 
-        # Thread.abort_on_exception = false
-        # Thread.report_on_exception = false
-        # Thread.handle_interrupt(PahoMqtt::PacketFormatException => :never) {
-        #   # PahoMqtt::PacketFormatException are ignored.
-        # }
+        Thread.abort_on_exception = false
+        Thread.report_on_exception = true
+        Thread.handle_interrupt(PahoMqtt::PacketFormatException => :never) {
+          # PahoMqtt::PacketFormatException are ignored.
+          $stderr.puts "MQTT STREAM INTERRUPT EXCEPTION Handler Activated!"
+        }
 
         tid = Thread.new do
           container.call()
@@ -43,6 +44,7 @@ module Homie
 
         at_exit do
           tid.terminate
+          $stdout.puts "MQTT STREAM SHUTDOWN COMPLETE"
         end
 
         SknSuccess.({tid: tid, container: container})
@@ -146,20 +148,26 @@ module Homie
         @_wait_puback = true
         client.publish(queue_event.topic.value, queue_event.value, queue_event.retain, queue_event.qos) # no-retain and atleast once
         while @_wait_puback do
-          sleep 0.001
+          sleep 0.005
         end
+        debug_logger.debug "#{self.class.name}.#{__method__} Message Published to: #{queue_event.topic.value}"
         true
+      rescue ThreadError => te
+        debug_logger.debug "#{self.class.name}##{__method__} Failure: klass=#{te.class.name}, cause=#{te.message}, Backtrace=#{te.backtrace[0..4]}"
+        false
       rescue => ex
-        debug_logger.debug "#{self.class.name}##{__method__} Failure: klass=#{ex.class.name}, cause=#{ex.message}, Backtrace=#{ex.backtrace[0..8]}"
+        debug_logger.debug "#{self.class.name}##{__method__} Failure: klass=#{ex.class.name}, cause=#{ex.message}, Backtrace=#{ex.backtrace[0..4]}"
         false
       end
 
       def queue_message_push(packet)
+        bytes = packet.payload.size
         if packet.topic.include?('$implementation/ota/firmware') # can't use firmware loads messages
-          bytes = packet.payload.size
           packet.payload = "MessageBytes=#{bytes}"
         end
-        receive_queue.push( Homie::Commands::QueueEvent.(packet) )
+        unless packet.topic.end_with?('/set') or bytes == 0
+          receive_queue.push( Homie::Commands::QueueEvent.(packet) )
+        end
       end
 
     end # end class

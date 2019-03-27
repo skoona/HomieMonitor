@@ -71,7 +71,7 @@ module Homie
       end
       def device_create?
         ['$homie','$state'].any? do |q|
-          @_package[2]&.eql?(q) && elements == 3
+          @_package[2]&.eql?(q) && elements == 3 && value.size > 0
         end
       end
 

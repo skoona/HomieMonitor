@@ -32,6 +32,7 @@ module Homie
         @_broadcasts           = []
         @_subscriptions        = []
         @debug_logger          = SknApp.debug_logger
+        @debug_logger.debug "#{self.class.name}##{__method__}: Init with Stream ThreadID: #{@_stream_tid}"
         true
       end
 
@@ -60,7 +61,7 @@ module Homie
             msg = new_message
             if msg && actions_router(msg)
               create_device(msg) unless !!read_queue_dispatcher(msg)
-              debug_logger.debug "Device Count: #{@_devices.size}, PacketID: #{msg.id}"
+              debug_logger.debug "StreamState:#{stream_active?}, SendQueue:#{@_stream_send_queue.length}, ReceiveQueue:#{@_stream_receive_queue.length}, Device Count: #{@_devices.size}, PacketID: #{msg.id}"
             end
             sleep 0.06
           end
