@@ -25,5 +25,9 @@ class SknWeb
       wrap_json_response(registry_service.schedule_entry_add(request.params))
     end
 
+    r.post "device_delete" do
+      wrap_json_response(registry_service.device_delete(request.params))
+    end
+
   end
 end

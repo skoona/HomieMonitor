@@ -79,7 +79,9 @@ module Homie
       end
 
       def create_device(queue_event)
-        @_devices.push( Homie::Components::Device.new(queue_event) )
+        if queue_event.device_create?   # Filter out of sequence messages
+          @_devices.push( Homie::Components::Device.new(queue_event) )
+        end
       end
 
       def stream_active?

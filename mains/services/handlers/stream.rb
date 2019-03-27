@@ -15,6 +15,7 @@ module Services
       def initialize
         @_stream_manager = SknApp.registry.resolve("device_stream_manager")
         SknApp.logger.debug "#{self.class.name}.#{__method__}"
+        true
       end
 
       # "device" , device_name | nil for all

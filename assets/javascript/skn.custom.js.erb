@@ -87,8 +87,8 @@ SknUtil.prototype = {
     go: function(path) {
         window.location = this.genURL(path);
     },
-    flashMessage: function(message) {
-        $('#message-section').append($('<div class="alert alert-error"><a href="#" class="close" data-dismiss="alert">&times;</a>' + message + '</div>'));
+    pageRefresh: function() {
+        $('#page-refresh').val("2").trigger('change');
     },
     postHomie: function(url, dataPackage) {
         $.ajax({
@@ -202,6 +202,12 @@ $(function() {
 
         consoleLog("Entered Init :manage");
 
+        $('#page-refresh').on('change', function() {
+            setTimeout(function() {
+                Skn.go(Skn.currentPage);
+            }, 500);
+        });
+
         // To Button send any
         $('#any-action').click(function (ev) {
             ev.stopImmediatePropagation();
@@ -231,10 +237,10 @@ $(function() {
                     Skn.postHomie("/homie/delete_schedule_entry", {name: dataPkg.device_name});
                     if (lastSuccess) {
                         console.log("Delete Schedule: data=>%s", JSON.stringify(lastData));
-                        Skn.go(Skn.currentPage);
+                        Skn.pageRefresh();
                     }
                 }
-            })
+            });
         });
 
         $('#firmware-table > tbody > tr > td > a').click(function (ev) {
@@ -255,11 +261,36 @@ $(function() {
                     Skn.postHomie("/homie/delete_firmware", {name: firmware.filename});
                     if (lastSuccess) {
                         console.log("Delete Firmware: data=>%s", JSON.stringify(lastData));
-                        Skn.go(Skn.currentPage);
+                        Skn.pageRefresh();
                     }
                 }
-            })
+            });
         });
+
+        $('#devices-table > tbody > tr > td > a').click(function (ev) {
+            var device = $(ev.target).closest('tr').data('package');
+            var row = $(ev.target).closest('tr');
+
+            ev.stopImmediatePropagation();
+
+            // https://sweetalert.js.org/docs/#button
+            swal({
+                title: "Are you sure?",
+                text: "Your Device: " + device.name + " will be purged from MQTT!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true
+            }).then((willDelete) => {
+                if (willDelete) {
+                    Skn.postHomie("/homie/device_delete", {device_id: device.name});
+                    if (lastSuccess) {
+                        console.log("Delete Device: data=>%s", JSON.stringify(lastData));
+                        Skn.pageRefresh();
+                    }
+                }
+            });
+        });
+
 
         $('#firmware-schedule-add').click(function(ev) {
             var dataPkg   = {},
@@ -276,7 +307,7 @@ $(function() {
                 Skn.postHomie("/homie/subscribe", {device: device, checksum: firmware, ota_format: otaFormat});
                 if (lastSuccess && lastData.success) {
                     console.log("Schedule Add: data=>%s", JSON.stringify(lastData));
-                    Skn.go(Skn.currentPage);
+                    Skn.pageRefresh();
                 }
             }
         });
@@ -307,7 +338,7 @@ $(function() {
 
                     if (responseJSON.success) {
                         console.log("FineUploader onComplete: data=>%s", JSON.stringify(lastData));
-                        Skn.go(Skn.currentPage);
+                        Skn.pageRefresh();
                     }
                     return;
                 }
@@ -348,10 +379,8 @@ $(function() {
 
         Skn.postHomie( Skn.currentPage, dataPackage);
         if (lastSuccess) {
-            setTimeout(function() {
-                console.log("MQTT Send Message: data=>%s", JSON.stringify(lastData));
-                Skn.go(Skn.currentPage)
-            }, 1000);
+            console.log("MQTT Send Message: data=>%s", JSON.stringify(lastData));
+            Skn.pageRefresh();
         }
     });
 

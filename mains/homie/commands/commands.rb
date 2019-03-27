@@ -11,3 +11,4 @@ module Homie
 end
 
 require_relative 'queue_event'
+require_relative 'delete_device'
