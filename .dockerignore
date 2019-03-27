@@ -1,5 +1,5 @@
+.git
 .gitignore
-
 
 # Mac finder artifacts
 .DS_Store
@@ -16,3 +16,14 @@
 
 # tilde files are usually backup files from a text editor
 *~
+
+.bundle/
+
+LICENSE
+VERSION
+README.md
+CODE_OF_CONDUCT.md
+Changelog.md
+docker-compose.yml
+docs
+srv
