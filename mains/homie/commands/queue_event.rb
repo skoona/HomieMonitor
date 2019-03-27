@@ -69,6 +69,11 @@ module Homie
           @_package[2]&.include?(q)
         end
       end
+      def device_create?
+        ['$homie','$state'].any? do |q|
+          @_package[2]&.eql?(q) && elements == 3
+        end
+      end
 
       def ota_loading?
         @_original.include?('$implementation/ota/status') &&

@@ -11,10 +11,8 @@
     cachingAllowed="true">
 
     <!-- Platform Role Configuration jndi reference: single words choices are => [production, stage, development, test] -->
-    <ResourceLink name="bmi.bmi_archival_events.configName"
-                  global="homie.administrator.configName"
+    <ResourceLink name="homie.configName"
+                  global="platform.homie.configName"
                   type="java.lang.String" />
 
-    <!-- Database jndi reference -->
-    <!--<ResourceLink name="jdbc/bmi_ac2"         global="jdbc/EventDB_ac2"         type="javax.sql.DataSource" />-->
 </Context>

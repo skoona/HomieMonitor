@@ -21,6 +21,7 @@ module Services
         @_message_handler         = SknApp.registry.resolve("stream_handler")
         @_schedule_add_handler    = SknApp.registry.resolve("add_schedule_handler")
         @_schedule_delete_handler = SknApp.registry.resolve("delete_schedule_handler")
+        @_delete_device_handler   = SknApp.registry.resolve("delete_device_handler")
         @_start_time   = SknUtils.duration
         @description   = SknSettings.content_service.description
         SknApp.logger.debug "#{self.class.name}.#{__method__}"
@@ -36,6 +37,8 @@ module Services
                    @_schedule_delete_handler.call(cmd.device_name)
                  when "ScheduleAdd"
                    @_schedule_add_handler.call(cmd.device_name, cmd.checksum, cmd.ota_format)
+                 when "DeviceDelete"
+                   @_delete_device_handler.call(cmd.value)
                  else
                    SknSuccess.call( {success: false, status: 404, message: "Cannot Process Now!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Unknown Request type" )
                  end
