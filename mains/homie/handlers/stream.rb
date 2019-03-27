@@ -16,7 +16,7 @@
 
 # ##
 # NQTT Spec: http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html
-# QoS 0: At most once delivery
+# QoS 0: At most once delivery  CAUTION: PUBLISHING WITH QOS=0 IS NOT ACKNOWLEDGED!!!
 # QoS 1: At least once delivery
 # QoS 2: Exactly once delivery
 
@@ -147,8 +147,10 @@ module Homie
       def queue_message_publish(queue_event)
         @_wait_puback = true
         client.publish(queue_event.topic.value, queue_event.value, queue_event.retain, queue_event.qos) # no-retain and atleast once
-        while @_wait_puback do
-          sleep 0.005
+        if queue_event.qos != 0
+          while @_wait_puback do
+            sleep 0.005
+          end
         end
         debug_logger.debug "#{self.class.name}.#{__method__} Message Published to: #{queue_event.topic.value}"
         true

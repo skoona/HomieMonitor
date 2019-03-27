@@ -35,7 +35,7 @@ module Homie
       end
 
       def value
-        ''
+        ""
       end
 
     end
