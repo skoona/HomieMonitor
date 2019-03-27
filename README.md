@@ -30,6 +30,7 @@ in support of IOT/Devices using [Homie-esp8266](https://github.com/homieiot/homi
 * Docker build script.
 * Internally designed to tollerate potentially Homie Specification 1.5+, but focused on V3.
 * Attribute and Property retention, via YAML:Store file, as Homie may consider some discovery related attributes optional and they are not always retained!
+* MQTT Retained Message cleanup.  Old/stale device topics retained in MQTT can be deleted to cleanup the discovery process.
 
 
 ## Demonstration Mode
