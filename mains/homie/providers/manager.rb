@@ -86,7 +86,7 @@ module Homie
       end
 
       def stream_active?
-        instance_variable_defined?(:@_stream_tid) ? @_stream_tid.alive? : false
+        instance_variable_defined?(:@_stream_tid) && @_stream_tid != -1 ? @_stream_tid.alive? : false
       end
 
       def establish_stream
