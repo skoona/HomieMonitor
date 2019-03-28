@@ -36,7 +36,7 @@
 
 # Set Environment Vars
 RACK_ENV='production'
-HM_MQTT_HOST='localhost'
+# HM_MQTT_HOST='localhost'
 # HM_MQTT_PORT=1883
 # HM_MQTT_USER=''
 # HM_MQTT_PASS=''
