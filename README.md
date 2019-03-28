@@ -1,6 +1,6 @@
 # HomieMonitor
 [![Build Status](https://travis-ci.org/smart-swimmingpool/HomieMonitor.svg?branch=master)](https://travis-ci.org/smart-swimmingpool/HomieMonitor)
-[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/stritti/homie-monitor.svg)](https://hub.docker.com/r/stritti/homie-monitor)
+[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/stritti/homie-monitor.svg)](https://hub.docker.com/r/skoona/homie-monitor)
 
 An exploration into [Homie-esp8266](https://homieiot.github.io/homie-esp8266/docs/develop/quickstart/getting-started/), using modules from [Dry-RB](http://dry-rb.org), 
 [Paho.MQTT.Ruby](https://github.com/RubyDevInc/paho.mqtt.ruby), [JRuby](https://www.jruby.org) and 
