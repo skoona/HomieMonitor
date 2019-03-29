@@ -67,6 +67,16 @@ module Services
             Commands::DeviceDelete.new( payload["device_id"] ))
       end
 
+      def monitor_settings
+        SknApp.registry.resolve("content_action_provider").call(
+            Commands::MonitorSettings.new())
+      end
+
+      def update_configuration(payload)
+        SknApp.registry.resolve("content_action_provider").call(
+            Commands::MonitorConfig.new( payload ))
+      end
+
     end # end class
   end
 end # end module

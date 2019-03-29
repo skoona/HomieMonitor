@@ -18,4 +18,6 @@ require_relative 'firmware_delete'
 require_relative 'schedule_delete'
 require_relative 'schedule_add'
 require_relative 'device_delete'
+require_relative 'monitor_config'
+require_relative 'monitor_settings'
 

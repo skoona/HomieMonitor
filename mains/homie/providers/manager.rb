@@ -32,7 +32,7 @@ module Homie
         @_broadcasts           = []
         @_subscriptions        = []
         @debug_logger          = SknApp.debug_logger
-        @debug_logger.debug "#{self.class.name}##{__method__}: Init with Stream ThreadID: #{@_stream_tid}"
+        @debug_logger.debug "#{self.class.name}##{__method__}: Init with Stream ThreadID: #{@_stream_tid != -1 ? @_stream_tid.name : 'Demo-Mode'}"
         true
       end
 

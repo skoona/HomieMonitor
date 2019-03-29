@@ -39,6 +39,10 @@ module Services
                    @_schedule_add_handler.call(cmd.device_name, cmd.checksum, cmd.ota_format)
                  when "DeviceDelete"
                    @_delete_device_handler.call(cmd.value)
+                 when "MonitorConfig"
+                   SknSuccess.call( {success: false, status: 204, message: "No Content!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Request Type Not Implemented" )
+                 when "MonitorSettings"
+                   SknSuccess.call( {success: false, status: 204, message: "No Content!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Request Type Not Implemented" )
                  else
                    SknSuccess.call( {success: false, status: 404, message: "Cannot Process Now!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Unknown Request type" )
                  end

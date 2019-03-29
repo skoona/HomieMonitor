@@ -29,5 +29,11 @@ class SknWeb
       wrap_json_response(registry_service.device_delete(request.params))
     end
 
+    r.get 'settings' do
+      wrap_html_response(registry_service.monitor_settings, :settings)
+    end
+    r.put "config_update" do
+      wrap_json_response(registry_service.update_configuration(request.params))
+    end
   end
 end
