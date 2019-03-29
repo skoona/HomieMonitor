@@ -358,6 +358,27 @@ $(function() {
         consoleLog("Entered Init :devices");
 
 
+    } else if (Skn.currentPage.includes('settings')) {
+        consoleLog("Entered Init :Settings");
+
+        $('#ssl_enable').click(function(ev) {
+            if ($(this).is(':checked')) {
+                $(this).val("1");
+                $('#ssl_cert_path').attr('disabled', false).closest('div.form-group').slideDown(500);
+                $('#ssl_key_path').attr('disabled', false).closest('div.form-group').slideDown(500);
+            } else {
+                $(this).val("0");
+                $('#ssl_cert_path').attr('disabled', true).closest('div.form-group').slideUp(700);
+                $('#ssl_key_path').attr('disabled', true).closest('div.form-group').slideUp(700);
+            }
+        });
+
+        if ($('#ssl_enable').is(':checked')) {
+            $('div.checked-control').slideDown(500);
+        } else {
+            $('div.checked-control').slideUp(700);
+        }
+
     } else {
         consoleLog("Current Page (" + Skn.currentPage + ") has no custom Javascripts enabled.");
     }
@@ -390,7 +411,7 @@ $(function() {
      *      success: :success, error: :alert, warning: :warning, primary: :primary }
      */
     setTimeout(function() { // all except alert
-        var elems = $('div.alert.alert-success,.alert.alert-notice,.alert.alert-info,.alert.alert-warning');
+        var elems = $('div.alert.alert-success,.alert.alert-notice,.alert.alert-warning');
         $.each( elems, function (index, item) {
             $(item).slideUp(2000);
         });

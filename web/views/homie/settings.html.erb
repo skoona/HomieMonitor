@@ -9,53 +9,130 @@
   <% if resources.success %>
 
     <section>
-      <div class="well col-md-12">
+      <div class="well col-md-offset-1 col-md-10">
 
-        <div class="well col-md-6 ">
-          <h4>Schedule OTA Updates</h4>
-          <div id="schedule-ota" class="form-horizontal"  role="form" action="/homie/config_update" method="PUT">
+        <form  id="settings" class="form-horizontal"  role="form" action="/homie/config_update" method="POST">
+
+          <fieldset class="row">
+            <legend>Core Controls</legend>
             <div class="form-group">
-              <div class="col-sm-12">
-                <select class="form-control" id="device-select" name="device">
-                  <option class="active" value="">Select</option>
+              <label class="control-label col-sm-3" for="ota-select">Run Mode</label>
+              <div class="col-sm-4">
+                <select class="form-control" id="ota-select" name="run_mode" value="<%= SknSettings.content_service.demo ? 'demo' : (SknApp.env.production? ? 'production' : 'development') %>">
+                  <option value="demo">Demo</option>
+                  <option value="development">Development</option>
+                  <option value="production">Production</option>
                 </select>
               </div>
             </div>
+
             <div class="form-group">
-              <div class="col-sm-12">
-                <select class="form-control" id="firmware-select" name="checksum">
-                  <option class="active" value="">Select </option>
+              <label class="control-label col-sm-3" for="ota-select">Default OTA Format:</label>
+              <div class="col-sm-4">
+                <select class="form-control" id="ota-select" name="ota_type" value="<%= Homie::Handlers::Stream.ota_type %>">
+                  <option value="binary">Binary</option>
+                  <option value="base64">Base64</option>
+                  <option value="base64strict">Base64Strict</option>
+                  <option value="RFC4648">RFC4648 (URL Safe) with Padding</option>
+                  <option value="RFC4648_pad">RFC4648 (URL Safe) w/o Padding</option>
                 </select>
               </div>
             </div>
+
             <div class="form-group">
-              <div class="col-sm-12">
-                <select class="form-control" id="ota-select" name="ota_format">
-                  <option class="active" value="">Default OTA Format</option>
-                    <option value="binary">Binary</option>
-                    <option value="base64">Base64</option>
-                    <option value="base64strict">Base64Strict</option>
-                    <option value="RFC4648">RFC4648 (URL Safe) with Padding</option>
-                    <option value="RFC4648_pad">RFC4648 (URL Safe) w/o Padding</option>
-                </select>
+              <label class="control-label col-sm-3" for="datasource">Datastore File Path</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="datasource" name="datasource_store" placeholder="./full/path/to/datastore.yml">
               </div>
             </div>
+
             <div class="form-group">
-              <div class="col-sm-12">
-                <button type="submit" class="btn btn-block btn-info" id="firmware-schedule-add">
-                  <i class="fa fa-calendar-check-o"></i> Update
-                </button>
+              <label class="control-label col-sm-3" for="firmware_path">Firmwares Directory Path</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="firmware_path" name="firmwares_path" placeholder="./full/directory/path/">
               </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-3" for="base_topics">Homie Base Topic(s)</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="base_topics" name="envbase_topics" placeholder="comma,seperated,list">
+              </div>
+            </div>
+
+          </fieldset>
+
+          <div class="alert alert-info">
+            <strong>Info!</strong> Please restart the application to have any changes take effect.
+          </div>
+
+          <fieldset class="row">
+            <legend>MQTT Controls</legend>
+
+            <div class="form-group">
+              <label class="control-label col-sm-3" for="host">Host</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="host" name="mqtt_host" placeholder="ip address | fqdn">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-3" for="port">Host Port</label>
+              <div class="col-sm-3">
+                <input type="number" class="form-control" id="port" name="mqtt_port" placeholder="1883">
+              </div>
+
+              <div class="col-sm-6">
+                <div class="checkbox">
+                  <label class="checkbox-inline"><input type="checkbox" id="ssl_enable" name="ssl_enable" value="0"> Enable SSL</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-3" for="username">Username</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="username" name="mqtt_username" placeholder="mqtt connection userid">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-3" for="password">Password</label>
+              <div class="col-sm-9">
+                <input type="password" class="form-control" id="password" name="mqtt_password" placeholder="mqtt connection password">
+              </div>
+            </div>
+
+            <div class="form-group checked-control" style="display: none;">
+              <label class="control-label col-sm-3" for="ssl_cert_path">SSL Certificate Path</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control ssl-cert" id="ssl_cert_path" name="ssl_cert_path" placeholder="./full/path/to/certificateFile">
+              </div>
+            </div>
+
+            <div class="form-group checked-control" style="display: none;">
+              <label class="control-label col-sm-3" for="ssl_key_path">SSL Key Path</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control ssl-cert" id="ssl_key_path" name="ssl_key_path" placeholder="./full/path/to/keyFile">
+              </div>
+            </div>
+
+          </fieldset>
+
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+              <button type="submit" class="btn btn-block btn-lg btn-info">Submit</button>
             </div>
           </div>
-        </div>
+
+        </form>
 
       </div>
     </section>
 
     <section>
       <div class="well">
-        <h3>Runtime Configuration</h3>
+        <h3>Current Runtime Configuration</h3>
         <dl>
           <dt>Release</dt>
           <dd><%= release_name_and_version %></dd>
