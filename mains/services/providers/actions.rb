@@ -42,7 +42,7 @@ module Services
                  when "MonitorConfig"
                    SknSuccess.call( {success: false, status: 204, message: "No Content!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Request Type Not Implemented" )
                  when "MonitorSettings"
-                   SknSuccess.call( {success: false, status: 204, message: "No Content!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Request Type Not Implemented" )
+                   SknSuccess.call( {success: false, status: 204, message: "No Content!"}, "Please restart the application to have any changes take effect." )
                  else
                    SknSuccess.call( {success: false, status: 404, message: "Cannot Process Now!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Unknown Request type" )
                  end

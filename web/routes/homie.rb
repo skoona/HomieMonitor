@@ -32,7 +32,7 @@ class SknWeb
     r.get 'settings' do
       wrap_html_response(registry_service.monitor_settings, :settings)
     end
-    r.post "config_update" do
+    r.post "settings" do
       wrap_html_and_redirect_response(registry_service.update_configuration(request.params), '/profiles/devices')
     end
   end

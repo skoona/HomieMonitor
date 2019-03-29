@@ -29,7 +29,6 @@ if RUBY_PLATFORM == "java"
     value = java.lang.System.getenv('HM_MQTT_LOG')
     SknSettings.mqtt.debug_log_file = value unless value.nil?
 
-
     value = java.lang.System.getenv('HM_MQTT_SSL_ENABLE_FLAG') # expect 'true'
     SknSettings.mqtt.ssl_enable = eval(value) unless value.nil?
 
@@ -38,8 +37,6 @@ if RUBY_PLATFORM == "java"
 
     value = java.lang.System.getenv('HM_MQTT_SSL_KEY_PATH')
     SknSettings.mqtt.ssl_key_path = value unless value.nil?
-
-
 
     value = java.lang.System.getenv('HM_FIRMWARE_PATH')
     SknSettings.content_service.firmware_path = value unless value.nil?

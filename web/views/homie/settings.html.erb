@@ -4,123 +4,65 @@
 <% content_for(:title, "Settings") %>
 
 <article>
-  <h1 class="page-header"><a href="/profiles/devices"><i class="fa fa-chevron-circle-left fa-1x" aria-hidden="true"></i></a> Runtime Settings</h1>
+  <h1 class="page-header"><a href="/profiles/devices"><i class="fa fa-chevron-circle-left fa-1x" aria-hidden="true"></i></a> Settings</h1>
 
   <% if resources.success %>
 
     <section>
-      <div class="well col-md-offset-1 col-md-10">
+      <div class="well well-lg col-md-12">
 
-        <form  id="settings" class="form-horizontal"  role="form" action="/homie/config_update" method="POST">
+        <form  id="settings" class="form-horizontal"  role="form" action="/homie/settings" method="POST">
 
           <fieldset class="row">
-            <legend>Core Controls</legend>
+            <legend>Runtime</legend>
             <div class="form-group">
               <label class="control-label col-sm-3" for="ota-select">Run Mode</label>
               <div class="col-sm-4">
-                <select class="form-control" id="ota-select" name="run_mode" value="<%= SknSettings.content_service.demo ? 'demo' : (SknApp.env.production? ? 'production' : 'development') %>">
-                  <option value="demo">Demo</option>
-                  <option value="development">Development</option>
-                  <option value="production">Production</option>
+                <% mode =  SknSettings.content_service.demo ? 'demo' : (SknApp.env.production? ? 'production' : 'development') %>
+                <select class="form-control" id="ota-select" name="run_mode" value="<%= mode %>">
+                  <option class="<%= 'demo'.eql?(mode) ? 'active' : '' %>" value="demo">Demo</option>
+                  <option class="<%= 'demo'.eql?(mode) ? '' : 'active' %>" value="production">Live!</option>
                 </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-3" for="ota-select">Default OTA Format:</label>
-              <div class="col-sm-4">
-                <select class="form-control" id="ota-select" name="ota_type" value="<%= Homie::Handlers::Stream.ota_type %>">
-                  <option value="binary">Binary</option>
-                  <option value="base64">Base64</option>
-                  <option value="base64strict">Base64Strict</option>
-                  <option value="RFC4648">RFC4648 (URL Safe) with Padding</option>
-                  <option value="RFC4648_pad">RFC4648 (URL Safe) w/o Padding</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-3" for="datasource">Datastore File Path</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="datasource" name="datasource_store" placeholder="./full/path/to/datastore.yml">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-3" for="firmware_path">Firmwares Directory Path</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="firmware_path" name="firmwares_path" placeholder="./full/directory/path/">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-3" for="base_topics">Homie Base Topic(s)</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="base_topics" name="envbase_topics" placeholder="comma,seperated,list">
               </div>
             </div>
 
           </fieldset>
 
-          <div class="alert alert-info">
-            <strong>Info!</strong> Please restart the application to have any changes take effect.
-          </div>
-
           <fieldset class="row">
-            <legend>MQTT Controls</legend>
+            <legend>MQTT</legend>
 
             <div class="form-group">
               <label class="control-label col-sm-3" for="host">Host</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="host" name="mqtt_host" placeholder="ip address | fqdn">
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="host" name="mqtt_host" placeholder="ip address | fqdn" value="<%= Homie::Handlers::Stream.host %>">
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-3" for="port">Host Port</label>
               <div class="col-sm-3">
-                <input type="number" class="form-control" id="port" name="mqtt_port" placeholder="1883">
-              </div>
-
-              <div class="col-sm-6">
-                <div class="checkbox">
-                  <label class="checkbox-inline"><input type="checkbox" id="ssl_enable" name="ssl_enable" value="0"> Enable SSL</label>
-                </div>
+                <input type="number" class="form-control" id="port" name="mqtt_port" placeholder="1883" value="<%= Homie::Handlers::Stream.port %>">
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-3" for="username">Username</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="username" name="mqtt_username" placeholder="mqtt connection userid">
+              <div class="col-sm-3">
+                <input type="text" class="form-control" id="username" name="mqtt_username" placeholder="mqtt connection userid" value="<%= Homie::Handlers::Stream.username %>">
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-sm-3" for="password">Password</label>
-              <div class="col-sm-9">
-                <input type="password" class="form-control" id="password" name="mqtt_password" placeholder="mqtt connection password">
-              </div>
-            </div>
-
-            <div class="form-group checked-control" style="display: none;">
-              <label class="control-label col-sm-3" for="ssl_cert_path">SSL Certificate Path</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control ssl-cert" id="ssl_cert_path" name="ssl_cert_path" placeholder="./full/path/to/certificateFile">
-              </div>
-            </div>
-
-            <div class="form-group checked-control" style="display: none;">
-              <label class="control-label col-sm-3" for="ssl_key_path">SSL Key Path</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control ssl-cert" id="ssl_key_path" name="ssl_key_path" placeholder="./full/path/to/keyFile">
+              <div class="col-sm-3">
+                <input type="password" class="form-control" id="password" name="mqtt_password" placeholder="mqtt connection password" value="<%= Homie::Handlers::Stream.password %>">
               </div>
             </div>
 
           </fieldset>
 
           <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-9">
+            <div class="col-sm-offset-3 col-sm-6">
               <button type="submit" class="btn btn-block btn-lg btn-info">Submit</button>
             </div>
           </div>
@@ -131,30 +73,49 @@
     </section>
 
     <section>
-      <div class="well">
-        <h3>Current Runtime Configuration</h3>
-        <dl>
-          <dt>Release</dt>
-          <dd><%= release_name_and_version %></dd>
-          <dt>MQTT Host</dt>
-          <dd><%= SknSettings.mqtt.host %></dd>
-          <dt>MQTT Client ID</dt>
-          <dd><%= Homie::Handlers::Stream.client_id %></dd>
-          <dt>MQTT SSL Enabled</dt>
-          <dd><%= Homie::Handlers::Stream.ssl_enable %></dd>
-          <dt>MQTT Username</dt>
-          <dd><%= SknSettings.mqtt.username %></dd>
-          <dt>MQTT Topic Subscription</dt>
-          <dd><%= Homie::Handlers::Stream.base_topics %></dd>
-          <dt>MQTT/OTA default type</dt>
-          <dd><%= Homie::Handlers::Stream.ota_type %></dd>
-          <dt>Discovery Database File</dt>
-          <dd><%= SknSettings.content_service.data_source.store %></dd>
-          <dt>Firmware Path</dt>
-          <dd><%= SknSettings.content_service.firmware_path %></dd>
-          <dt>Paho Debug Log Path</dt>
-          <dd><%= SknSettings.mqtt.debug_log_file %></dd>
-        </dl>
+      <div class="well well-lg col-md-12">
+        <div class="table-responsive">
+          <table id="device-table" class="table table-condensed table-hover table-striped" cellspacing="0" width="100%">
+            <legend>Current Runtime Configuration</legend>
+            <thead>
+              <th>ENV key</th>
+              <th>Value</th>
+              <th>Description</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Inference</td>
+                <td><%= SknSettings.content_service.demo_mode or SknSettings.mqtt.host.eql?('some.fqdn.com') %></td>
+                <td>Demo mode when no MQTT Credentials are in force.</td>
+              </tr>
+              <tr>
+                <td>HM_MQTT_HOST</td>
+                <td><%= SknSettings.mqtt.host %></td>
+                <td>MQTT Server's IP Address.</td>
+              </tr>
+              <tr>
+                <td>HM_MQTT_USER</td>
+                <td><%= SknSettings.mqtt.username %></td>
+                <td>MQTT Server's username.</td>
+              </tr>
+              <tr>
+                <td>HM_MQTT_SSL_ENABLE_FLAG</td>
+                <td><%= Homie::Handlers::Stream.ssl_enable %></td>
+                <td>MQTT Encrypted Connection Enablement.</td>
+              </tr>
+              <tr>
+                <td>HM_FIRMWARE_PATH</td>
+                <td><%= SknSettings.content_service.firmware_path %></td>
+                <td>Dir where Firmwares are installed or saved.</td>
+              </tr>
+              <tr>
+                <td>HM_BASE_TOPICS</td>
+                <td><%= Homie::Handlers::Stream.base_topics %></td>
+                <td>MQTT Topic prefix to identify Homie devices.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
