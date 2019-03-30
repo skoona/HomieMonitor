@@ -18,10 +18,9 @@
             <div class="form-group">
               <label class="control-label col-sm-3" for="ota-select">Run Mode</label>
               <div class="col-sm-4">
-                <% mode =  SknSettings.content_service.demo ? 'demo' : (SknApp.env.production? ? 'production' : 'development') %>
-                <select class="form-control" id="ota-select" name="run_mode" value="<%= mode %>">
-                  <option class="<%= 'demo'.eql?(mode) ? 'active' : '' %>" value="demo">Demo</option>
-                  <option class="<%= 'demo'.eql?(mode) ? '' : 'active' %>" value="production">Live!</option>
+                <select class="form-control" id="ota-select" name="run_mode">
+                  <option <%= SknApp.demo_mode ? 'selected' : '' %> value="demo">Demo</option>
+                  <option <%= SknApp.demo_mode ? '' : 'selected' %> value="production">Live!</option>
                 </select>
               </div>
             </div>
@@ -78,20 +77,25 @@
           <table id="device-table" class="table table-condensed table-hover table-striped" cellspacing="0" width="100%">
             <legend>Current Runtime Configuration</legend>
             <thead>
-              <th>ENV key</th>
+              <th>ENV key/Name</th>
               <th>Value</th>
               <th>Description</th>
             </thead>
             <tbody>
               <tr>
-                <td>Inference</td>
-                <td><%= SknSettings.content_service.demo_mode or SknSettings.mqtt.host.eql?('some.fqdn.com') %></td>
+                <td>Demo Mode</td>
+                <td><%= SknApp.demo_mode %></td>
                 <td>Demo mode when no MQTT Credentials are in force.</td>
               </tr>
               <tr>
                 <td>HM_MQTT_HOST</td>
                 <td><%= SknSettings.mqtt.host %></td>
-                <td>MQTT Server's IP Address.</td>
+                <td>MQTT Server's IP Address or FQDN.</td>
+              </tr>
+              <tr>
+                <td>ClientID</td>
+                <td><%= Homie::Handlers::Stream.client_id %></td>
+                <td>MQTT ClientID, generated at startup.</td>
               </tr>
               <tr>
                 <td>HM_MQTT_USER</td>
@@ -101,17 +105,22 @@
               <tr>
                 <td>HM_MQTT_SSL_ENABLE_FLAG</td>
                 <td><%= Homie::Handlers::Stream.ssl_enable %></td>
-                <td>MQTT Encrypted Connection Enablement.</td>
+                <td>MQTT Encrypted Connection Enabled.</td>
               </tr>
               <tr>
                 <td>HM_FIRMWARE_PATH</td>
                 <td><%= SknSettings.content_service.firmware_path %></td>
-                <td>Dir where Firmwares are installed or saved.</td>
+                <td>Upload Directory where Firmwares are saved.</td>
               </tr>
               <tr>
                 <td>HM_BASE_TOPICS</td>
                 <td><%= Homie::Handlers::Stream.base_topics %></td>
-                <td>MQTT Topic prefix to identify Homie devices.</td>
+                <td>MQTT Topic prefix used to discover your Homie devices.</td>
+              </tr>
+              <tr>
+                <td>HM_DATA_STORE</td>
+                <td><%= SknSettings.content_service.data_source.store %></td>
+                <td>Discovered Homie Device profiles in YAML format.</td>
               </tr>
             </tbody>
           </table>

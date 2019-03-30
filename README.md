@@ -95,7 +95,7 @@ The configuration module will prefers environment variables over yaml config fil
     HM_MQTT_SSL_CERT_PATH   defaults are invalid
     HM_MQTT_SSL_KEY_PATH    defaults are invalid
 
-    HM_MQTT_LOG         defaults to `/tmp/homieMonitor/paho-debug.log`
+    HM_MQTT_LOG         defaults to empty (not nil)
     HM_FIRMWARE_PATH    defaults to './content/firmwares/'
     HM_SPIFFS_PATH      defaults to './content/spiffs/'
     HM_DATA_STORE       defaults to './db/HomieMonitor_store.yml'
@@ -151,7 +151,7 @@ HM_MQTT_HOST='localhost'
 # HM_MQTT_USER=''
 # HM_MQTT_PASS=''
 HM_BASE_TOPICS='[["sknSensors/#",0],["homie/#",0]]'
-HM_MQTT_LOG="$HOME/homieMonitor/log/paho-debug.log"
+HM_MQTT_LOG=""
 HM_FIRMWARE_PATH="$HOME/homieMonitor/content/firmwares/"
 HM_DATA_STORE="$HOME/homieMonitor/db/HomieMonitor_store.yml"
 HM_OTA_TYPE='binary'

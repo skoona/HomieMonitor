@@ -102,51 +102,6 @@ SknUtil.prototype = {
         }).done(function (data, textStatus, jqXHR) {
             var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
             consoleLog(msg);
-//            swal({title: "Did something good!", text: msg, icon: "warning"});
-            lastData = data;
-            lastSuccess = true;
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            var msg = "Failure: " + textStatus + ', thrown=' + errorThrown + ', RequestPkg=' + JSON.stringify(dataPackage);
-            consoleLog(msg);
-            swal({title: "Something failed!", text: msg, icon: "error"});
-            lastData = {};
-            lastSuccess = false;
-        });
-    },
-    putHomie: function(url, dataPackage) {
-        $.ajax({
-            headers: {'X-CSRF-Token': Skn.csrf, 'X-XSRF-Token': Skn.csrfToken},
-            type: 'PUT',
-            url: url,
-            contentType: 'application/json',
-            dataType: "json",
-            accepts: 'json',
-            data: JSON.stringify(dataPackage) // access in body
-        }).done(function (data, textStatus, jqXHR) {
-            var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
-            consoleLog(msg);
-            lastData = data;
-            lastSuccess = true;
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            var msg = "Failure: " + textStatus + ', thrown=' + errorThrown + ', RequestPkg=' + JSON.stringify(dataPackage);
-            consoleLog(msg);
-            swal({title: "Something failed!", text: msg, icon: "error"});
-            lastData = {};
-            lastSuccess = false;
-        });
-    },
-    deleteHomie: function(url, dataPackage) {
-        $.ajax({
-            headers: {'X-CSRF-Token': Skn.csrf, 'X-XSRF-Token': Skn.csrfToken},
-            type: 'DELETE',
-            url: url,
-            contentType: 'application/json',
-            dataType: "json",
-            accepts: 'json',
-            data: JSON.stringify(dataPackage) // access in body
-        }).done(function (data, textStatus, jqXHR) {
-            var msg = "Success: " + textStatus + ", Response=" + JSON.stringify(data);
-            consoleLog(msg);
             lastData = data;
             lastSuccess = true;
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -360,24 +315,6 @@ $(function() {
 
     } else if (Skn.currentPage.includes('settings')) {
         consoleLog("Entered Init :Settings");
-
-        $('#ssl_enable').click(function(ev) {
-            if ($(this).is(':checked')) {
-                $(this).val("1");
-                $('#ssl_cert_path').attr('disabled', false).closest('div.form-group').slideDown(500);
-                $('#ssl_key_path').attr('disabled', false).closest('div.form-group').slideDown(500);
-            } else {
-                $(this).val("0");
-                $('#ssl_cert_path').attr('disabled', true).closest('div.form-group').slideUp(700);
-                $('#ssl_key_path').attr('disabled', true).closest('div.form-group').slideUp(700);
-            }
-        });
-
-        if ($('#ssl_enable').is(':checked')) {
-            $('div.checked-control').slideDown(500);
-        } else {
-            $('div.checked-control').slideUp(700);
-        }
 
     } else {
         consoleLog("Current Page (" + Skn.currentPage + ") has no custom Javascripts enabled.");

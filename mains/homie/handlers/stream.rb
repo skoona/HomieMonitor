@@ -65,7 +65,7 @@ module Homie
                               password:  Stream.password,
                               ssl: Stream.ssl_enable
                            })
-        if SknApp.debug or Stream.debug_log_file.present?
+        if Stream.debug_log_file.present?
           PahoMqtt.logger  = Stream.debug_log_file
         end
         @debug_logger.debug "#{self.class.name}##{__method__}: Init to #{Stream.host}"
@@ -79,7 +79,7 @@ module Homie
         @client = PahoMqtt::Client.new(@_config.to_hash)
 
         ### Set the encryption mode to True
-        if Stream.ssl_enable and not Stream.ssl_certificate_path.blank?
+        if Stream.ssl_enable and Stream.ssl_certificate_path.present?
           ### Configure the user SSL key and the certificate
           @client.config_ssl_context(Stream.ssl_certificate_path, Stream.ssl_key_path)
           debug_logger.debug "#{self.class.name}##{__method__}: SSL Certs Engaged: #{Stream.ssl_enable} "
@@ -106,7 +106,6 @@ module Homie
         end
 
         client.connect(client.host, client.port, client.keep_alive, client.persistent, client.blocking)
-        # client.connect
 
         client.subscribe( *Stream.base_topics )
         while @_wait_suback do
@@ -120,10 +119,6 @@ module Homie
       rescue => ex
         debug_logger.debug "#{self.class.name}##{__method__} Failure: klass=#{ex.class.name}, cause=#{ex.message}, Backtrace=#{ex.backtrace[0..8]}"
       ensure
-        # @send_queue.clear
-        # @send_queue.close
-        # @receive_queue.clear
-        # @receive_queue.close
         @client.disconnect if @client && @client.connection_state
         $stdout.puts "#{self.class.name} MQTT Listener Shutdown Complete!"
       end

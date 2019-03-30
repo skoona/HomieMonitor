@@ -27,8 +27,6 @@ class SknWeb < Roda
 
   use Rack::MethodOverride
 
-  use Rack::Protection unless opts[:env].test?
-
   use Rack::ShowExceptions
   use Rack::NestedParams
 
@@ -47,11 +45,13 @@ class SknWeb < Roda
   Tilt.pipeline('scss.erb')
 
 
-  plugin :json_parser
   plugin :all_verbs
+  plugin :json_parser
   plugin :halt
   plugin :json
   plugin :head
+  plugin :flash
+  plugin :public             #replaces plugin :static, %w[/images /fonts]
 
   plugin :assets, {
       css_dir: 'stylesheets',
@@ -86,8 +86,6 @@ class SknWeb < Roda
   plugin :forme
   plugin :tag_helpers        # includes :tag plugin, for HTML generation: https://github.com/kematzy/roda-tags/
   plugin :i18n, :locale => ['en']   # i18n.fallbacks = [I18n.default_locale]
-  plugin :flash
-  plugin :public             #replaces plugin :static, %w[/images /fonts]
   plugin :drop_body
 
   plugin :multi_route

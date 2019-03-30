@@ -22,6 +22,7 @@ module Services
         @_schedule_add_handler    = SknApp.registry.resolve("add_schedule_handler")
         @_schedule_delete_handler = SknApp.registry.resolve("delete_schedule_handler")
         @_delete_device_handler   = SknApp.registry.resolve("delete_device_handler")
+        @_settings_handler        = SknApp.registry.resolve("settings_handler")
         @_start_time   = SknUtils.duration
         @description   = SknSettings.content_service.description
         SknApp.logger.debug "#{self.class.name}.#{__method__}"
@@ -40,9 +41,9 @@ module Services
                  when "DeviceDelete"
                    @_delete_device_handler.call(cmd.value)
                  when "MonitorConfig"
-                   SknSuccess.call( {success: false, status: 204, message: "No Content!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Request Type Not Implemented" )
+                   @_settings_handler.call(cmd.value)
                  when "MonitorSettings"
-                   SknSuccess.call( {success: false, status: 204, message: "No Content!"}, "Please restart the application to have any changes take effect." )
+                   SknSuccess.call( {success: true, status: 204, message: "No Content!"}, "<strong>Info!</strong> Please restart the application to have any changes take effect." )
                  else
                    SknSuccess.call( {success: false, status: 404, message: "Cannot Process Now!"}, "#{self.class.name}->[#{cmd.class.name}] #{@description}: Unknown Request type" )
                  end

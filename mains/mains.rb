@@ -18,7 +18,7 @@ SknApp.registry
     .register("firmware_catalog",        ->(action, value) { Services::Handlers::Firmwares.call(action, value) }, call: false)
     .register("add_schedule_handler",    ->(device_name, checksum, ota_format) { Services::Handlers::AddSchedule.call(device_name, checksum, ota_format) }, call: false)
     .register("delete_schedule_handler", ->(device_name) { Services::Handlers::DeleteSchedule.call(device_name) }, call: false)
-    .register("send_file_handler",       ->(command) { Services::Handlers::SendFile.call(command) }, call: false)
+    .register("settings_handler",        ->(command) { Services::Handlers::Settings.call(command) }, call: false)
     .register("receive_file_handler",    ->(fname, fsize, tfile) { Services::Handlers::ReceiveFile.call(fname, fsize, tfile) }, call: false)
     .register("delete_file_handler",     ->(fname)   { Services::Handlers::DeleteFile.call(fname) }, call: false)
     .register("delete_device_handler",   ->(device_name)   { Services::Handlers::DeleteDevice.call(device_name) }, call: false)
@@ -34,7 +34,7 @@ SknApp.registry
     .register("subscriptions_provider", ->(){ Homie::Providers::Subscriptions.instance }, call: true)
     .register("events_provider", ->(){ Homie::Providers::Events.instance }, call: true)
 
-if SknSettings.content_service.demo_mode or SknSettings.mqtt.host.eql?('some.fqdn.com')
+if SknApp.demo_mode
   SknApp.registry.register("device_stream_listener", ->() { Homie::Handlers::MockStream.call() }, call: false)
 else
   SknApp.registry.register("device_stream_listener", ->() { Homie::Handlers::Stream.call }, call: false)
