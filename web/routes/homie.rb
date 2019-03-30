@@ -29,5 +29,11 @@ class SknWeb
       wrap_json_response(registry_service.device_delete(request.params))
     end
 
+    r.get 'settings' do
+      wrap_html_response(registry_service.monitor_settings, :settings)
+    end
+    r.post "settings" do
+      wrap_html_and_redirect_response(registry_service.update_configuration(request.params), '/profiles/devices')
+    end
   end
 end

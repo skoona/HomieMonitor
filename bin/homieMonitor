@@ -36,12 +36,12 @@
 
 # Set Environment Vars
 RACK_ENV='production'
-HM_MQTT_HOST='localhost'
+# HM_MQTT_HOST='localhost'
 # HM_MQTT_PORT=1883
 # HM_MQTT_USER=''
 # HM_MQTT_PASS=''
 HM_BASE_TOPICS='[["sknSensors/#",0],["homie/#",0]]'
-HM_MQTT_LOG="$HOME/homieMonitor/log/paho-debug.log"
+HM_MQTT_LOG=""
 HM_FIRMWARE_PATH="$HOME/homieMonitor/content/firmwares/"
 HM_DATA_STORE="$HOME/homieMonitor/db/HomieMonitor_store.yml"
 HM_OTA_TYPE='binary'

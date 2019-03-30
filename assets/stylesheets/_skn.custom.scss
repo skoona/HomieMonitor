@@ -62,7 +62,7 @@ td.config {
   font-size: 20px;
   color: white;
   border-radius: 0 5px 5px 0;
-  z-index: 2;
+  z-index: 2000;
 }
 
 #side-nav a:hover {
@@ -82,6 +82,11 @@ td.config {
 #menu-manage {
   top: 140px;
   background-color: #f44336;
+}
+
+#menu-settings {
+  top: 200px;
+  background-color: #f4ad41;
 }
 
 

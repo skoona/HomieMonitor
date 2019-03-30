@@ -3,10 +3,11 @@
   <!--
   Side Slideout Navigation
   -->
-  <div id="side-nav" class="sidenav hidden-sm hidden-xs visible-md visible-lg">
+  <div id="side-nav" class="sidenav hidden-sm hidden-xs visible-md visible-lg" data-spy="affix" data-offset-top="20">
     <a id="menu-home" class="home" href="/">Home <span class="pull-right"><i class="fa fa-home" aria-hidden="true"></i></span></a>
     <a id="menu-discover" class="discover" href="/profiles/devices">Discover <span class="pull-right"><i class="fa fa-search" aria-hidden="true"></i></span></a>
     <a id="menu-manage" class="manage" href="/profiles/manage">Manage <span class="pull-right"><i class="fa fa-cogs" aria-hidden="true"></i></span></a>
+    <a id="menu-settings" class="settings" href="/homie/settings">Settings <span class="pull-right"><i class="fa fa-sign-in" aria-hidden="true"></i></span></a>
   </div>
 
   <!--
@@ -30,6 +31,7 @@
             <li><a class="<%= menu_active?('/') %>" href="/"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
             <li><a class="<%= menu_active?('/profiles/devices') %>" href="/profiles/devices"><i class="fa fa-search" aria-hidden="true"></i> Discover</a></li>
             <li><a class="<%= menu_active?('/profiles/manage') %>" href="/profiles/manage"><i class="fa fa-cogs" aria-hidden="true"></i> Management</a></li>
+            <li><a class="<%= menu_active?('/homie/settings') %>" href="/homie/settings"><i class="fa fa-sign-in" aria-hidden="true"></i> Settings</a></li>
           </ul>
       </div>
 

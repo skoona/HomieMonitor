@@ -38,7 +38,7 @@ mqtt:
       - 0
     - - homie/#
       - 0
-  debug_log_file: <%= ENV.fetch('HM_MQTT_LOG', '/tmp/homieMonitor/paho-debug.log') %>
+  debug_log_file: <%= ENV.fetch('HM_MQTT_LOG', '') %>
   ssl_enable: <%= ENV.fetch('HM_MQTT_SSL_ENABLE_FLAG', false) %>
   ssl_certificate_path: <%= ENV.fetch('HM_MQTT_SSL_CERT_PATH', nil) %>
   ssl_key_path: <%= ENV.fetch('HM_MQTT_SSL_KEY_PATH', nil) %>

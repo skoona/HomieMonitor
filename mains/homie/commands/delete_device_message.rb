@@ -2,13 +2,13 @@
 # File: ./main/services/commands/homie_devices.rb
 #
 #
-# cmd = Services::Commands::DeleteDevice.new(args )
+# cmd = Services::Commands::DeleteDeviceMessage.new(args )
 # ##
 
 module Homie
   module Commands
 
-    class DeleteDevice
+    class DeleteDeviceMessage
 
       def initialize(topic)
         @_topic = topic

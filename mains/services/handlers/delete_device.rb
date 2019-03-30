@@ -101,10 +101,10 @@ module Services
       end
 
       def purge_topics(topic_stream)
-        topic_stream.each do |item|
+        topic_stream.all? do |item|
           @_count += 1
-          @_stream_manager.send_queue_event( Homie::Commands::DeleteDevice.new(item) )
-          SknApp.logger.debug "#{self.class.name}.#{__method__} Topic Deleted: #{item}"
+          SknApp.logger.debug "#{self.class.name}.#{__method__} Topic to Delete: #{item}"
+          @_stream_manager.send_queue_event( Homie::Commands::DeleteDeviceMessage.new(item) )
         end
       end
 

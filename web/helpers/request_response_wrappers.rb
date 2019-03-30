@@ -41,7 +41,7 @@ class SknWeb
 
   def wrap_html_and_redirect_response(service_response, redirect_path='/')
     flash_message(:warning, service_response.message, true) unless service_response.message.blank?
-    redirect(redirect_path)
+    request.redirect(redirect_path)
   end
 
   def wrap_json_response(service_response)

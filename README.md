@@ -1,6 +1,6 @@
 # HomieMonitor
 [![Build Status](https://travis-ci.org/smart-swimmingpool/HomieMonitor.svg?branch=master)](https://travis-ci.org/smart-swimmingpool/HomieMonitor)
-[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/stritti/homie-monitor.svg)](https://hub.docker.com/r/stritti/homie-monitor)
+[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/stritti/homie-monitor.svg)](https://hub.docker.com/r/skoona/homie-monitor)
 
 An exploration into [Homie-esp8266](https://homieiot.github.io/homie-esp8266/docs/develop/quickstart/getting-started/), using modules from [Dry-RB](http://dry-rb.org), 
 [Paho.MQTT.Ruby](https://github.com/RubyDevInc/paho.mqtt.ruby), [JRuby](https://www.jruby.org) and 
@@ -30,6 +30,7 @@ in support of IOT/Devices using [Homie-esp8266](https://github.com/homieiot/homi
 * Docker build script.
 * Internally designed to tollerate potentially Homie Specification 1.5+, but focused on V3.
 * Attribute and Property retention, via YAML:Store file, as Homie may consider some discovery related attributes optional and they are not always retained!
+* MQTT Retained Message cleanup.  Old/stale device topics retained in MQTT can be deleted to cleanup the discovery process.
 
 
 ## Demonstration Mode
@@ -94,7 +95,7 @@ The configuration module will prefers environment variables over yaml config fil
     HM_MQTT_SSL_CERT_PATH   defaults are invalid
     HM_MQTT_SSL_KEY_PATH    defaults are invalid
 
-    HM_MQTT_LOG         defaults to `/tmp/homieMonitor/paho-debug.log`
+    HM_MQTT_LOG         defaults to empty (not nil)
     HM_FIRMWARE_PATH    defaults to './content/firmwares/'
     HM_SPIFFS_PATH      defaults to './content/spiffs/'
     HM_DATA_STORE       defaults to './db/HomieMonitor_store.yml'
@@ -150,7 +151,7 @@ HM_MQTT_HOST='localhost'
 # HM_MQTT_USER=''
 # HM_MQTT_PASS=''
 HM_BASE_TOPICS='[["sknSensors/#",0],["homie/#",0]]'
-HM_MQTT_LOG="$HOME/homieMonitor/log/paho-debug.log"
+HM_MQTT_LOG=""
 HM_FIRMWARE_PATH="$HOME/homieMonitor/content/firmwares/"
 HM_DATA_STORE="$HOME/homieMonitor/db/HomieMonitor_store.yml"
 HM_OTA_TYPE='binary'
@@ -187,6 +188,7 @@ To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, befo
 
 ### Docker Container
 
+* Primary [Docker Container](https://cloud.docker.com/repository/registry-1.docker.io/skoona/homie-monitor)
 * Creation of [Docker Container:](https://hub.docker.com/r/stritti/homie-monitor)
 
         $ docker build -t homie-monitor .
