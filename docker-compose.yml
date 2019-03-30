@@ -1,0 +1,29 @@
+version: '3.2'
+services:
+  homieMonitor:
+    container_name: homieMonitor
+    environment:
+      - HM_MQTT_HOST=192.168.0.2
+      - HM_MQTT_PORT=1883
+      - HM_MQTT_SSL_ENABLE_FLAG=false
+      - HM_MQTT_USER=mqtt
+      - HM_MQTT_PASS=superSecret
+    image: skoona/homie-monitor:latest
+    #image: homie-monitor #from local repro
+    ports:
+      - target: 8585
+        published: 8585
+        protocol: tcp
+        mode: host
+    restart: always
+    tty: true
+    volumes:
+      - type: bind
+        source: ./srv/homieMonitor/tmp
+        target: /tmp
+      - type: bind
+        source: ./srv/homieMonitor/content
+        target: /usr/src/app/content
+      - type: bind
+        source: ./srv/homieMonitor/db
+        target: /usr/src/app/db

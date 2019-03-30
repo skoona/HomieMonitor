@@ -25,5 +25,7 @@ README.md
 CODE_OF_CONDUCT.md
 Changelog.md
 docker-compose.yml
-docs
-srv
+
+docs/
+srv/
+vendor/

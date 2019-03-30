@@ -2,13 +2,12 @@ FROM ruby
 
 WORKDIR /usr/src/app
 
-# COPY Gemfile Gemfile.lock ./
 COPY . .
 
-RUN mkdir -p /tmp/homieMonitor && \
-    touch /tmp/homieMonitor/paho-debug.log && \
-    mkdir -p tmp/pids && \
-    touch tmp/pids/puma.pid
+RUN mkdir -p ./tmp/homieMonitor && \
+    touch ./tmp/homieMonitor/paho-debug.log && \
+    mkdir -p ./tmp/pids && \
+    touch ./tmp/pids/puma.pid
 
 RUN gem update --system && \
     gem install bundler
@@ -29,13 +28,12 @@ ENV HM_MQTT_SSL_CERT_PATH=
 ENV HM_MQTT_SSL_KEY_PATH=
 
 ENV HM_OTA_TYPE='binary'
-
+ENV HM_MQTT_LOG='./tmp/homieMonitor/paho-debug.log'
 ENV RACK_ENV='production'
 
-VOLUME /tmp/homieMonitor/
+VOLUME /usr/src/app/tmp
 VOLUME /usr/src/app/content
 VOLUME /usr/src/app/db
-VOLUME /usr/src/app/config/settings
 
 EXPOSE 8585
 

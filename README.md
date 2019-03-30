@@ -1,6 +1,6 @@
 # HomieMonitor
 [![Build Status](https://travis-ci.org/smart-swimmingpool/HomieMonitor.svg?branch=master)](https://travis-ci.org/smart-swimmingpool/HomieMonitor)
-[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/stritti/homie-monitor.svg)](https://hub.docker.com/r/skoona/homie-monitor)
+[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/skoona/homie-monitor.svg)](https://hub.docker.com/r/skoona/homie-monitor)
 
 An exploration into [Homie-esp8266](https://homieiot.github.io/homie-esp8266/docs/develop/quickstart/getting-started/), using modules from [Dry-RB](http://dry-rb.org), 
 [Paho.MQTT.Ruby](https://github.com/RubyDevInc/paho.mqtt.ruby), [JRuby](https://www.jruby.org) and 
@@ -85,7 +85,7 @@ text entries into mqtt messages is `./main/homie/handlers/mock_stream.rb`
 The configuration module will prefers environment variables over yaml config file values.
 
     RACK_ENV            defaults to `'development'`         Performance is greater with `production`
-    HM_MQTT_HOST        defaults are invalid                Absence will force :demo_mode, unless using yaml comfigs
+    HM_MQTT_HOST        defaults are invalid                Absence will force :demo_mode, unless using yaml configs
     HM_MQTT_PORT        defaults to 1883
     HM_MQTT_USER        defaults are invalid
     HM_MQTT_PASS        defaults are invalid
@@ -199,11 +199,25 @@ To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, befo
 
 * Run created Container connected to your MQTT-Server:
 
-  You have to pass **environment varibles** for **MQTT hostname** and **port** within run script.
+  You have to pass **environment variables** for **MQTT hostname** and **port** within run script.
 
 	    $ docker run -it -p 8585:8585 -e HM_MQTT_HOST=<hostname|ip> -e HM_MQTT_PORT=<port> --name my-homie-monitor homie-monitor
 
 * Browse `http://<host>:8585/`
+
+    If you want to retent the data of HomieMonitor you have to bind the volumes of the container to the host using parameter on `docker run`. E.g.:
+
+        --mount type=volume,source=./srv/homieMonitor/content,target=/usr/src/app/content
+
+* Docker Compose
+
+  To simplify startup instance of the container use [Docker Compose](https://docs.docker.com/compose/). 
+  
+  We provide sample of [docker-compose.yml](docker-compose.yml) which could be used to start the container with one comand in the same directory wher docker-compose.yml is stored:
+
+        $ docker-compose up
+
+  In the compose file the binding of the Docker volumes is defined to retain the data of the application in `./srv`.
 
 ## Contributors
 
