@@ -3,11 +3,8 @@ language: ruby
 sudo: false
 
 cache:
-  - bundler
-  - /home/travis/.rvm
-
-env:
-  - JRUBY_OPTS: --dev --debug -Xcompile.invokedynamic=true
+  directories:
+    - vendor/bundle
 
 services:
   - docker
