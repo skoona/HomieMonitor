@@ -18,8 +18,5 @@ services:
         source: ./srv/homieMonitor/tmp
         target: /tmp
       - type: bind
-        source: ./srv/homieMonitor/content
-        target: /usr/src/app/content
-      - type: bind
-        source: ./srv/homieMonitor/config
-        target: /usr/src/app/config
+        source: ./srv/homieMonitor/
+        target: /usr/src/app
