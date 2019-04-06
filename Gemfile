@@ -14,7 +14,8 @@ gem "tilt"
 gem "erubis"
 gem 'forme'
 gem 'roda-tags'
-gem 'sassc' # 'sassc'
+gem 'sass', platform: :jruby
+gem 'sassc', platform: :ruby
 gem 'tilt-pipeline'
 
 # Javascript Runtime Support

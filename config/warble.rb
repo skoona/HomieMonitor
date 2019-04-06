@@ -6,7 +6,7 @@ Warbler::Config.new do |config|
   config.init_contents << StringIO.new("\nGem.clear_paths\nGem.path\n\n")
   config.features = %w(executable)
   config.dirs = %w(assets bin config content db i18n mains vendor tmp web log spec)
-  config.includes = FileList["config.ru", "Gemfile", "Gemfile.lock", "LICENSE", "README.md"]
+  config.includes = FileList["config.ru", "Gemfile", "Gemfile.lock", "LICENSE", "README.md", "docker-compose.yml", "Dockerfile", ".ruby-version", ".dockerignore"]
   config.excludes = FileList["config/**/*.local.yml"]
   config.pathmaps.java_classes << "%{target/classes/,}p"
   config.gem_excludes = [/^(test|spec)\//]
