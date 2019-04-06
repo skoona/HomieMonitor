@@ -2,7 +2,7 @@
 
   SimpleCov.start do
     merge_timeout 1500
-    minimum_coverage 60
+    minimum_coverage 50
 
     add_filter '/bin/'
     add_filter '/coverage/'
