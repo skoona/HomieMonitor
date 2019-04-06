@@ -9,6 +9,7 @@ config/settings/*.local.yml
 
 # bundler state
 content/**/*.bin
+content/db/*yml
 target/
 coverage/
 vendor/

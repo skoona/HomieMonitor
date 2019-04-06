@@ -5,7 +5,7 @@
 # See config/settings.yml, config/settings/*.yml, and config/settings/*.local.yml
 # Source: skn_utils.gem lib/skn_utils/configuration.rb
 #
-class << (SknSetting = SknUtils::Configuration.new( {config_filename: ENV.fetch('RACK_ENV', 'development')} ))
+class << (SknSetting = SknUtils::Configuration.new( {config_filename: ENV.fetch('RACK_ENV', 'production')} ))
 end
 
 if RUBY_PLATFORM == "java"

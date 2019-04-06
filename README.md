@@ -15,49 +15,28 @@ in support of IOT/Devices using [Homie-esp8266](https://github.com/homieiot/homi
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |<img src="public/images/homepage.png" width="28%" />|<img src="public/images/devices.png" width="28%" />|<img src="public/images/details.png" width="28%" />|
 |<img src="public/images/details-blink.png" width="28%" />|<img src="public/images/manage.png" width="28%" />|<img src="public/images/iphone-broadcasts.png" width="28%" />|
-|<img src="public/images/iphone-discovered.png" width="28%" />||
+|<img src="public/images/iphone-discovered.png" width="28%" />|<img src="public/images/Settings.png" width="28%" />|
  
-
 ## Features
-* Default build using `Ruby-2.6.2`, JRuby is optional.
-    * To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` or `ruby-2.6.2`, then `$ bundle install`
-* Monitor Homie V2, and V3 Devices (Initial Focus on `ESP8266`)
-* Controller model for Esp8266 devices
-* MQTT OTA operations
-* `Discover Devices` page auto-refreshes every 30 seconds
-* Self contained Application packaged as Java Executable warFile; using Warbler.gem -- port 8080
-* Docker build script.
-* Internally designed to tollerate potentially Homie Specification 1.5+, but focused on V3.
-* Attribute and Property retention, via YAML:Store file, as Homie may consider some discovery related attributes optional and they are not always retained!
-* MQTT Retained Message cleanup.  Old/stale device topics retained in MQTT can be deleted to cleanup the discovery process.
+* Device Discovery for version 2+ devices.
+* Real-Time Status of all dicovered devices.
+* Stale Device deletion (from MQTT) for decommissioned Homie Devices.
+* Scheduled MQTT/OTA by device. binary or base64 flavored.
+* Homie Image upload and retention.
+* Ad-Hoc messaging to any device.
+* In-App Configuration
+* Current Device Inventory stored in YAML file.
+* Docker, JRuby, MRI/Ruby runtime.
 
 
-## Demonstration Mode
-If you do not have a MQTT Broker accessable, it is possible to use a mock mqtt stream.  Edit/create
-your `./config/settings/development.local.yml` file and add the following starting at line 0 or 1:
+## Configuration and Demonstration Mode
+The configuration module will prefer `environment`, or `in-app` settings over the `internal settings files` values in that order.  The default runtime state is `demonstration mode`, which uses a stored collection of test messages from mosquitto_sub for V2 and V3 devices.
+The ***In-App Settings page*** is the quickest way to configure the application to your environment and is preferred.
 
-    ---
-    Packaging:
-      short_name: esp
-    
-    content_service:
-      demo_mode: true
-    
-    # ##
-    # Override (restate) by development, stage, production, etc
-    mqtt:
-      debug_log_file: './log/paho.log'
-
-
-The `content_service` entry controls which mqtt stream is used; live or mocked.  You can find the 
-source files for the mock in directory: `./spec/factories/homie_*.txt`.  The class which transform these 
-text entries into mqtt messages is `./main/homie/handlers/mock_stream.rb`
-
-***However, if `HM_MQTT_HOST` has not been configured, `demo_mode` will default to true!***
-
-    See `./spec/factories` and `./spec/support` for test data
-        * `$  mosquitto_sub -v -h hostname -t homie/#  -u username -P password`
-        * Above will produce a console log that can be used as test data by this system.
+Configuring for:
+* Java warFile use `environment` vars. 
+* JRuby or Ruby use `in-app` settings page.  
+* Docker use `in-app` page or `environment` vars.
 
 
 ## Installation
@@ -67,8 +46,6 @@ text entries into mqtt messages is `./main/homie/handlers/mock_stream.rb`
         `$ bin/setup`
     Start Server with Puma, Port 8585:
         `$ bundle exec puma config.ru -v`
-    Start Server with RackUp, Port 9292:
-        `$ rackup`
     Start Console with Pry:</dt>
         `$ bin/console`
 
@@ -80,11 +57,11 @@ text entries into mqtt messages is `./main/homie/handlers/mock_stream.rb`
     Start the app on port 8585
         $ homieMonitor
 
-#### Helpful Environmental Vars
-The configuration module will prefers environment variables over yaml config file values.
+#### Configuration Environment Vars
+The configuration module will prefers environment variables over all other methods. Don't use unless needed.
 
-    RACK_ENV            defaults to `'development'`         Performance is greater with `production`
-    HM_MQTT_HOST        defaults are invalid                Absence will force :demo_mode, unless using yaml configs
+    RACK_ENV            defaults to `'production'`          UI Performance is greater with `production`
+    HM_MQTT_HOST        defaults are invalid                Absence will force :demo_mode, unless using yaml configs or In-App overrides
     HM_MQTT_PORT        defaults to 1883
     HM_MQTT_USER        defaults are invalid
     HM_MQTT_PASS        defaults are invalid
@@ -97,7 +74,7 @@ The configuration module will prefers environment variables over yaml config fil
     HM_MQTT_LOG         defaults to empty (not nil)
     HM_FIRMWARE_PATH    defaults to './content/firmwares/'
     HM_SPIFFS_PATH      defaults to './content/spiffs/'
-    HM_DATA_STORE       defaults to './db/HomieMonitor_store.yml'
+    HM_DATA_STORE       defaults to './content/db/HomieMonitor_store.yml'
     HM_OTA_TYPE         binary, base64strict, base64, RFC4648_pad, RFC4648_no_pad 
                         - are the content choices for OTA transmissions; defaults to `binary`
 
@@ -125,53 +102,37 @@ The configuration module will prefers environment variables over yaml config fil
 # HM_MQTT_SSL_CERT_PATH   defaults are invalid, full-path required if ssl=true
 # HM_MQTT_SSL_KEY_PATH    defaults are invalid, full-path required if ssl=true
 # HM_BASE_TOPICS='[["sknSensors/#",0],["homie/#",0]]'   base mqtt message name <homie>/<device-id>/<node-id>/...
-# HM_MQTT_LOG=`/tmp/homieMonitor/paho-debug.log`        extra mqtt specific logfile, from paho-mqtt-ruby.gem
+# HM_MQTT_LOG=`./log/paho-debug.log`        extra mqtt specific logfile, from paho-mqtt-ruby.gem
 # HM_FIRMWARE_PATH="$HOME/homieMonitor/content/firmwares/"      Directory to store uploaded homie Firmware
-# HM_DATA_STORE="$HOME/homieMonitor/db/HomieMonitor_store.yml"  Full path and filename of YAML storage of OTA Subscriptions
+# HM_DATA_STORE="$HOME/homieMonitor/content/db/HomieMonitor_store.yml"  Full path and filename of YAML storage of OTA Subscriptions
 # HM_OTA_TYPE='base64strict'          binary, base64strict, base64, RFC4648_pad, RFC4648_no_pad
 #                                     - are the choice for OTA transmissions; defaults to `binary`
-
 #
 # Special Paths
 # 1. with HM_MQTT_SSL_CERT_PATH & HM_MQTT_SSL_KEY_PATH value empty `''`, set HM_MQTT_SSL_ENABLE_FLAG='true'
 # 2. if above fails then certs are required.  populate HM_MQTT_SSL_CERT_PATH & HM_MQTT_SSL_KEY_PATH with proper file paths
 #
+# export RACK_ENV HM_MQTT_HOST HM_MQTT_PORT HM_MQTT_USER HM_MQTT_PASS 
+# export HM_OTA_TYPE HM_MQTT_SSL_ENABLE_FLAG HM_MQTT_SSL_CERT_PATH HM_MQTT_SSL_KEY_PATH
+# export HM_BASE_TOPICS HM_MQTT_LOG HM_FIRMWARE_PATH HM_DATA_STORE 
 
 # Make runtime dirs
 [ -w $HOME/homieMonitor/ ] || {
 	echo 'Setting Up HomieMonitor' ;	 
-	mkdir -p $HOME/homieMonitor/{content/firmwares,content/spiffs,db,bin,log} ;
+	mkdir -p $HOME/homieMonitor/{content/firmwares,content/spiffs,content/db,bin,log,tmp,tmp/pids} ;
 }
 
 # Set Environment Vars
 RACK_ENV='production'
-HM_MQTT_HOST='localhost'
-# HM_MQTT_PORT=1883
-# HM_MQTT_USER=''
-# HM_MQTT_PASS=''
-HM_BASE_TOPICS='[["sknSensors/#",0],["homie/#",0]]'
-HM_MQTT_LOG=""
-HM_FIRMWARE_PATH="$HOME/homieMonitor/content/firmwares/"
-HM_DATA_STORE="$HOME/homieMonitor/db/HomieMonitor_store.yml"
-HM_OTA_TYPE='binary'
-HM_MQTT_SSL_ENABLE_FLAG='false'
-HM_MQTT_SSL_CERT_PATH=''
-HM_MQTT_SSL_KEY_PATH=''
-
 
 # Export Environment (not required)
-export RACK_ENV HM_MQTT_HOST HM_MQTT_PORT HM_MQTT_USER HM_MQTT_PASS 
-export HM_OTA_TYPE HM_MQTT_SSL_ENABLE_FLAG HM_MQTT_SSL_CERT_PATH HM_MQTT_SSL_KEY_PATH
-export HM_BASE_TOPICS HM_MQTT_LOG HM_FIRMWARE_PATH HM_DATA_STORE 
+export RACK_ENV  
 
-# copy homie_monitor-0.8.1.war to bin directory
-# cp -v $HOME/Downloads/homie_monitor* $HOME/homieMonitor/bin/
+# copy homie_monitor-<version>.war to bin directory
+# cp -v $HOME/Downloads/homie_monitor-<version>.war $HOME/homieMonitor/bin/
 
 # Java warFile execution
-# java -Dwarbler.port=8585 -jar $HOME/homieMonitor/bin/homie_monitor_esp-0.8.1.war
-
-# or Ruby execution
-bundle exec puma config.ru
+java -Dwarbler.port=8585 -jar $HOME/homieMonitor/bin/homie_monitor_esp-<version>.war
 
 #end
 
@@ -185,10 +146,17 @@ bundle exec puma config.ru
 ### Switch Ruby
 To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, before proceeding.
 
-### Docker Container
+### Docker Compose
+  To simplify startup instance of the container use [Docker Compose](https://docs.docker.com/compose/). 
+  
+  We provide sample of [docker-compose.yml](docker-compose.yml) which could be used to start the container with one comand in the same directory where docker-compose.yml is stored:
 
+        $ docker-compose up
+
+  In the compose file the binding of the Docker volumes is defined to retain the data of the application in `./srv`.
+
+### Docker Container
 * Primary [Docker Container](https://cloud.docker.com/repository/registry-1.docker.io/skoona/homie-monitor)
-* Creation of [Docker Container:](https://hub.docker.com/r/stritti/homie-monitor)
 
         $ docker build -t homie-monitor .
 
@@ -204,19 +172,9 @@ To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, befo
 
 * Browse `http://<host>:8585/`
 
-    If you want to retent the data of HomieMonitor you have to bind the volumes of the container to the host using parameter on `docker run`. E.g.:
+    If you want to retaint the data of HomieMonitor you have to bind the volumes of the container to the host using parameter on `docker run`. E.g.:
 
         --mount type=volume,source=./srv/homieMonitor/content,target=/usr/src/app/content
-
-* Docker Compose
-
-  To simplify startup instance of the container use [Docker Compose](https://docs.docker.com/compose/). 
-  
-  We provide sample of [docker-compose.yml](docker-compose.yml) which could be used to start the container with one comand in the same directory wher docker-compose.yml is stored:
-
-        $ docker-compose up
-
-  In the compose file the binding of the Docker volumes is defined to retain the data of the application in `./srv`.
 
 ## Contributors
 
