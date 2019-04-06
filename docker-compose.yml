@@ -15,8 +15,5 @@ services:
     tty: true
     volumes:
       - type: bind
-        source: ./srv/homieMonitor/tmp
-        target: /tmp
-      - type: bind
         source: ./srv/homieMonitor/
         target: /usr/src/app

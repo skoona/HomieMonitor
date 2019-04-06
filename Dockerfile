@@ -19,9 +19,7 @@ ENV HM_BASE_TOPICS='[["sknSensors/#,0"],["homie/#",0]]'
 ENV HM_MQTT_LOG=''
 ENV RACK_ENV='production'
 
-VOLUME /usr/src/app/tmp
-VOLUME /usr/src/app/content
-VOLUME /usr/src/app/config
+VOLUME /usr/src/app
 
 EXPOSE 8585
 
