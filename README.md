@@ -152,8 +152,10 @@ To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, befo
   We provide sample of [docker-compose.yml](docker-compose.yml) which could be used to start the container with one comand in the same directory where docker-compose.yml is stored:
 
         $ docker-compose up
+        -- or --
+        $ docker-compose up -d
 
-  In the compose file the binding of the Docker volumes is defined to retain the data of the application in `./srv`.
+  In the compose file the binding of the Docker volumes is defined to retain the data of the application using Docker Named Volumes.
 
 ### Docker Container
 * Primary [Docker Container](https://cloud.docker.com/repository/registry-1.docker.io/skoona/homie-monitor)
@@ -166,15 +168,12 @@ To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, befo
 
 * Run created Container connected to your MQTT-Server:
 
-  You have to pass **environment variables** for **MQTT hostname** and **port** within run script.
+  You have to pass **environment variables** for **MQTT hostname** and **port** within run script; Or using the ***In-App Settings*** page. 
 
 	    $ docker run -it -p 8585:8585 -e HM_MQTT_HOST=<hostname|ip> -e HM_MQTT_PORT=<port> --name my-homie-monitor homie-monitor
 
 * Browse `http://<host>:8585/`
 
-    If you want to retaint the data of HomieMonitor you have to bind the volumes of the container to the host using parameter on `docker run`. E.g.:
-
-        --mount type=volume,source=./srv/homieMonitor/content,target=/usr/src/app/content
 
 ## Contributors
 
