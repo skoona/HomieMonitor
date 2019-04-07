@@ -18,7 +18,6 @@ module Services
       end
 
       def initialize
-        @_send_handler = SknApp.registry.resolve("send_file_handler")
         @_recv_handler = SknApp.registry.resolve("receive_file_handler")
         @_delete_handler = SknApp.registry.resolve("delete_file_handler")
         @_start_time   = SknUtils.duration
@@ -32,8 +31,6 @@ module Services
                 case cmd.class.name.split('::').last
                 when  "ReceiveFile"
                   @_recv_handler.call(cmd.filename, cmd.filesize, cmd.tempfile)
-                when "SendFile"
-                  @_send_handler.call(cmd)
                 when "FirmwareDelete"
                   @_delete_handler.call(cmd.filename)
                 else
