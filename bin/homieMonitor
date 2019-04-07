@@ -59,7 +59,7 @@ export HM_BASE_TOPICS HM_MQTT_LOG HM_FIRMWARE_PATH HM_DATA_STORE
 # cp -v $HOME/Downloads/homie_monitor* $HOME/homieMonitor/bin/
 
 # Java execute
-# java -Dwarbler.port=8585 -jar $HOME/homieMonitor/bin/homie_monitor_esp-0.8.0.war
+# java -Dwarbler.port=8585 -jar $HOME/homieMonitor/bin/homie_monitor_esp-0.8.8.war
 
 # OR Ruby execute
 # cd $HOME/homieMonitor
