@@ -1,25 +1,29 @@
-FROM ruby
+FROM ruby:2.6.2
 
-WORKDIR /usr/src/app
+RUN mkdir -p /homieMonitor
 
-COPY . .
+WORKDIR /homieMonitor
 
-RUN mkdir -p ./log && \
-    mkdir -p ./tmp/pids && \
-    touch ./tmp/pids/puma.pid
+RUN mkdir -p ./log ./tmp/pids
 
-RUN gem update --system && \
-    gem install bundler
-    
+RUN gem install bundler
+
+# Copy the files needed for the bundle install
+COPY ./Gemfile /homieMonitor/Gemfile
+COPY ./Gemfile.lock /homieMonitor/Gemfile.lock
+
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1 && \
     bundle install --path=vendor/bundle
 
-ENV HM_BASE_TOPICS='[["sknSensors/#,0"],["homie/#",0]]'
+COPY . /homieMonitor
+
 ENV HM_MQTT_LOG=''
 ENV RACK_ENV='production'
 
-VOLUME /usr/src/app
+VOLUME /homieMonitor/config
+VOLUME /homieMonitor/content
+VOLUME /homieMonitor/log
 
 EXPOSE 8585
 
