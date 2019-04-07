@@ -143,6 +143,7 @@ java -Dwarbler.port=8585 -jar $HOME/homieMonitor/bin/homie_monitor_esp-<version>
 
 
 ## Alternate Builds
+
 ### Switch Ruby
 To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, before proceeding.
 
@@ -174,6 +175,9 @@ To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, befo
 
 * Browse `http://<host>:8585/`
 
+    If you want to retain the data of HomieMonitor you have to bind the volumes of the container to the host using parameter on `docker run`. E.g.:
+
+        $ docker run -it -p 8585:8585 --mount type=volume,source=homieMonitor-store,target=/homieMonitor/content --mount type=volume,source=homieMonitor-configs,target=/homieMonitor/config --mount type=volume,source=homieMonitor-logs,target=/homieMonitor/logs --name my-homie-monitor homie-monitor 
 
 ## Contributors
 
