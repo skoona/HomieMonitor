@@ -5,7 +5,7 @@ services:
     environment:
       - RACK_ENV=production
       - BUNDLE_PATH=vendor/bundle
-    image: homie-monitor:latest
+    image: skoona/homie-monitor:latest
     ports:
       - target: 8585
         published: 8585
