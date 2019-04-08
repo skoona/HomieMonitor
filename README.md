@@ -18,15 +18,15 @@ in support of IOT/Devices using [Homie-esp8266](https://github.com/homieiot/homi
 |<img src="public/images/iphone-discovered.png" width="28%" />|<img src="public/images/Settings.png" width="28%" />|
  
 ## Features
-* Device Discovery for version 2+ devices.
-* Real-Time Status of all dicovered devices.
+* Device Discovery for Homie Version 2+ devices.
+* Real-Time Status of all discovered devices.
 * Stale Device deletion (from MQTT) for decommissioned Homie Devices.
 * Scheduled MQTT/OTA by device. binary or base64 flavored.
 * Homie Image upload and retention.
 * Ad-Hoc messaging to any device.
 * In-App Configuration
 * Current Device Inventory stored in YAML file.
-* Docker, JRuby, MRI/Ruby runtime.
+* Docker, JRuby, MRI/Ruby runtimes.
 
 
 ## Configuration and Demonstration Mode
@@ -42,23 +42,25 @@ Configuring for:
 ## Installation
 #### (a) Ruby/JRuby
     Setup Application and Create Directories
-        Edit .ruby-version and remove Gemfile.lock, and vendor directory if changing rubies
-        `$ bin/setup`
+         $ git clone https://github.com/skoona/HomieMonitor.git
+         $ cd HomieMonitor
+         ***Edit*** .ruby-version and remove Gemfile.lock, and vendor directory if changing rubies
+         $ bin/setup
     Start Server with Puma, Port 8585:
-        `$ bundle exec puma config.ru -v`
-    Start Console with Pry:</dt>
-        `$ bin/console`
+         $ bundle exec puma config.ru -v
+    Start Console with Pry:
+         $ bin/console
 
 #### (b) Java [HomieMonitor warFile and script](https://www.dropbox.com/sh/xpv5a6gyexthnev/AAB0eY59kxTsMQJg7FOT3Pw9a?dl=0)
     Download warFile and `homieMonitor.sh`
-        homie_monitor_esp-<version>.war and homieMonitoer.sh	    
+        homie_monitor_esp-<version>.war and homieMonitor.sh	    
     Edit `homieMonitor.sh` script
         set your mqtt credentials
     Start the app on port 8585
         $ homieMonitor
 
 #### Configuration Environment Vars
-The configuration module will prefers environment variables over all other methods. Don't use unless needed.
+The configuration module prefers environment variables over all other methods. Don't use unless needed.
 
     RACK_ENV            defaults to `'production'`          UI Performance is greater with `production`
     HM_MQTT_HOST        defaults are invalid                Absence will force :demo_mode, unless using yaml configs or In-App overrides
@@ -124,9 +126,12 @@ The configuration module will prefers environment variables over all other metho
 
 # Set Environment Vars
 RACK_ENV='production'
+HM_MQTT_HOST='mqtt-server-fqdn-or-ip_address'
+HM_MQTT_USER='mqtt-username'
+HM_MQTT_PASS='mqtt-user-password'
 
 # Export Environment (not required)
-export RACK_ENV  
+export RACK_ENV HM_MQTT_HOST HM_MQTT_USER HM_MQTT_PASS 
 
 # copy homie_monitor-<version>.war to bin directory
 # cp -v $HOME/Downloads/homie_monitor-<version>.war $HOME/homieMonitor/bin/
@@ -152,6 +157,9 @@ To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, befo
   
   We provide sample of [docker-compose.yml](docker-compose.yml) which could be used to start the container with one comand in the same directory where docker-compose.yml is stored:
 
+        $ git clone https://github.com/skoona/HomieMonitor.git
+        $ cd HomieMonitor
+        
         $ docker-compose up
         -- or --
         $ docker-compose up -d
@@ -161,6 +169,9 @@ To use MRI edit `.ruby-version` and change `jruby-9.2.6.0` to `ruby-2.6.2`, befo
 ### Docker Container
 * Primary [Docker Container](https://cloud.docker.com/repository/registry-1.docker.io/skoona/homie-monitor)
 
+        $ git clone https://github.com/skoona/HomieMonitor.git
+        $ cd HomieMonitor
+        
         $ docker build -t homie-monitor .
 
 * Run created Container in DEMO mode:
