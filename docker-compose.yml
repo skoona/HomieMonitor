@@ -5,7 +5,7 @@ services:
     environment:
       - RACK_ENV=production
       - BUNDLE_PATH=vendor/bundle
-    image: skoona/homie-monitor:latest
+    image: skoona/homie-monitor
     ports:
       - target: 8585
         published: 8585
@@ -14,12 +14,12 @@ services:
     restart: always
     tty: true
     volumes:
-      - homieMonitor-configs:/homieMonitor/config
-      - homieMonitor-store:/homieMonitor/content
-      - homieMonitor-logs:/homieMonitor/log
+      - configs:/config
+      - store:/content
+      - logs:/log
 
 volumes:
-  homieMonitor-configs:
-  homieMonitor-store:
-  homieMonitor-logs:
+  configs:
+  store:
+  logs:
 
