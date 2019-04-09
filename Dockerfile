@@ -10,9 +10,7 @@ RUN mkdir -p ./log ./tmp/pids &&\
 
 ENV RACK_ENV='production'
 
-VOLUME /config
-VOLUME /content
-VOLUME /log
+VOLUME /config /content /log
 
 EXPOSE 8585
 
