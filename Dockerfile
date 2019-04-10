@@ -1,16 +1,22 @@
+# 1st Stage
+FROM ruby:2.6.2 AS builder
+
+COPY . /app
+
+RUN mkdir -p /app/{log,tmp/pids} \
+    && gem install bundler \
+    && bundle install --path=vendor/bundle --deployment
+
+# 2nd Stage
 FROM ruby:2.6.2
 
-WORKDIR . 
+COPY --from=builder /app /app
 
-COPY . .
-
-RUN mkdir -p ./log ./tmp/pids &&\
-    gem install bundler &&\
-    bundle install --path=vendor/bundle
+WORKDIR /app
 
 ENV RACK_ENV='production'
 
-VOLUME /config /content /log
+VOLUME /app/config /app/content /app/log
 
 EXPOSE 8585
 
