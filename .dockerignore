@@ -26,6 +26,5 @@ CODE_OF_CONDUCT.md
 Changelog.md
 docker-compose.yml
 
-docs/
-vendor/
+coverage/
 
