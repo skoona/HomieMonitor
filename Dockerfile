@@ -3,6 +3,11 @@ FROM ruby:2.6.2 AS builder
 
 COPY . /app
 
+COPY ./Gemfile ./app/Gemfile
+COPY ./Gemfile.lock ./app/Gemfile.lock
+
+WORKDIR /app
+
 RUN mkdir -p /app/{log,tmp/pids} \
     && gem install bundler \
     && bundle install --path=vendor/bundle --deployment
@@ -10,9 +15,9 @@ RUN mkdir -p /app/{log,tmp/pids} \
 # 2nd Stage
 FROM ruby:2.6.2
 
-COPY --from=builder /app /app
-
 WORKDIR /app
+
+COPY --from=builder /app /app
 
 ENV RACK_ENV='production'
 
