@@ -1,18 +1,17 @@
-# 1st Stage
-FROM ruby:2.6.2 AS builder
+# Single Stage
+FROM ruby:2.6.2
 
-COPY . /app
-COPY ./Gemfile ./Gemfile.lock  /app/
+WORKDIR .
 
-WORKDIR /app
+COPY . .
+
+RUN mkdir -p ./log ./tmp/pids \
+    && gem install bundler \
+    && bundle install --path=vendor/bundle
 
 ENV RACK_ENV='production'
 
-RUN mkdir -p /app/{log,tmp/pids} \
-    && gem install bundler \
-    && bundle install --path=vendor/bundle --deployment
-
-VOLUME /app/config /app/content /app/log
+VOLUME /config /content /log
 
 EXPOSE 8585
 

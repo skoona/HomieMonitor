@@ -14,9 +14,9 @@ services:
     restart: always
     tty: true
     volumes:
-      - configs:/app/config
-      - store:/app/content
-      - logs:/app/log
+      - configs:/config
+      - store:/content
+      - logs:/log
 
 volumes:
   configs:
