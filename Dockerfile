@@ -2,9 +2,7 @@
 FROM ruby:2.6.2 AS builder
 
 COPY . /app
-
-COPY ./Gemfile ./app/Gemfile
-COPY ./Gemfile.lock ./app/Gemfile.lock
+COPY ./Gemfile ./Gemfile.lock  /app/
 
 WORKDIR /app
 
