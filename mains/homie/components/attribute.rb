@@ -32,7 +32,7 @@ module Homie
       end
 
       def initialize(queue_event)
-        @properties   = []
+        @properties       = []
         init_name(queue_event)
         true
       end
@@ -87,6 +87,7 @@ module Homie
         else
           begin
             obj = Property.new(queue_event)
+            obj.subscribe(obj.name, SknApp.registry.resolve("events_provider"))
             @properties.push( obj )
             true
           rescue => e

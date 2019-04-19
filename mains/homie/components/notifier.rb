@@ -35,6 +35,34 @@ module Homie
         true
       end
 
+      # `source` is copy of original
+      # Remove the SubScriber array where found
+      def initialize_copy(source)
+        self.instance_variable_set(:@_subscribers, [])
+        if self.respond_to?(:attributes)
+          self.attributes.each do |attr|
+            attr.properties.each do |prop|
+              prop.instance_variable_set(:@_subscribers, [])
+            end
+          end
+        end
+        if self.respond_to?(:nodes)
+          self.nodes.each do |node|
+            node.properties.each do |prop|
+              prop.instance_variable_set(:@_subscribers, [])
+            end
+            node.attributes.each do |attr|
+              attr.properties.each do |prop|
+                prop.instance_variable_set(:@_subscribers, [])
+              end
+            end
+          end
+        end
+        # puts "#{self.class.name}##{__method__} INSPECT: #{source.inspect}"
+        super
+      end
+      private_methods :initialize_copy
+
       module ClassMethods
         # create writer-with-notify and reader
         def watch_attributes(*attrs)
@@ -48,7 +76,7 @@ module Homie
               unless (value == old_value)
                 instance_variable_set("@#{attr}", value)
                 @_subscribers.each do |subscriber|
-                  subscriber.changed_event(
+                  subscriber.change_event(
                       Homie::Events::ValueChanged.new(topic_array: @_notify_topic_parts,
                                                source: attr,
                                                from: old_value,

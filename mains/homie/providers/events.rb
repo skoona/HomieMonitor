@@ -28,7 +28,7 @@ module Homie
 
       # Notify callback
       def change_event(event)
-        @_events.push(event)
+        events_add(event)
       end
 
       def events

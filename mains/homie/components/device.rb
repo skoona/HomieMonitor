@@ -24,9 +24,9 @@ module Homie
     class Device
       include Homie::Components::Notifier
 
-      attr_reader :name, :nodes, :attributes, :base
+      attr_reader :nodes, :attributes, :base
 
-      watch_attributes :value
+      watch_attributes :value, :name
 
       def self.call(event)
         new(event)
@@ -126,6 +126,7 @@ module Homie
           nodes: @nodes.map(&:to_hash)
         }))
       end
+
     end
   end
 end

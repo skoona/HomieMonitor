@@ -32,7 +32,7 @@ module Homie
         @_broadcasts           = []
         @_subscriptions        = []
         @debug_logger          = SknApp.debug_logger
-        @debug_logger.debug "#{self.class.name}##{__method__}: Init with Stream ThreadID: #{@_stream_tid != -1 ? @_stream_tid.name : 'Demo-Mode'}"
+        @debug_logger.debug "#{self.class.name}##{__method__}: Init with Stream ThreadID: #{@_stream_tid == -1 ? 'Demo-Mode' : @_stream_tid.name }"
         true
       end
 
@@ -81,7 +81,9 @@ module Homie
 
       def create_device(queue_event)
         if queue_event.device_create?   # Filter out of sequence messages
-          @_devices.push( Homie::Components::Device.new(queue_event) )
+          device = Homie::Components::Device.new(queue_event)
+          device.subscribe(device.name, SknApp.registry.resolve("events_provider"))
+          @_devices.push( device )
         end
       end
 
@@ -151,7 +153,8 @@ module Homie
         @_data_source.transaction { @_data_source.fetch(:devices, []) }
       end
       def save_device_inventory(ary)
-        @_data_source.transaction { @_data_source[:devices] = ary }
+        clean_devices = ary.collect {|item| item.clone }.compact
+        @_data_source.transaction { @_data_source[:devices] = clean_devices }
       end
     end
   end

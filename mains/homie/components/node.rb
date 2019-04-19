@@ -92,6 +92,7 @@ module Homie
         else
           begin
             obj = Property.new(queue_event)
+            obj.subscribe(obj.name, SknApp.registry.resolve("events_provider"))
             @properties.push( obj )
             true
           rescue => e
