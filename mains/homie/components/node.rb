@@ -76,8 +76,7 @@ module Homie
           true
         else
           begin
-            obj = Attribute.new(queue_event)
-            @attributes.push( obj )
+            @attributes.push( Attribute.(queue_event) )
             true
           rescue => e
             SknApp.debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Attribute Failue: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
@@ -91,9 +90,7 @@ module Homie
           true
         else
           begin
-            obj = Property.new(queue_event)
-            obj.subscribe(obj.name, SknApp.registry.resolve("events_provider"))
-            @properties.push( obj )
+            @properties.push( Property.new(queue_event) )
             true
           rescue => e
             SknApp.debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Property Failue: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
@@ -101,7 +98,6 @@ module Homie
           end
         end
       end
-
 
       def to_hash
         Psych.load( Psych.dump({

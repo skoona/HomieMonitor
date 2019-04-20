@@ -22,7 +22,7 @@ module Homie
       attr_reader   :debug_logger
 
       def initialize(opts={})
-        @_stream = establish_stream
+        @_stream               = establish_stream
         @_stream_tid           = @_stream.tid
         @_stream_receive_queue = SknApp.registry.resolve("stream_receive_queue")
         @_stream_send_queue    = SknApp.registry.resolve("stream_send_queue")
@@ -81,9 +81,7 @@ module Homie
 
       def create_device(queue_event)
         if queue_event.device_create?   # Filter out of sequence messages
-          device = Homie::Components::Device.new(queue_event)
-          device.subscribe(device.name, SknApp.registry.resolve("events_provider"))
-          @_devices.push( device )
+          @_devices.push( Homie::Components::Device.(queue_event) )
         end
       end
 
@@ -153,9 +151,9 @@ module Homie
         @_data_source.transaction { @_data_source.fetch(:devices, []) }
       end
       def save_device_inventory(ary)
-        clean_devices = ary.collect {|item| item.clone }.compact
-        @_data_source.transaction { @_data_source[:devices] = clean_devices }
+        @_data_source.transaction { @_data_source[:devices] = ary }
       end
+
     end
   end
 end

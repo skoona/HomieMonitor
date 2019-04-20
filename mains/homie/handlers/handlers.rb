@@ -10,5 +10,4 @@ module Homie
 end
 
 require_relative 'stream'
-require_relative 'action'
 require_relative 'mock_stream'

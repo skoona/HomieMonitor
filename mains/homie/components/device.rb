@@ -22,18 +22,14 @@ module Homie
   module Components
 
     class Device
-      include Homie::Components::Notifier
 
-      attr_reader :nodes, :attributes, :base
-
-      watch_attributes :value, :name
+      attr_reader :name, :value, :nodes, :attributes, :base
 
       def self.call(event)
         new(event)
       end
 
       def initialize(queue_event)
-        @_subscribers = []
         @_notify_topic_parts = []
         @base        = queue_event.homie_base
         @value       = nil
@@ -78,8 +74,7 @@ module Homie
           true
         else
           begin
-            obj = Node.(queue_event)
-            @nodes.push( obj )
+            @nodes.push( Node.(queue_event) )
             true
           rescue
             SknApp.debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Node Failure: #{queue_event.topic.value} ~> #{queue_event.value}"
@@ -90,14 +85,13 @@ module Homie
 
       def handle_attribute(queue_event)
         if queue_event.device_attribute.success and '$name'.eql?(queue_event.device_attribute.value)
-          self.value = queue_event.value
+          @value = queue_event.value
         end
         if @attributes.detect {|prp| prp.handle_queue_event?(queue_event) }
           true
         else
           begin
-            obj = Attribute.(queue_event)
-            @attributes.push( obj )
+            @attributes.push( Attribute.(queue_event) )
             true
           rescue => e
             SknApp.debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Attribute Failure: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"

@@ -10,8 +10,6 @@ module Homie
   end
 end
 
-require_relative 'notifier'
-
 require_relative 'attribute'
 require_relative 'property'
 require_relative 'node'

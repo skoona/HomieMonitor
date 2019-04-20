@@ -22,6 +22,7 @@ SknApp.registry
     .register("receive_file_handler",    ->(fname, fsize, tfile) { Services::Handlers::ReceiveFile.call(fname, fsize, tfile) }, call: false)
     .register("delete_file_handler",     ->(fname)   { Services::Handlers::DeleteFile.call(fname) }, call: false)
     .register("delete_device_handler",   ->(device_name)   { Services::Handlers::DeleteDevice.call(device_name) }, call: false)
+    .register("subscriptions_provider", ->(){ Homie::Providers::Subscriptions.instance }, call: true)
 
 # ##
 # Configure streamers
@@ -31,8 +32,6 @@ SknApp.registry
     .register("stream_send_queue",    Queue.new, call: false)
     .register("device_stream_manager", ->() { Homie::Providers::Manager.instance }, call: true)
     .register("data_source", ->(){ YAML::Store.new(SknSetting.content_service.data_source.store, true) }, call: true)
-    .register("subscriptions_provider", ->(){ Homie::Providers::Subscriptions.instance }, call: true)
-    .register("events_provider", ->(){ Homie::Providers::Events.instance }, call: true)
 
 if SknApp.demo_mode
   SknApp.registry.register("device_stream_listener", ->() { Homie::Handlers::MockStream.call() }, call: false)

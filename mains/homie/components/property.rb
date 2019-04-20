@@ -27,11 +27,7 @@ module Homie
     # Properties update themself if name matches, then if attr flag update/create attributes
     # Subscribe-able via :subscribe, :unsubscribe methods
     class Property
-      include Homie::Components::Notifier
-
-      attr_reader :name, :settable, :attributes
-
-      watch_attributes :value
+      attr_reader :value, :name, :settable, :attributes
 
       def self.call(event)
         new(event)
@@ -73,8 +69,7 @@ module Homie
                   true
                 else
                   begin
-                    obj = Attribute.new(queue_event)
-                    @attributes.push( obj )
+                    @attributes.push( Attribute.(queue_event) )
                     true
                   rescue => e
                     SknApp.debug_logger.warn "#{self.class.name}##{__method__}(#{name}:#{queue_event.id}) Create Property-Attribute Failure: #{queue_event.topic.value} ~> #{queue_event.value} [#{e.class.name}:#{e.message}]"
@@ -83,7 +78,7 @@ module Homie
                 end
 
         elsif rec.success and name.include?(rec.value)  # tracking dupplicates
-          self.value = queue_event.value
+          @value = queue_event.value
           true
         else
           false

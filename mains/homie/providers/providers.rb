@@ -11,5 +11,4 @@ module Homie
 end
 
 require_relative 'subscriptions'
-require_relative 'events'
 require_relative 'manager'

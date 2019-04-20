@@ -17,7 +17,9 @@ module Homie
   module Commands
 
     class QueueEvent
-      attr_reader :id, :value, :elements
+      attr_reader   :id, :value, :elements
+
+      @@_queue_counter = 0
 
       def self.call(packet)
         new(packet)
@@ -28,7 +30,7 @@ module Homie
         @_package  = @_original.split('/')
         @elements  = @_package.size
         @value     = String.new( make_utf8(packet.payload) )
-        @id        = packet.id.to_i
+        @id        = packet.id.to_i > 0 ? packet.id.to_i : (@@_queue_counter += 1)
         @_qos      = packet.respond_to?(:qos) ? packet.qos : 1
         @_retain   = packet.respond_to?(:retain) ? packet.retain : false
       end

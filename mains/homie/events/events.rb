@@ -10,6 +10,5 @@ module Homie
   end
 end
 
-require_relative 'value_changed'
 require_relative 'subscription'
 require_relative 'firmware'
