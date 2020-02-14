@@ -21,7 +21,7 @@ describe Homie::Providers::Manager,  'Homie Discovery Provider. ' do
     it '#to_hash renders the entire inventory. ' do
       out_hash = @manager.devices.map(&:to_hash)
       expect( out_hash.first ).to be_a(Hash)
-      pp out_hash
+      pp "#to_hash", out_hash
     end
     it 'Discovers Proper Inventory. ' do
       devices = @manager.devices

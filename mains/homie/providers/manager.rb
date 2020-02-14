@@ -1,9 +1,9 @@
 # ##
-# File: ./main/homie/manager.rb
+# File: ./mains/homie/providers/manager.rb
 #
 #
 # See:
-#  ./main/messaging_streams/messaging_streams.rb
+#  ./mains/messaging_streams/messaging_streams.rb
 #
 # Startup during application init
 #     - SknApp.registry.resolve("device_stream_handler").call()
@@ -59,7 +59,7 @@ module Homie
         tid = Thread.new do
           loop do
             msg = new_message
-            if msg && actions_router(msg)
+            if msg && router(msg)
               create_device(msg) unless !!read_queue_dispatcher(msg)
               debug_logger.debug "StreamState:#{stream_active?}, SendQueue:#{@_stream_send_queue.length}, ReceiveQueue:#{@_stream_receive_queue.length}, Device Count: #{@_devices.size}, PacketID: #{msg.id}"
             end
@@ -112,7 +112,7 @@ module Homie
       end
 
       # add more conditions of interest
-      def actions_router(queue_event)
+      def router(queue_event)
         if queue_event.broadcast?
           record_broadcasts(queue_event)
           false # skip broadcasts -- or cause a loop error
@@ -123,7 +123,7 @@ module Homie
           true   # Allow dispatch
         else
           save_device_inventory(@_devices) if (queue_event.id % 120 == 0)
-          true   # Allow dispatch
+          true
         end
       end
 
@@ -149,9 +149,17 @@ module Homie
       def load_device_inventory
         return [] if SknApp.env.test?
         @_data_source.transaction { @_data_source.fetch(:devices, []) }
+      rescue => e
+        debug_logger.error "#{self.class.name}##{__method__}: #{e.class} causedBy #{ e.msg }, with inputData: [#{ary}]"
+        []
       end
+
       def save_device_inventory(ary)
         @_data_source.transaction { @_data_source[:devices] = ary }
+        true
+      rescue => e
+        debug_logger.error "#{self.class.name}##{__method__}: #{e.class} causedBy #{ e.msg }, with inputData: [#{ary}]"
+        true
       end
 
     end
