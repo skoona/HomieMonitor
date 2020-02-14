@@ -54,14 +54,23 @@ module Homie
       def subscription_delete(obj)
         subscription_save(@_subscriptions) if !!@_subscriptions.delete(obj)
         true
+      rescue => e
+        SknApp.logger.error "#{self.class.name}##{__method__}: #{e.class} causedBy #{ e.msg }, with inputData: [#{obj}]"
+        false
       end
 
       def subscription_save(ary)
         @_data_source.transaction { @_data_source[:subscriptions] = ary }
+      rescue => e
+        SknApp.logger.error "#{self.class.name}##{__method__}: #{e.class} causedBy #{ e.msg }, with inputData: [#{ary}]"
+        false
       end
 
       def subscriptions_restore
         @_data_source.transaction { @_data_source.fetch(:subscriptions, []) }
+      rescue => e
+        SknApp.logger.error "#{self.class.name}##{__method__}: #{e.class} causedBy #{ e.msg }"
+        []
       end
 
 
