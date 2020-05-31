@@ -108,7 +108,7 @@ GEM
       builder (>= 2.0.0)
       rack (>= 1.0.0)
     rainbow (3.0.0)
-    rake (12.3.2)
+    rake (12.3.3)
     ref (2.0.0)
     regexp_parser (1.4.0)
     roda (3.18.0)
