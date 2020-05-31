@@ -25,18 +25,19 @@ module Homie
         new(packet)
       end
 
+      # The MQTT data is expected to be encoded as UTF-8 in the payload of the Packet.  It is binary on occasion
+      # which raises an Encoding::InvalidByteSequenceError, or Encoding::UndefinedConversionError,
+      # or ArgumentError::invalid byte sequence in UTF-8.
+      # Homie requires all values transported via MQTT to be String Chars and it is assumed they're UTF-8.
+      # We attempt to force encoding of the payload to UTF-8, to avoid raising those Exceptions and crashing the app.
       def initialize(packet)
-        @_original = String.new( make_utf8(packet.topic) )
+        @_original = packet.topic
         @_package  = @_original.split('/')
         @elements  = @_package.size
-        @value     = String.new( make_utf8(packet.payload) )
+        @value     = Utils::Utilities.make_utf8( packet.payload )
         @id        = packet.id.to_i > 0 ? packet.id.to_i : (@@_queue_counter += 1)
         @_qos      = packet.respond_to?(:qos) ? packet.qos : 1
         @_retain   = packet.respond_to?(:retain) ? packet.retain : false
-      end
-
-      def make_utf8(char_string)
-        char_string.force_encoding("utf-8")
       end
 
       def topic

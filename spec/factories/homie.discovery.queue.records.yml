@@ -1790,7 +1790,7 @@
   - "$broadcast"
   - alert
   elements: 3
-  value: These Are Demonstration Mode Broadcasts loaded so you can get an overview of the features provided by this application.
+  value: Anyone can view broadcasts
   id: 149
   _qos: 1
   _retain: false

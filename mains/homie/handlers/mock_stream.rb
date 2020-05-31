@@ -53,7 +53,7 @@ module Homie
       def device_stream_events
         accum = []
         IO.read("./spec/factories/homie_stream_events.txt").each_line do |line|
-          accum.push line.strip.split(" ",2)
+          accum.push Utils::Utilities.make_utf8(line).strip.split(" ",2)
         end
         gen_id = 199
         accum.map do |packet|

@@ -15,7 +15,7 @@ class SknApp
   setting(:debug_logger, "" , reader: true)
   setting(:logger, "", reader: true)
   setting(:settings_paths, [Pathname(Dir.pwd + "/config/settings/production.local.yml"), Pathname(Dir.pwd + "/config/settings/development.local.yml")], reader: true)
-  setting(:demo_mode, (SknSettings.content_service.demo_mode or SknSettings.mqtt.host.eql?('some.fqdn.com')), reader: true)
+  setting(:demo_mode, (SknSettings.content_service.demo_mode || SknSettings.mqtt.host.eql?('some.fqdn.com')), reader: true)
 
   # reader: true, enable SknApp.logger versus SknApp.config.logger; SknApp.config.logger = <is still required to set value laster>
 end

@@ -34,6 +34,8 @@ mqtt:
   env_base_topics: <%= ENV['HM_BASE_TOPICS'] %>
   # [["sknSensors/#", 0], ["homie/#", 0]]
   :base_topics:
+    - - devices/#
+      - 0
     - - sknSensors/#
       - 0
     - - homie/#
