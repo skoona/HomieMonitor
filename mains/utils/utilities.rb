@@ -14,7 +14,13 @@ module Utils
     end
 
     def self.make_utf8(char_string)
-      char_string.encode("UTF-8", undef: :replace, invalid: :replace, fallback: self.new)
+      # char_string.encode("UTF-8", undef: :replace, invalid: :replace, fallback: self.new)
+      # char_string.encode("UTF-8", "ASCII-8BIT", undef: :replace, invalid: :replace, fallback: self.new)
+      # char_string.encode(undef: :replace, invalid: :replace, fallback: self.new)
+      # char_string.encode("UTF-8", "ASCII-8BIT", undef: :replace, invalid: :replace, fallback: Encoding::Converter.new("utf-8", "ascii-8bit"))
+      # char_string.encode(undef: :replace, invalid: :replace, fallback: Encoding::Converter.new("utf-8", "ascii-8bit"))
+      # char_string.encode("UTF-8", undef: :replace, invalid: :replace, fallback: Encoding::Converter.new("utf-8", "ascii-8bit"))
+      char_string.force_encoding("UTF-8")
     end
   end
 end

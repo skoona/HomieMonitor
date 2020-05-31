@@ -35,6 +35,7 @@ module Homie
         @_package  = @_original.split('/')
         @elements  = @_package.size
         @value     = Utils::Utilities.make_utf8( packet.payload )
+        # @value     = packet.payload
         @id        = packet.id.to_i > 0 ? packet.id.to_i : (@@_queue_counter += 1)
         @_qos      = packet.respond_to?(:qos) ? packet.qos : 1
         @_retain   = packet.respond_to?(:retain) ? packet.retain : false
