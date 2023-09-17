@@ -1,6 +1,7 @@
 #!/usr/bin/env puma
 
 # config/puma.rb
+require 'puma/daemon'
 
 directory '.'
 rackup 'config.ru'

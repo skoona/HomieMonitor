@@ -4,11 +4,6 @@
 require 'puma'
 require_relative "config/boot_web"
 
-app = case SknApp.env
-        when 'development', 'test'
-          SknWeb.app
-        else
-          SknWeb.freeze.app
-      end
+app = SknWeb.freeze.app
 
 run app
